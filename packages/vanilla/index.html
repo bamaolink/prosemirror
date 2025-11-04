@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>my-prose-mirror</title>
+</head>
+
+<body style="padding: 0 10vw;">
+  <div id="app"></div>
+  <div id="content" style="display: none;">
+    <p>This is a <star></star>nice<star></star> paragraph, it can have <shouting>anything</shouting> in it.</p>
+    <p class=boring>This paragraph is boring, it can't have anything.
+      <star></star>
+    </p>
+    <p>Press ctrl/cmd-space to insert a star, ctrl/cmd-b to toggle shouting, and ctrl/cmd-q to add or remove a link.</p>
+    <note>Do laundry</note>
+    <note><strong>Water</strong> the tomatoes</note>
+    <notegroup>
+      <note>Buy flour</note>
+      <note>Get toilet paper</note>
+    </notegroup>
+  </div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
+</html>

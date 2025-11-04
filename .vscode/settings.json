@@ -1,0 +1,6 @@
+{
+  "oxc.enable": true,
+  "prettier.semi": false,
+  "prettier.singleQuote": true,
+  "prettier.trailingComma": "none"
+}

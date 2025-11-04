@@ -1,0 +1,27 @@
+{
+  "name": "prose-mirror",
+  "version": "0.0.1",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "description": "prose-mirror editor",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bamaolink/prose-mirror.git"
+  },
+  "keywords": [],
+  "author": "bamaolink",
+  "license": "MIT",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/bamaolink/prose-mirror/issues"
+  },
+  "homepage": "https://github.com/bamaolink/prose-mirror#readme",
+  "devDependencies": {
+  }
+}
