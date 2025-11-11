@@ -1,5 +1,9 @@
 @import 'prosemirror-view/style/prosemirror.css';
 
+#app {
+  position: relative;
+}
+
 .bamao-link-prosemirror {
   border: 1px solid #ddd;
   padding: 0 8px;
@@ -67,4 +71,11 @@
       background-color: #555;
     }
   }
+}
+
+.side-menu {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 8;
 }

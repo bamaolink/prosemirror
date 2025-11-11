@@ -1,0 +1,131 @@
+import {
+  PluginKey,
+  Plugin,
+  Transaction,
+  NodeSelection
+} from 'prosemirror-state'
+import { EditorView } from 'prosemirror-view'
+import { getNodeInfoFromEvent } from '../../utils'
+import type { DragHandleStateType, Emitter } from '../../types'
+
+export const pluginKey = new PluginKey('side-menu')
+
+type StateType = DragHandleStateType | null
+
+class SideMenuView {
+  emitter: Emitter
+  view: EditorView
+  dom: HTMLElement
+  dragButton: HTMLElement
+
+  dragging = false
+  currentNode: StateType = null
+
+  constructor(editorView: EditorView, emitter: Emitter) {
+    this.view = editorView
+    this.emitter = emitter
+    this.dom = document.createElement('div')
+    this.dom.classList.add('side-menu')
+    this.dom.style.visibility = 'hidden'
+
+    this.dragButton = document.createElement('button')
+    this.dragButton.textContent = '⠿'
+    this.dragButton.draggable = true
+    this.dragButton.style.cursor = 'grab'
+
+    this.dragButton.addEventListener('mousedown', () => {
+      this.currentNode = pluginKey.getState(this.view.state)
+      if (!this.currentNode) {
+        return
+      }
+      const tr = this.view.state.tr.setSelection(
+        NodeSelection.create(this.view.state.doc, this.currentNode.nodePos)
+      )
+      this.view.dispatch(tr)
+    })
+
+    this.dragButton.addEventListener('dragstart', (event: DragEvent) => {
+      if (!this.currentNode) {
+        return
+      }
+
+      const selection = this.view.state.selection
+      if (selection instanceof NodeSelection) {
+        const slice = selection.content()
+        this.view.dragging = { slice, move: true }
+
+        // 设置拖拽效果
+        // event.dataTransfer.effectAllowed = 'move'
+        // event.dataTransfer.setData('text/plain', 'internal-drag') // Dummy data
+
+        if (this.currentNode.dom) {
+          event?.dataTransfer?.setDragImage(this.currentNode.dom, 0, 0)
+        }
+        this.dragging = true
+      }
+    })
+
+    this.dragButton.addEventListener('dragend', () => {
+      this.dragging = false
+    })
+
+    this.dom.appendChild(this.dragButton)
+
+    this.view.dom.parentNode?.appendChild(this.dom)
+    this.view.dom.parentNode?.addEventListener('mouseleave', this.hideSideMenu)
+  }
+
+  update(view: EditorView) {
+    const state = pluginKey.getState(view.state)
+    if (state && state.domRect) {
+      const wrapper = this.view.dom.parentNode as HTMLElement
+      const wrapperRect = wrapper.getBoundingClientRect()
+      this.dom.style.top = state.domRect.top - wrapperRect.top + 'px'
+      this.dom.style.visibility = 'visible'
+    }
+    this.emitter.emit('side-menu-update', {
+      state,
+      view
+    })
+  }
+
+  hideSideMenu = () => {
+    this.dom.style.visibility = 'hidden'
+  }
+  destroy() {
+    this.dom.remove()
+    this.view.dom.parentNode?.removeEventListener(
+      'mouseleave',
+      this.hideSideMenu
+    )
+  }
+}
+
+export const sideMenu = (emitter: Emitter) => {
+  return new Plugin({
+    key: pluginKey,
+    state: {
+      init(): StateType {
+        return null
+      },
+      apply(tr: Transaction, value: StateType) {
+        const meta = tr.getMeta(pluginKey)
+        return meta || value || null
+      }
+    },
+    view(editorView) {
+      const sideMenuView = new SideMenuView(editorView, emitter)
+      return sideMenuView
+    },
+    props: {
+      handleDOMEvents: {
+        mouseover(view, event) {
+          const nodeInfo = getNodeInfoFromEvent(view, event)
+          if (nodeInfo) {
+            view.dispatch(view.state.tr.setMeta(pluginKey, nodeInfo))
+          }
+        }
+      }
+    }
+  })
+}

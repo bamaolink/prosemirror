@@ -2,7 +2,8 @@ import { createPlaceholderPlugin } from './placeholderPlugin'
 import { createChangePlugin } from './changePlugin'
 import { createSelectedPlugin } from './selectedPlugin'
 import { createSlashCommandsPlugin } from './slashCommandsPlugin'
-import { createBubbleMenuPlugin } from './bubbleMenurPlugin'
+import { createBubbleMenuPlugin } from './bubbleMenuPlugin'
+import { sideMenu } from './sideMenu'
 import { keymap } from 'prosemirror-keymap'
 import { baseKeymap } from 'prosemirror-commands'
 import { buildInputRules } from './inputrules'
@@ -12,9 +13,11 @@ import { gapCursor } from 'prosemirror-gapcursor'
 import { history } from 'prosemirror-history'
 
 import type { Schema } from 'prosemirror-model'
+import type { Emitter } from '../types'
+
 export const createPlugins = (
   schema: Schema,
-  emitter: BamaoLinkEditorType.Emitter,
+  emitter: Emitter,
   options: BamaoLinkEditorType.PluginsOptions = {}
 ) => {
   const { placeholder = 'Write something...' } = options
@@ -27,6 +30,7 @@ export const createPlugins = (
     createSelectedPlugin(emitter, schema),
     createSlashCommandsPlugin(),
     createBubbleMenuPlugin(),
+    sideMenu(emitter),
     // keymap({
     //   "Ctrl-Shift-s": insertStar,
     //   "Alt-Shift-b": toggleMark(mySchema.marks.sub),
