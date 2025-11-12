@@ -66,7 +66,7 @@ class BubbleMenuView {
     this.options = options
     this.bubble = document.createElement('div')
     this.bubble.className = `${prefix}bubble-menu`
-    this.bubble.style.position = 'fixed' // Changed to fixed
+    // this.bubble.style.position = 'fixed' // Changed to fixed
     this.bubble.style.display = 'none'
     this.view.dom.parentNode?.appendChild(this.bubble)
 
@@ -130,11 +130,14 @@ class BubbleMenuView {
     const end = view.coordsAtPos(to)
 
     // Calculate position relative to the viewport
-    const left = (start.left + end.left) / 2
+    const styles = window.getComputedStyle(view.dom)
+    const paddingLeft = styles.paddingLeft
+    const left =
+      start.left + (end.left - start.left) / 2 - parseInt(paddingLeft) * 2
     const top = start.top
 
     this.bubble.style.left = left + 'px'
-    this.bubble.style.top = top - this.bubble.offsetHeight - 10 + 'px' // Position above the selection
+    this.bubble.style.top = top - this.bubble.offsetHeight - 20 + 'px' // Position above the selection
     this.bubble.style.display = 'flex'
 
     this.updateSelectedMarksAndNodes()
