@@ -1,35 +1,95 @@
 @import 'prosemirror-view/style/prosemirror.css';
 
-#app {
+$prefix: 'bamao-link-';
+
+.#{$prefix}prosemirror-wrapper {
   position: relative;
+  background-color: lab(100% 0 0);
+  color: lab(7.78201 -0.0000149012 0);
+  --bml-primary-color: #00a699;
+  --bml-gap: 4px;
+  --bml-border-radius: 4px;
+  --bml-btn-bg: #f6f6f7;
+  --bml-btn-bg-hover: #e4e4e9;
+  --bml-border-color: lab(90.952 0 -0.0000119209);
+  --bml-border-color-active: lab(78.43% 0 -0.01);
+  --bml-box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+    rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+    rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
+    rgba(0, 0, 0, 0.1) 0px 2px 4px -2px;
+  --bml-popover-bg: lab(100% 0 0); // 背景
+  --bml-accent: lab(96.52% -0.0000298023 0.0000119209); // 激活色
+  --bml-muted-foreground: lab(48.496% 0 0); // 次级文本颜色
 }
 
-.bamao-link-prosemirror {
-  border: 1px solid #ddd;
-  padding: 0 8px;
-  font-size: 16px;
-  &-placeholder {
-    position: relative;
-    &::before {
-      content: attr(data-placeholder);
-      position: absolute;
-      left: 0;
-      top: 0;
-      z-index: -1;
-      color: #666;
-    }
+.#{$prefix}icon {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+.#{$prefix}button {
+  border-radius: var(--bml-border-radius);
+  background-color: var(--bml-btn-bg);
+  border: 1px solid var(--bml-btn-bg);
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+  color: inherit;
+  &-icon {
+    width: 1.75rem;
+    height: 1.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  &:hover,
+  &.active {
+    background-color: var(--bml-btn-bg-hover);
+    border-color: var(--bml-btn-bg-hover);
+  }
+  &:active,
+  &:focus {
+    background-color: var(--bml-btn-bg-hover);
+    border-color: var(--bml-border-color-active);
   }
 }
 
+.#{$prefix}prosemirror {
+  padding: 0 4.25rem;
+  font-size: 1rem;
+  outline: none;
+}
+
+.#{$prefix}placeholder {
+  position: relative;
+  &::before {
+    content: attr(data-placeholder);
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 0;
+    color: var(--bml-muted-foreground);
+  }
+}
+
+.#{$prefix}side-menu {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 8;
+  display: flex;
+  gap: var(--bml-gap);
+}
+
 // slashCommands
-.bamao-link-slash-commands {
+.#{$prefix}slash-commands {
   &-popup {
     position: absolute;
-    background: white;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    z-index: 100;
+    background: var(--bml-popover-bg);
+    border: 1px solid var(--bml-border-color);
+    border-radius: var(--bml-border-radius);
+    box-shadow: var(--bml-box-shadow);
+    z-index: 10;
     min-width: 200px;
   }
   &-list {
@@ -37,12 +97,17 @@
     overflow-y: auto;
   }
   &-item {
-    padding: 8px 12px;
+    padding: 0 0.75rem;
     cursor: pointer;
+    font-size: 0.875rem;
+    line-height: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 
     &.selected,
     &:hover {
-      background: #f0f0f0;
+      background: var(--bml-accent);
     }
     &.empty {
       text-align: center;
@@ -51,31 +116,46 @@
   }
 }
 
-.bamao-link-bubble-menu {
-  background-color: #333;
-  color: white;
-  padding: 5px;
-  border-radius: 5px;
+.#{$prefix}bubble-menu {
+  background: var(--bml-popover-bg);
+  box-shadow: var(--bml-box-shadow);
+  color: inherit;
+  padding: 0.25rem;
+  border-radius: var(--bml-border-radius);
   display: flex;
-  gap: 5px;
+  flex-wrap: nowrap;
+  gap: var(--bml-gap);
   position: relative;
+  border: 1px solid var(--bml-border-color);
+}
 
-  button {
-    background-color: transparent;
-    border: none;
-    color: white;
-    cursor: pointer;
-    font-size: 16px;
-
-    &:hover {
-      background-color: #555;
-    }
+@mixin dark-theme-vars {
+  background-color: lab(2.75381 0 0);
+  color: lab(98.26 0 0);
+  --bml-btn-bg: oklab(0.999998 -0.00000980496 0.0000234246 / 0.045);
+  --bml-btn-bg-hover: oklab(0.999998 -0.00000980496 0.0000234246 / 0.075);
+  --bml-border-color: lab(100 0 0 / 0.1);
+  --bml-border-color-active: lab(0% 0 0 / 0.1);
+  --bml-box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+    rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+    rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
+    rgba(0, 0, 0, 0.1) 0px 2px 4px -2px;
+  --bml-popover-bg: lab(15.204% 0 -0.00000596046);
+  --bml-accent: lab(27.036% 0 0);
+  --bml-muted-foreground: lab(66.128% -0.0000298023 0.0000119209);
+  .prosemirror-dropcursor-block {
+    background-color: lab(100 0 0 / 0.2) !important;
   }
 }
 
-.side-menu {
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 8;
+@media (prefers-color-scheme: dark) {
+  .#{$prefix}prosemirror-wrapper {
+    @include dark-theme-vars;
+  }
+}
+
+.#{$prefix}prosemirror-wrapper {
+  &.dark {
+    @include dark-theme-vars;
+  }
 }

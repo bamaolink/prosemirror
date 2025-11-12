@@ -1,4 +1,4 @@
-import mitt from "mitt";
-import type { Emitter } from "mitt";
+import mitt from 'mitt'
+import type { Emitter } from '../types'
 
-export const emitter: Emitter<BamaoLinkEditorType.Events> = mitt();
+export const emitter: Emitter = mitt()

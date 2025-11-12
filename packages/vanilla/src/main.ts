@@ -16,16 +16,13 @@ const editor = new BamaoLinkProseMirror('#app', {
 
 // editor.focus();
 
-editor.setHtmlString(`<p>This is a <star></star>nice<star></star> paragraph, it can have <shouting>anything</shouting> in it.</p>
-    <p class=boring>This paragraph is boring, it can't have anything.
-      <star></star>
-    </p>
-    <p>Press ctrl/cmd-space to insert a star, ctrl/cmd-b to toggle shouting, and ctrl/cmd-q to add or remove a link.</p>
-    <note>Do laundry</note>
-    <note><strong>Water</strong> the tomatoes</note>
-    <notegroup>
-      <note>Buy flour</note>
-      <note>Get toilet paper</note>
-    </notegroup><p class=boring>This paragraph is boring, it can't have anything.
-      <star></star>
-    </p>`)
+editor.setHtmlString(`<h2>Setting up an editor</h2>
+<p>Setting up a full editor ‘from scratch’, using only the core libraries, requires quite a lot of code. To be able to get started quickly with a pre-configured editor, we provide the prosemirror-example-setup package, which creates an array of plugins for you, configured to create a passable editing interface for a given schema. In this example, we use the basic schema and extend it with lists.</p>
+<p>This guide describes the various concepts used in the library, and how they relate to each other. To get a complete picture of the system, it is recommended to go through it in the order it is presented in, at least up to the view component section.
+</p>
+<h2>Introduction</h2>
+<p>ProseMirror provides a set of tools and concepts for building rich text editors, using a user interface inspired by what-you-see-is-what-you-get, but trying to avoid the pitfalls of that style of editing.</p>
+<p>The main principle of ProseMirror is that your code gets full control over the document and what happens to it. This document isn't a blob of HTML, but a custom data structure that only contains elements that you explicitly allow it to contain, in relations that you specified. All updates go through a single point, where you can inspect them and react to them.</p>
+<p>The core library is not an easy drop-in component—we are prioritizing modularity and customizability over simplicity, with the hope that, in the future, people will distribute drop-in editors based on ProseMirror. As such, this is more of a Lego set than a Matchbox car.</p>
+<p>There are four essential modules, which are required to do any editing at all, and a number of extension modules maintained by the core team, which have a status similar to that of 3rd party modules—they provide useful functionality, but you may omit them or replace them with other modules that implement similar functionality.</p>
+`)

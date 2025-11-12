@@ -17,7 +17,7 @@ export interface DragHandleStateType {
   domRect: DOMRect // The DOMRect object for the node.
 }
 
-export type Events = {
+export type EmitterEvents = {
   initialization: ProseMirrorEditorView
   change: { newDoc: Node; oldDoc: Node; tr: Transaction }
   selected: {
@@ -32,7 +32,8 @@ export type Events = {
   }
 }
 
-export type Options = {
+export type EditorOptions = {
+  prefix?: string
   initialValue?: string
   placeholder?: string
 }
@@ -41,8 +42,12 @@ export type EditorView = ProseMirrorEditorView
 
 export type Schema = ProseMirrorSchema
 
-export type PluginsOptions = {
-  placeholder?: string
+// 创建插件时的统一参数
+export type PluginOptions = {
+  schema: Schema
+  emitter: Emitter
+  wrapper: HTMLElement
+  options: EditorOptions
 }
 
-export type Emitter = _Emitter<Events>
+export type Emitter = _Emitter<EmitterEvents>

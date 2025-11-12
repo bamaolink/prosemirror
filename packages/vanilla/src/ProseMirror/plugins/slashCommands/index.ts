@@ -1,13 +1,24 @@
-import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
+import { Plugin, PluginKey } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import { Schema } from 'prosemirror-model'
 import { setBlockType } from 'prosemirror-commands'
 import { wrapInList } from 'prosemirror-schema-list'
+import type { PluginOptions } from '../../types'
+import { prefix } from '../../components/consts'
+import {
+  Heading1Icon,
+  Heading2Icon,
+  ListOrderedIcon,
+  ListIcon
+} from '../../icons'
+
+export const pluginKey = new PluginKey('slash-commands')
 
 // Define the structure of a command
 interface Command {
   name: string
   description: string
+  icon?: SVGElement
   action: (view: EditorView, schema: Schema) => void
 }
 
@@ -16,6 +27,7 @@ const commands: Command[] = [
   {
     name: 'Heading 1',
     description: 'Large section heading',
+    icon: Heading1Icon,
     action: (view, schema) => {
       setBlockType(schema.nodes.heading, { level: 1 })(
         view.state,
@@ -26,6 +38,7 @@ const commands: Command[] = [
   {
     name: 'Heading 2',
     description: 'Medium section heading',
+    icon: Heading2Icon,
     action: (view, schema) => {
       setBlockType(schema.nodes.heading, { level: 2 })(
         view.state,
@@ -36,6 +49,7 @@ const commands: Command[] = [
   {
     name: 'Numbered List',
     description: 'Create a list with numbers',
+    icon: ListOrderedIcon,
     action: (view, schema) => {
       wrapInList(schema.nodes.ordered_list)(view.state, view.dispatch)
     }
@@ -43,6 +57,7 @@ const commands: Command[] = [
   {
     name: 'Bulleted List',
     description: 'Create a list with bullets',
+    icon: ListIcon,
     action: (view, schema) => {
       wrapInList(schema.nodes.bullet_list)(view.state, view.dispatch)
     }
@@ -62,26 +77,26 @@ class SlashCommandsView {
   private view: EditorView
   private popup: HTMLElement
   private commandList: HTMLElement
-  private pluginKey: PluginKey
+  private options: PluginOptions
 
-  constructor(view: EditorView, pluginKey: PluginKey) {
+  constructor(view: EditorView, options: PluginOptions) {
     this.view = view
-    this.pluginKey = pluginKey
+    this.options = options
     this.popup = document.createElement('div')
-    this.popup.className = 'bamao-link-slash-commands-popup'
+    this.popup.className = `${prefix}slash-commands-popup`
     this.popup.style.display = 'none'
 
     this.commandList = document.createElement('div')
-    this.commandList.className = 'bamao-link-slash-commands-list'
+    this.commandList.className = `${prefix}slash-commands-list`
     this.popup.appendChild(this.commandList)
 
     this.view.dom.parentNode?.appendChild(this.popup)
 
-    this.update(view, null)
+    this.update(view)
   }
 
-  update(view: EditorView, prevState: EditorState | null) {
-    const state: SlashCommandsState = this.pluginKey.getState(view.state)
+  update(view: EditorView) {
+    const state: SlashCommandsState = pluginKey.getState(view.state)
 
     if (!state || !state.active) {
       this.popup.style.display = 'none'
@@ -106,7 +121,7 @@ class SlashCommandsView {
 
     if (state.filteredCommands.length === 0) {
       const item = document.createElement('div')
-      item.className = 'bamao-link-slash-commands-item empty'
+      item.className = `${prefix}slash-commands-item empty`
       item.textContent = 'No commands found'
       this.commandList.appendChild(item)
       return
@@ -114,13 +129,17 @@ class SlashCommandsView {
 
     state.filteredCommands.forEach((command, index) => {
       const item = document.createElement('div')
-      item.className = 'bamao-link-slash-commands-item'
+      item.className = `${prefix}slash-commands-item`
       if (index === state.selectedIndex) {
         item.classList.add('selected')
       }
       item.textContent = command.name
       item.onclick = () => {
         this.executeCommand(command)
+      }
+
+      if (command.icon) {
+        item.prepend(command.icon)
       }
       this.commandList.appendChild(item)
     })
@@ -145,10 +164,7 @@ class SlashCommandsView {
   }
 }
 
-// The plugin
-export function createSlashCommandsPlugin(
-  pluginKey = new PluginKey('slash-commands-plugin')
-): Plugin {
+export function slashCommands(options: PluginOptions): Plugin {
   let slashView: SlashCommandsView
 
   return new Plugin({
@@ -201,7 +217,7 @@ export function createSlashCommandsPlugin(
       }
     },
     view(view) {
-      slashView = new SlashCommandsView(view, pluginKey)
+      slashView = new SlashCommandsView(view, options)
       return slashView
     },
     props: {
