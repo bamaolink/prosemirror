@@ -1,5 +1,5 @@
 {
-  "name": "prose-mirror",
+  "name": "prosemirror",
   "version": "0.0.1",
   "private": true,
   "workspaces": [
