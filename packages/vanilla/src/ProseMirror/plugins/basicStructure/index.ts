@@ -1,7 +1,7 @@
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import type { PluginOptions } from '../../types'
-import { prefix as prefixDefault } from '../../components/consts'
+import { prefix as prefixDefault } from '../../config/constants'
 
 export const pluginKey = new PluginKey('basic-structure')
 

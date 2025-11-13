@@ -2,7 +2,7 @@ import { Plugin, PluginKey } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import { toggleMark } from 'prosemirror-commands'
 import type { PluginOptions } from '../../types'
-import { prefix } from '../../components/consts'
+import { prefix } from '../../config/constants'
 import Button from '../../components/Button'
 import { ItalicIcon, BoldIcon, CodeIcon } from '../../icons'
 import { pluginKey as selectedMarksAndNodesPluginKey } from '../selectedMarksAndNodes'
@@ -130,14 +130,17 @@ class BubbleMenuView {
     const end = view.coordsAtPos(to)
 
     // Calculate position relative to the viewport
-    const styles = window.getComputedStyle(view.dom)
-    const paddingLeft = styles.paddingLeft
-    const left =
-      start.left + (end.left - start.left) / 2 - parseInt(paddingLeft) * 2
-    const top = start.top
+    const rect = view.dom.getBoundingClientRect()
+    // const left =
+    //   start.left + (end.left - start.left) / 2 - parseInt(paddingLeft) * 2
+    const left = start.left - rect.left
+    const top = start.top - rect.top
+    const width =
+      Math.max(start.left, end.left) - Math.min(start.left, end.left)
 
-    this.bubble.style.left = left + 'px'
-    this.bubble.style.top = top - this.bubble.offsetHeight - 20 + 'px' // Position above the selection
+    this.bubble.style.left =
+      left + Math.max(width, this.bubble.offsetWidth) / 4 + 'px'
+    this.bubble.style.top = top - this.bubble.offsetHeight - 8 + 'px' // Position above the selection
     this.bubble.style.display = 'flex'
 
     this.updateSelectedMarksAndNodes()

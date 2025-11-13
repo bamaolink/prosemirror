@@ -1,4 +1,4 @@
-import { prefix } from '../components/consts'
+import { prefix } from '../config/constants'
 import {
   createElement,
   Bold,

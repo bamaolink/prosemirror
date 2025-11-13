@@ -9,7 +9,7 @@ import { getNodeInfoFromEvent, insertText } from '../../utils'
 import Button from '../../components/Button'
 import { GripVerticalIcon, PlusIcon } from '../../icons'
 import type { DragHandleStateType, Emitter, PluginOptions } from '../../types'
-import { prefix } from '../../components/consts'
+import { prefix } from '../../config/constants'
 
 export const pluginKey = new PluginKey('side-menu')
 

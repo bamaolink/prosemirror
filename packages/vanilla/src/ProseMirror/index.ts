@@ -157,6 +157,7 @@ class BamaoLinkProseMirror {
   // 获取编辑器内容 markdown
   getMarkdown(view?: EditorView) {
     const _view = view || this.view
+    // 在这里处理自定义的数据
     return markdownSerializer.serialize(_view.state.doc)
   }
 

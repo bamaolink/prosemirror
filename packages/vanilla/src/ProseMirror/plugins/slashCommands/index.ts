@@ -4,7 +4,7 @@ import { Schema } from 'prosemirror-model'
 import { setBlockType } from 'prosemirror-commands'
 import { wrapInList } from 'prosemirror-schema-list'
 import type { PluginOptions } from '../../types'
-import { prefix } from '../../components/consts'
+import { prefix } from '../../config/constants'
 import {
   Heading1Icon,
   Heading2Icon,
