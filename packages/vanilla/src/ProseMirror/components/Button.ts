@@ -21,7 +21,7 @@ class BmlButton {
   }
 
   setIcon(icon: SVGElement, iconBtn = true) {
-    this.element.appendChild(icon)
+    this.element.appendChild(icon.cloneNode(true))
     if (iconBtn) {
       this.element.classList.add(`${prefix}button-icon`)
     }

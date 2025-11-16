@@ -3,6 +3,7 @@ import {
   createElement,
   Bold,
   IconNode,
+  Heading,
   Heading1,
   Heading2,
   Heading3,
@@ -17,7 +18,11 @@ import {
   ListOrdered,
   List,
   ListTodo,
-  Code
+  Code,
+  Image,
+  Search,
+  ArrowRight,
+  CircleQuestionMark
 } from 'lucide'
 export const createIcon = (icon: IconNode, name: string) => {
   return createElement(icon, {
@@ -26,6 +31,7 @@ export const createIcon = (icon: IconNode, name: string) => {
 }
 
 export const BoldIcon = createIcon(Bold, 'bold')
+export const HeadingIcon = createIcon(Heading, 'heading')
 export const Heading1Icon = createIcon(Heading1, 'heading-1')
 export const Heading2Icon = createIcon(Heading2, 'heading-2')
 export const Heading3Icon = createIcon(Heading3, 'heading-3')
@@ -41,3 +47,10 @@ export const ListOrderedIcon = createIcon(ListOrdered, 'list-ordered')
 export const ListIcon = createIcon(List, 'list')
 export const ListTodoIcon = createIcon(ListTodo, 'list-todo')
 export const CodeIcon = createIcon(Code, 'code')
+export const ImageIcon = createIcon(Image, 'image')
+export const SearchIcon = createIcon(Search, 'search')
+export const ArrowRightIcon = createIcon(ArrowRight, 'arrow-right')
+export const CircleQuestionMarkIcon = createIcon(
+  CircleQuestionMark,
+  'circle-question-mark'
+)

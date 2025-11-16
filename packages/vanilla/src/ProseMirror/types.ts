@@ -51,3 +51,16 @@ export type PluginOptions = {
 }
 
 export type Emitter = _Emitter<EmitterEvents>
+
+export type CommandItemType = {
+  id: string
+  type: 'command' | 'group'
+  name: string
+  description: string
+  icon?: SVGElement
+  gid?: string // group id
+  pid?: string // parent id
+  isSelected?: boolean
+  action?: (view: EditorView, schema: Schema) => void
+  children?: CommandItemType[]
+}
