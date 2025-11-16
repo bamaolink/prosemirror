@@ -1,5 +1,6 @@
 import { addListNodes } from 'prosemirror-schema-list'
 import { schema } from 'prosemirror-schema-basic'
+import { emojis } from '../config/emojis'
 
 const nodes = addListNodes(
   schema.spec.nodes,
@@ -8,10 +9,6 @@ const nodes = addListNodes(
 ).toObject()
 
 nodes.doc.content = '(block | note | notegroup)+'
-
-const emojis = {
-  smail: '😃'
-}
 
 nodes.star = {
   inline: true,
@@ -25,25 +22,22 @@ nodes.star = {
 
 nodes.emoji = {
   attrs: {
-    emoji_type: { default: '' }
+    emoji_id: { default: '' }
   },
   inline: true,
   group: 'inline',
   draggable: true,
   toDOM(node) {
-    const emoji_type = node.attrs.emoji_type?.replace(
-      /^:/,
-      ''
-    ) as keyof typeof emojis
-    const emoji = emojis[emoji_type] || ''
+    const emojiId = node.attrs.emoji_id
+    const emoji = emojis.find((emoji) => emoji.id === emojiId)?.emoji || ''
     return ['span', { class: 'prose-emoji' }, emoji]
   },
   parseDOM: [
     {
-      tag: 'span[data-emoji]',
+      tag: 'span[data-emoji-id]',
       getAttrs(dom: HTMLElement) {
         return {
-          emoji_type: dom.getAttribute('data-emoji')
+          emoji_id: dom.getAttribute('data-emoji-id')
         }
       }
     }

@@ -11,8 +11,10 @@ import {
   Heading6Icon,
   ListIcon,
   ListOrderedIcon,
-  ImageIcon
+  ImageIcon,
+  SmilePlusIcon
 } from '../icons'
+import { emojis } from '../config/emojis'
 
 const headingIcons = [
   Heading1Icon,
@@ -33,6 +35,31 @@ const headings: CommandItemType[] = headingIcons.map((icon, index) => {
     icon,
     action: (view, schema) => {
       setBlockType(schema.nodes.heading, { level })(view.state, view.dispatch)
+    }
+  }
+})
+
+const emojiItems: CommandItemType[] = emojis.map((e) => {
+  return {
+    id: e.id,
+    pid: 'emoji',
+    name: e.name,
+    type: 'command',
+    description: e.emoji,
+    action: (view, schema) => {
+      const { $from } = view.state.selection
+      const index = $from.index()
+
+      if (!$from.parent.canReplaceWith(index, index, schema.nodes.emoji)) {
+        return false
+      }
+
+      view.dispatch(
+        view.state.tr.replaceSelectionWith(
+          schema.nodes.emoji.create({ emoji_id: e.id })
+        )
+      )
+      return true
     }
   }
 })
@@ -92,5 +119,14 @@ export const commands: CommandItemType[] = [
     description: 'Image',
     icon: ImageIcon,
     action: () => alert(`Applying heading Bullet Image...`)
-  }
+  },
+  {
+    id: 'emoji',
+    gid: 'media',
+    name: 'Emoji',
+    type: 'group',
+    description: 'Emoji',
+    icon: SmilePlusIcon
+  },
+  ...emojiItems
 ]

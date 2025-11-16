@@ -22,7 +22,9 @@ import {
   Image,
   Search,
   ArrowRight,
-  CircleQuestionMark
+  CircleQuestionMark,
+  SmilePlus,
+  ChevronRight
 } from 'lucide'
 export const createIcon = (icon: IconNode, name: string) => {
   return createElement(icon, {
@@ -54,3 +56,5 @@ export const CircleQuestionMarkIcon = createIcon(
   CircleQuestionMark,
   'circle-question-mark'
 )
+export const SmilePlusIcon = createIcon(SmilePlus, 'smile-plus')
+export const ChevronRightIcon = createIcon(ChevronRight, 'chevron-right')

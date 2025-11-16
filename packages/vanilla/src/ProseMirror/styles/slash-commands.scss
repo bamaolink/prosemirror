@@ -66,6 +66,12 @@
     list-style: none;
     margin: 0;
     padding: 0.5rem;
+
+    &:has(.emoji) {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2px;
+    }
   }
 
   &-group-header {
@@ -83,7 +89,7 @@
     gap: 0.5rem;
     justify-content: space-between;
     align-items: center;
-    font-size: 0.95rem;
+    font-size: 0.875rem;
   }
 
   &-item {
@@ -94,6 +100,16 @@
     }
     &.selected {
       background-color: var(--bml-accent);
+    }
+    &.emoji {
+      aspect-ratio: 1 / 1;
+      padding: 0;
+      .title {
+        display: block;
+        width: 1.5rem;
+        text-align: center;
+        padding-bottom: 0.25rem;
+      }
     }
     .title {
       flex: 1;

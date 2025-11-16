@@ -3,7 +3,7 @@ import { EditorView } from 'prosemirror-view'
 import type { CommandItemType, PluginOptions } from '../../types'
 import { prefix } from '../../config/constants'
 import { commands, commandRootGroups } from '../../config/commands'
-import { ArrowRightIcon, CircleQuestionMarkIcon } from '../../icons'
+import { ChevronRightIcon, CircleQuestionMarkIcon } from '../../icons'
 import BmlTooltip from '../../components/Tooltip'
 
 export const pluginKey = new PluginKey('slash-commands')
@@ -52,7 +52,6 @@ interface SlashCommandsState {
   rootCommands: CommandItemType[][] // 用来存储原始的命令列表，初始的是全量，按右箭头就会替换成当前层级的命令列表， 按左箭头就会替换成上一级的命令列表
   filteredCommands: CommandItemType[] // 用来存储过滤后的命令列表
   selectedIds: string[]
-  breadcrumbs: string[]
 }
 
 const initialState: SlashCommandsState = {
@@ -61,17 +60,29 @@ const initialState: SlashCommandsState = {
   level: 0,
   rootCommands: [commands],
   filteredCommands: commands,
-  selectedIds: [],
-  breadcrumbs: []
+  selectedIds: []
 }
 
-const filterCommands = (cmds: CommandItemType[], query: string) => {
-  return cmds
+const filterCommands = (
+  cmds: CommandItemType[],
+  query: string,
+  level: number = 0
+) => {
+  let res = cmds
     .filter((c) => c.name.toLowerCase().startsWith(query.toLowerCase()))
     .map((c) => {
       c.isSelected = false
       return c
     })
+  if (level === 0) {
+    res.forEach((c) => {
+      const children = commands.filter((command) => command.pid === c.id)
+      if (children.length > 0) {
+        res = res.concat(children)
+      }
+    })
+  }
+  return res
 }
 
 const setSelectedItems = (selectedId: string, commands: CommandItemType[]) => {
@@ -201,6 +212,12 @@ class SlashCommandsView {
           (command) => command.gid === group.id
         )
         const children = [...part1, ...part2]
+        children.sort((a, b) => {
+          const aIndex = commands.findIndex((command) => command.id === a.id)
+          const bIndex = commands.findIndex((command) => command.id === b.id)
+          return aIndex - bIndex
+        })
+
         if (children.length > 0) {
           rootCommands.push({
             ...group,
@@ -246,6 +263,15 @@ class SlashCommandsView {
     const name = document.createElement('span')
     name.className = 'title'
     name.textContent = command.name
+
+    if (command.pid) {
+      item.classList.add(command.pid)
+    }
+
+    if (command.pid === 'emoji') {
+      name.textContent = command.description
+    }
+
     if (command.icon) {
       item.prepend(command.icon.cloneNode(true))
     }
@@ -253,7 +279,7 @@ class SlashCommandsView {
     if (command.children) {
       const arrow = document.createElement('span')
       arrow.className = 'submenu-arrow'
-      arrow.appendChild(ArrowRightIcon.cloneNode(true))
+      arrow.appendChild(ChevronRightIcon.cloneNode(true))
       item.appendChild(arrow)
     }
     if (command?.isSelected) {
@@ -272,7 +298,12 @@ class SlashCommandsView {
         let _rootCommands = commands.filter((c) => c.pid === command.id)
         rootCommands.push(_rootCommands)
 
-        let filteredCommands = filterCommands(_rootCommands, state.query)
+        // let filteredCommands = filterCommands(
+        //   _rootCommands,
+        //   state.query,
+        //   state.level
+        // )
+        let filteredCommands = _rootCommands
         const firstChild = filteredCommands[0]
         if (firstChild) {
           filteredCommands = setSelectedItems(firstChild.id, filteredCommands)
@@ -319,6 +350,9 @@ class SlashCommandsView {
     })
 
     this.list.appendChild(fragment)
+    this.list
+      .querySelector('.selected')
+      ?.scrollIntoView({ behavior: 'smooth', block: 'center' })
   }
 
   createBreadcrumbItem() {
@@ -437,11 +471,13 @@ export function slashCommands(options: PluginOptions): Plugin {
         if (match) {
           const query = match[1]
           const cmds: CommandItemType[] = state.rootCommands[state.level]
-          let filteredCommands = filterCommands(cmds, query)
+          let filteredCommands = filterCommands(cmds, query, state.level)
 
           const firstChild = filteredCommands[0]
+          const selectedIds = [...state.selectedIds]
           if (firstChild) {
             filteredCommands = setSelectedItems(firstChild.id, filteredCommands)
+            selectedIds[state.level] = firstChild.id
           }
 
           return {
@@ -450,8 +486,7 @@ export function slashCommands(options: PluginOptions): Plugin {
             query,
             rootCommands: state.rootCommands,
             filteredCommands,
-            selectedIds: firstChild ? [firstChild.id] : [],
-            breadcrumbs: [...state.breadcrumbs]
+            selectedIds
           }
         } else {
           return { ...state, ...initialState }
@@ -518,21 +553,28 @@ export function slashCommands(options: PluginOptions): Plugin {
             let _rootCommands = commands.filter((c) => c.pid === selectedId)
             rootCommands.push(_rootCommands)
 
-            let filteredCommands = filterCommands(_rootCommands, state.query)
+            // let filteredCommands = filterCommands(
+            //   _rootCommands,
+            //   state.query,
+            //   state.level
+            // )
+            let filteredCommands = _rootCommands
             const firstChild = filteredCommands[0]
-            if (!firstChild) {
-              return false
-            }
-            filteredCommands = setSelectedItems(firstChild.id, filteredCommands)
+            if (firstChild) {
+              filteredCommands = setSelectedItems(
+                firstChild.id,
+                filteredCommands
+              )
 
-            view.dispatch(
-              view.state.tr.setMeta(pluginKey, {
-                selectedIds: [...selectedIds, firstChild.id],
-                rootCommands,
-                filteredCommands,
-                level: state.level + 1
-              })
-            )
+              view.dispatch(
+                view.state.tr.setMeta(pluginKey, {
+                  selectedIds: [...selectedIds, firstChild.id],
+                  rootCommands,
+                  filteredCommands,
+                  level: state.level + 1
+                })
+              )
+            }
             return true
           }
           return false
@@ -549,7 +591,8 @@ export function slashCommands(options: PluginOptions): Plugin {
             let selectedId = selectedIds[level]
             let filteredCommands = filterCommands(
               state.rootCommands[level],
-              state.query
+              state.query,
+              state.level
             )
 
             let isIn = filteredCommands.some((c) => c.id === selectedId)
@@ -591,7 +634,12 @@ export function slashCommands(options: PluginOptions): Plugin {
               let _rootCommands = commands.filter((c) => c.pid === command.id)
               rootCommands.push(_rootCommands)
 
-              let filteredCommands = filterCommands(_rootCommands, state.query)
+              // let filteredCommands = filterCommands(
+              //   _rootCommands,
+              //   state.query,
+              //   state.level
+              // )
+              let filteredCommands = _rootCommands
               const firstChild = filteredCommands[0]
               if (firstChild) {
                 filteredCommands = setSelectedItems(
