@@ -15,6 +15,7 @@ import {
   SmilePlusIcon
 } from '../icons'
 import { emojis } from '../config/emojis'
+import { insertImagePlaceholderCommand } from '../functions'
 
 const headingIcons = [
   Heading1Icon,
@@ -118,7 +119,7 @@ export const commands: CommandItemType[] = [
     type: 'command',
     description: 'Image',
     icon: ImageIcon,
-    action: () => alert(`Applying heading Bullet Image...`)
+    action: insertImagePlaceholderCommand
   },
   {
     id: 'emoji',

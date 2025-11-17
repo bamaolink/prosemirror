@@ -1,7 +1,9 @@
 @use './var.scss' as *;
 @use './prosemirror.scss';
+@use './bml-image-block.scss';
 @use './slash-commands.scss';
 @use './tooltip.scss';
+@use './image-upload-placeholder.scss';
 
 .#{$prefix}prosemirror-wrapper {
   position: relative;
@@ -23,7 +25,7 @@
   --bml-muted-foreground: lab(48.496% 0 0); // 次级文本颜色
 
   --bml-tooltip-bg: lab(2.74% 0 0);
-  --bml-tooltip-color: lab(84.92% 0 -.0000119209);
+  --bml-tooltip-color: lab(84.92% 0 -0.0000119209);
   --bml-tooltip-kdb-bg: oklab(0.999998 -0.00000980496 0.0000234246 / 0.045);
   --bml-tooltip-kdb-color: lab(66.128% -0.0000298023 0.0000119209);
   --bml-tooltip-kdb-border-color: lab(100 0 0 / 0.1);

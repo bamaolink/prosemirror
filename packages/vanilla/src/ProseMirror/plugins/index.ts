@@ -5,6 +5,8 @@ import { placeholderPlugin } from './placeholder'
 import { changeEvent } from './changeEvent'
 import { selectedMarksAndNodes } from './selectedMarksAndNodes'
 import { bubbleMenu } from './bubbleMenu'
+import { imageUploadPlaceholder } from './imageUploadPlaceholder'
+import { imageBlock } from './imageBlock'
 import { keymap } from 'prosemirror-keymap'
 import { baseKeymap } from 'prosemirror-commands'
 import { buildInputRules } from './inputrules'
@@ -26,6 +28,8 @@ export const createPlugins = (options: PluginOptions) => {
     sideMenu(options),
     slashCommands(options),
     bubbleMenu(options),
+    imageUploadPlaceholder(options),
+    imageBlock(options),
     keymap(baseKeymap),
     dropCursor({
       width: 2

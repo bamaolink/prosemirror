@@ -29,7 +29,8 @@
 }
 
 .ProseMirror-selectednode {
-  outline: 2px solid #8cf;
+  outline: 2px dashed var(--bml-border-color-active);
+  border-radius: var(--bml-border-radius);
 }
 
 li.ProseMirror-selectednode {
@@ -43,7 +44,7 @@ li.ProseMirror-selectednode:after {
   right: -2px;
   top: -2px;
   bottom: -2px;
-  border: 2px solid #8cf;
+  border: 2px dashed var(--bml-border-color-active);
   pointer-events: none;
 }
 
