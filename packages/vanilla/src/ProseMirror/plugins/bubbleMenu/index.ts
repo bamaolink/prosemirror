@@ -1,4 +1,4 @@
-import { Plugin, PluginKey } from 'prosemirror-state'
+import { Plugin, PluginKey, EditorState } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import { toggleMark } from 'prosemirror-commands'
 import type { PluginOptions } from '../../types'
@@ -6,6 +6,40 @@ import { prefix } from '../../config/constants'
 import Button from '../../components/Button'
 import { ItalicIcon, BoldIcon, CodeIcon } from '../../icons'
 import { pluginKey as selectedMarksAndNodesPluginKey } from '../selectedMarksAndNodes'
+
+export function canShowInlineAndMark(state: EditorState) {
+  const { schema, selection } = state
+  const { $from, $to, empty } = selection
+
+  for (const markType of Object.values(schema.marks)) {
+    if (!toggleMark(markType)(state)) {
+      return false
+    }
+  }
+  let isCanShowInlineAndMark = Object.values(schema.marks).some((markType) => {
+    if (!toggleMark(markType)(state)) {
+      return false
+    } else {
+      return true
+    }
+  })
+
+  if (!isCanShowInlineAndMark) {
+    return false
+  }
+
+  isCanShowInlineAndMark = Object.values(schema.nodes).some((nodeType) => {
+    if (!nodeType.isInline) {
+      return false
+    }
+    if (!empty) {
+      return $from.parent.canReplaceWith($from.index(), $to.index(), nodeType)
+    }
+    return $from.parent.canReplaceWith($from.index(), $from.index(), nodeType)
+  })
+
+  return isCanShowInlineAndMark
+}
 
 export const pluginKey = new PluginKey('bubbleMenu')
 
@@ -115,6 +149,11 @@ class BubbleMenuView {
     const { selection } = state
     const { from, to, empty } = selection
 
+    if (!view.editable) {
+      this.bubble.style.display = 'none'
+      return
+    }
+
     if (empty) {
       this.bubble.style.display = 'none'
       return
@@ -122,6 +161,11 @@ class BubbleMenuView {
 
     const visibleState = pluginKey.getState(this.view.state)
     if (!visibleState.visible) {
+      this.bubble.style.display = 'none'
+      return
+    }
+
+    if (!canShowInlineAndMark(view.state)) {
       this.bubble.style.display = 'none'
       return
     }

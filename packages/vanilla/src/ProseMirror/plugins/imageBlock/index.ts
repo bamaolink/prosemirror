@@ -1,7 +1,10 @@
-import { Plugin, PluginKey } from 'prosemirror-state'
+import { Plugin, PluginKey, NodeSelection } from 'prosemirror-state'
 import { EditorView, NodeView } from 'prosemirror-view'
 import { Node as ProseMirrorNode } from 'prosemirror-model'
 import type { PluginOptions } from '../../types'
+import { prefix } from '../../config/constants'
+import { Trash2Icon } from '../../icons'
+import { compressHTML } from '../../utils'
 
 export const pluginKey = new PluginKey('image-block')
 
@@ -11,10 +14,12 @@ export class ImageBlockNodeView implements NodeView {
   private img: HTMLImageElement
   private altDisplay: HTMLElement
   private resizeHandle: HTMLElement
+  private delBtn: HTMLElement
 
   private node: ProseMirrorNode
   private view: EditorView
   private getPos: () => number
+  private options: PluginOptions
 
   private isEditingAlt = false
 
@@ -27,105 +32,103 @@ export class ImageBlockNodeView implements NodeView {
     this.node = node
     this.view = view
     this.getPos = getPos
+    this.options = options
 
-    // 创建 DOM 结构
-    this.dom = document.createElement('div')
-    this.dom.classList.add('image-block-wrapper')
+    this.dom = this.createDomElement()
+    this.imageContainer = this.dom.querySelector('.image-container')!
+    this.img = this.dom.querySelector('.image-content')!
+    this.altDisplay = this.dom.querySelector('.image-caption')!
+    this.resizeHandle = this.dom.querySelector('.image-resize-handle')!
+    this.delBtn = this.dom.querySelector('.img-del-btn')!
 
-    this.imageContainer = document.createElement('div')
-    this.imageContainer.classList.add('image-container')
+    this.delBtn.appendChild(Trash2Icon.cloneNode(true))
+    this.delBtn.addEventListener('click', this.deleteNode.bind(this))
 
-    this.img = document.createElement('img')
-    this.img.classList.add('image-content')
-
-    const operations = this.createOperations()
-
-    this.altDisplay = document.createElement('div')
-    this.altDisplay.classList.add('image-caption')
-
-    this.resizeHandle = document.createElement('div')
-    this.resizeHandle.classList.add('image-resize-handle')
-
-    this.imageContainer.appendChild(this.img)
-    this.imageContainer.appendChild(operations)
-    this.imageContainer.appendChild(this.resizeHandle)
-    this.dom.appendChild(this.imageContainer)
-    this.dom.appendChild(this.altDisplay)
+    this.altDisplay.addEventListener('blur', this.saveAlt.bind(this))
 
     this.resizeHandle.addEventListener(
       'mousedown',
       this.onResizeStart.bind(this)
     )
 
+    this.dom.addEventListener('click', (e) => {
+      e.preventDefault()
+      const pos = this.getPos()
+      const selection = NodeSelection.create(this.view.state.doc, pos)
+      const tr = this.view.state.tr.setSelection(selection)
+      this.view.dispatch(tr)
+
+      this.isEditingAlt = true
+      this.altDisplay.contentEditable = 'true'
+      this.altDisplay.classList.add('is-editing')
+    })
+
+    if (!this.view.editable) {
+      this.resizeHandle.remove()
+      this.delBtn.remove()
+      this.altDisplay.contentEditable = 'false'
+      this.dom.classList.add('disabled')
+    }
+
     this.updateView(node)
   }
 
-  private createOperations(): HTMLElement {
-    const container = document.createElement('div')
-    container.classList.add('image-operations')
-    container.contentEditable = 'false'
-
-    const editButton = document.createElement('button')
-    editButton.textContent = '编辑'
-    editButton.addEventListener('click', this.toggleAltEdit.bind(this))
-
-    const deleteButton = document.createElement('button')
-    deleteButton.textContent = '删除'
-    deleteButton.addEventListener('click', this.deleteNode.bind(this))
-
-    container.appendChild(editButton)
-    container.appendChild(deleteButton)
-    return container
+  private createDomElement() {
+    const template = `<div class="${prefix}image-block" data-prose-node-view="true">
+      <div class="image-wrapper">
+        <div class="image-container">
+          <img class="image-content" draggable="false">
+        </div>
+        <div class="image-operations" contentEditable="false">
+          <button title="delete" class="img-del-btn"></button>
+        </div>
+        <div class="image-footer"> 
+          <div class="image-resize-handle"></div>
+          <div class="image-caption">view component section</div>
+        </div>
+      </div>
+    </div>`
+    const parser = new DOMParser()
+    const doc = parser.parseFromString(compressHTML(template), 'text/html')
+    const dom = doc.body.firstChild as HTMLElement
+    return dom
   }
 
   private updateView(node: ProseMirrorNode) {
-    const { src, alt, width } = node.attrs
-
+    const { src, alt, height } = node.attrs
     if (this.img.src !== src) {
       this.img.src = src
     }
-
     if (this.altDisplay.textContent !== alt) {
       this.altDisplay.textContent = alt
     }
-
-    if (width) {
-      this.imageContainer.style.width = `${width}px`
+    if (height) {
+      this.imageContainer.style.height = `${height}px`
     } else {
-      this.imageContainer.style.width = ''
-    }
-  }
-
-  private toggleAltEdit() {
-    this.isEditingAlt = !this.isEditingAlt
-    if (this.isEditingAlt) {
-      this.altDisplay.contentEditable = 'true'
-      this.altDisplay.classList.add('is-editing')
-      this.altDisplay.focus()
-      this.altDisplay.addEventListener('blur', this.saveAlt.bind(this), {
-        once: true
-      })
-    } else {
-      this.saveAlt()
+      this.imageContainer.style.height = ''
     }
   }
 
   private saveAlt() {
-    this.isEditingAlt = false
-    this.altDisplay.contentEditable = 'false'
-    this.altDisplay.classList.remove('is-editing')
+    if (this.isEditingAlt) {
+      this.isEditingAlt = false
+      this.altDisplay.contentEditable = 'false'
+      this.altDisplay.classList.remove('is-editing')
 
-    const newAlt = this.altDisplay.textContent || ''
-    if (newAlt !== this.node.attrs.alt) {
-      const tr = this.view.state.tr.setNodeMarkup(this.getPos(), undefined, {
-        ...this.node.attrs,
-        alt: newAlt
-      })
-      this.view.dispatch(tr)
+      const newAlt = this.altDisplay.textContent || ''
+      if (newAlt !== this.node.attrs.alt) {
+        const tr = this.view.state.tr.setNodeMarkup(this.getPos(), undefined, {
+          ...this.node.attrs,
+          alt: newAlt
+        })
+        this.view.dispatch(tr)
+      }
     }
   }
 
-  private deleteNode() {
+  private deleteNode(e: Event) {
+    e.preventDefault()
+    e.stopPropagation()
     const pos = this.getPos()
     const tr = this.view.state.tr.delete(pos, pos + this.node.nodeSize)
     this.view.dispatch(tr)
@@ -133,26 +136,26 @@ export class ImageBlockNodeView implements NodeView {
 
   private onResizeStart(e: MouseEvent) {
     e.preventDefault()
-    const startX = e.clientX
-    const startWidth = this.imageContainer.offsetWidth
+    const startY = e.clientY
+    const startHeight = this.imageContainer.offsetHeight
 
     const onMouseMove = (moveEvent: MouseEvent) => {
-      const currentX = moveEvent.clientX
-      const diffX = currentX - startX
-      const newWidth = startWidth + diffX
+      const currentY = moveEvent.clientY
+      const diffY = currentY - startY
+      const newHeight = startHeight + diffY
 
       // 实时更新样式以提供即时反馈
-      this.imageContainer.style.width = `${newWidth}px`
+      this.imageContainer.style.height = `${newHeight < 64 ? 64 : newHeight}px`
     }
 
     const onMouseUp = (upEvent: MouseEvent) => {
       window.removeEventListener('mousemove', onMouseMove)
       window.removeEventListener('mouseup', onMouseUp)
 
-      const finalWidth = this.imageContainer.offsetWidth
+      const finalHeight = this.imageContainer.offsetHeight
       const tr = this.view.state.tr.setNodeMarkup(this.getPos(), undefined, {
         ...this.node.attrs,
-        width: finalWidth
+        height: finalHeight
       })
       this.view.dispatch(tr)
     }
@@ -170,6 +173,7 @@ export class ImageBlockNodeView implements NodeView {
 
   destroy() {
     this.resizeHandle.removeEventListener('mousedown', this.onResizeStart)
+    this.dom.remove()
   }
 
   stopEvent() {
