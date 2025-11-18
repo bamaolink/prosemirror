@@ -1,0 +1,104 @@
+@use './var.scss' as *;
+
+.#{$prefix}image-block + .#{$prefix}image-block {
+  margin-top: 1rem;
+}
+
+.#{$prefix}image-block {
+  border: 1px solid var(--bml-border-color);
+  border-radius: var(--bml-border-radius);
+  background-color: var(--bml-btn-bg);
+  &.disabled {
+    pointer-events: none;
+    outline: none;
+    border-color: var(--bml-border-color) !important;
+  }
+  .image-wrapper {
+    position: relative;
+  }
+  .image-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+    line-height: 0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border-radius: var(--bml-border-radius) var(--bml-border-radius) 0 0;
+  }
+
+  .image-content {
+    width: auto;
+    height: 100%;
+  }
+
+  .image-operations {
+    display: none;
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    display: none;
+    gap: 0.25rem;
+  }
+
+  .image-operations {
+    button {
+      cursor: pointer;
+      background-color: var(--bml-btn-bg);
+      border: 1px solid var(--bml-border-color);
+      border-radius: var(--bml-border-radius);
+      border: 0;
+      width: 1.9rem;
+      aspect-ratio: 1 / 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      &:hover {
+        background-color: var(--bml-btn-bg-hover);
+        border-color: var(--bml-border-color-active);
+      }
+      svg {
+        width: 1rem;
+        height: 1rem;
+      }
+    }
+  }
+
+  .image-footer {
+    position: relative;
+  }
+  .image-caption {
+    font-size: 0.9em;
+    text-align: center;
+    padding: 0.8rem 0.25rem;
+    width: 100%;
+    box-sizing: border-box;
+    border-top: 1px solid var(--bml-border-color);
+    outline: none;
+  }
+
+  .image-resize-handle {
+    position: absolute;
+    top: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 8px;
+    background-color: #4a90e2;
+    border: 2px solid white;
+    border-radius: 4px;
+    cursor: ns-resize;
+    display: none;
+  }
+
+  &.ProseMirror-selectednode {
+    border-color: transparent;
+    .image-operations {
+      display: flex;
+    }
+    .image-resize-handle {
+      display: block;
+    }
+  }
+}

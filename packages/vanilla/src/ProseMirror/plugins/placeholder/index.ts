@@ -5,7 +5,8 @@ import type { PluginOptions } from '../../types'
 
 export const pluginKey = new PluginKey('placeholder-plugin')
 export const placeholderPlugin = (options: PluginOptions) => {
-  const { placeholder = '请输入...' } = options?.options || {}
+  const { placeholder = `Write, type '/' for commands` } =
+    options?.options || {}
   return new Plugin({
     key: pluginKey,
     props: {

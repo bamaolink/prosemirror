@@ -9,6 +9,7 @@ import type {
   Schema as ProseMirrorSchema,
   Node as ProseMirrorNode
 } from 'prosemirror-model'
+import type { Toast } from './components/Sonner'
 
 export interface DragHandleStateType {
   nodePos: number // The position of the node in the document.
@@ -36,6 +37,11 @@ export type EditorOptions = {
   prefix?: string
   initialValue?: string
   placeholder?: string
+  editable?: boolean
+  imageUploadFunc?: (
+    file: File,
+    onProgress: (progress: number) => void
+  ) => Promise<{ src: string | ArrayBuffer | null }>
 }
 
 export type EditorView = ProseMirrorEditorView
@@ -48,6 +54,7 @@ export type PluginOptions = {
   emitter: Emitter
   wrapper: HTMLElement
   options: EditorOptions
+  toast: Toast
 }
 
 export type Emitter = _Emitter<EmitterEvents>

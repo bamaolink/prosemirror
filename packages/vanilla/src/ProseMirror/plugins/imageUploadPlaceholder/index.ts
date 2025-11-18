@@ -2,6 +2,9 @@ import { Plugin, PluginKey } from 'prosemirror-state'
 import type { PluginOptions } from '../../types'
 import { EditorView, NodeView } from 'prosemirror-view'
 import { Node as ProseMirrorNode } from 'prosemirror-model'
+import { Trash2Icon } from '../../icons'
+import BmlButton from '../../components/Button'
+import { prefix } from '../../config/constants'
 
 export const pluginKey = new PluginKey('image-upload')
 
@@ -65,6 +68,7 @@ export class ImageUploadNodeView implements NodeView {
   content: HTMLDivElement
   progressBar: HTMLDivElement
   fileInput: HTMLInputElement
+  delBtn: BmlButton
 
   node: ProseMirrorNode
   view: EditorView
@@ -83,7 +87,7 @@ export class ImageUploadNodeView implements NodeView {
     this.options = options
 
     this.dom = document.createElement('div')
-    this.dom.classList.add('image-upload-placeholder')
+    this.dom.classList.add(`${prefix}image-upload-placeholder`)
 
     this.content = document.createElement('div')
     this.content.classList.add('content')
@@ -99,6 +103,18 @@ export class ImageUploadNodeView implements NodeView {
     this.fileInput.accept = 'image/*'
     this.fileInput.style.display = 'none'
     this.dom.appendChild(this.fileInput)
+
+    this.delBtn = new BmlButton()
+    this.delBtn.setIcon(Trash2Icon)
+    this.delBtn.element.addEventListener('click', (e) => {
+      e.preventDefault()
+      e.stopPropagation()
+      const pos = this.getPos()
+      const tr = this.view.state.tr.delete(pos, pos + 1)
+      this.view.dispatch(tr)
+    })
+    this.delBtn.element.classList.add('del-btn')
+    this.dom.appendChild(this.delBtn.element)
 
     this.dom.addEventListener('click', this.onClick.bind(this))
     this.dom.addEventListener('dragover', this.onDragOver.bind(this))
@@ -168,7 +184,12 @@ export class ImageUploadNodeView implements NodeView {
     })
     this.view.dispatch(tr1)
 
-    mockUploadFile(file, (progress) => {
+    const imageUploadFunc =
+      typeof this.options?.options?.imageUploadFunc === 'function'
+        ? this.options.options.imageUploadFunc
+        : mockUploadFile
+
+    imageUploadFunc(file, (progress) => {
       const tr2 = this.view.state.tr.setNodeMarkup(pos, null, {
         ...this.node.attrs,
         status: 'uploading',
@@ -180,13 +201,14 @@ export class ImageUploadNodeView implements NodeView {
         const imageNode = this.view.state.schema.nodes.image_block.create({
           src: result.src,
           alt: file.name,
-          width: '100%'
+          height: 'auto'
         })
         const tr3 = this.view.state.tr.replaceWith(pos, pos + 1, imageNode)
         this.view.dispatch(tr3)
       })
       .catch((error) => {
         console.error('Upload failed:', error)
+        this.options.toast.error('Upload failed.')
         const tr4 = this.view.state.tr.delete(pos, pos + 1)
         this.view.dispatch(tr4)
       })
@@ -198,5 +220,6 @@ export class ImageUploadNodeView implements NodeView {
     this.dom.removeEventListener('dragleave', this.onDragLeave)
     this.dom.removeEventListener('drop', this.onDrop)
     this.fileInput.removeEventListener('change', this.onFileChange)
+    this.dom.remove()
   }
 }

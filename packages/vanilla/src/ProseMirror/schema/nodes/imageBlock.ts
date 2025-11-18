@@ -12,6 +12,7 @@ export const ImageBlockNode: NodeSpec = {
   inline: false,
   group: 'block',
   draggable: true,
+  atomic: true,
   // toDOM(node) {
   //   const attrs = node.attrs
   //   return [
@@ -92,7 +93,6 @@ export const ImageBlockNode: NodeSpec = {
     }
   ],
   toDOM(node) {
-    console.log('toDOM', node.attrs)
     // 这个 toDOM 主要用于复制/粘贴等场景的序列化。
     // 实际在编辑器中的渲染由 NodeView 控制。
     const { src, alt, height } = node.attrs

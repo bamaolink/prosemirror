@@ -352,7 +352,11 @@ class SlashCommandsView {
     this.list.appendChild(fragment)
     this.list
       .querySelector('.selected')
-      ?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      ?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'nearest'
+      })
   }
 
   createBreadcrumbItem() {

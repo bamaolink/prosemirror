@@ -1,8 +1,10 @@
-.image-upload-placeholder {
+@use './var.scss' as *;
+
+.#{$prefix}image-upload-placeholder {
   position: relative;
   width: 100%;
   height: 9.375rem;
-  outline: 2px dashed #ccc;
+  outline: 2px dashed var(--bml-border-color-active);
   border-radius: var(--bml-border-radius);
   display: flex;
   align-items: center;
@@ -11,13 +13,21 @@
   transition: background-color 0.2s;
   margin: 1rem 0;
   overflow: hidden;
+  background-color: var(--bml-btn-bg);
+
+  .del-btn {
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+  }
 
   .content {
     color: #888;
     font-family: sans-serif;
   }
 
-  &:hover, &.drag-over {
+  &:hover,
+  &.drag-over {
     background-color: #f0f0f0;
     border-color: #aaa;
   }

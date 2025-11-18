@@ -20,7 +20,7 @@ editor.setHtmlString(`<h2>Setting up an editor</h2>
 <p>Setting up a full editor ‘from scratch’, using only the core libraries, requires quite a lot of code. To be able to get started quickly with a pre-configured editor, we provide the prosemirror-example-setup package, which creates an array of plugins for you, configured to create a passable editing interface for a given schema. In this example, we use the basic schema and extend it with lists.</p>
 <p>This guide describes the various concepts used in the library, and how they relate to each other. To get a complete picture of the system, <star></star>it is recommended to go through it in the order it is presented in, at least up to the view component section.
 </p>
-<img class="bml-image-block" src="https://milkdown.dev/polar.jpeg" alt="view component section" width="100%">
+<img class="bml-image-block" src="https://milkdown.dev/polar.jpeg" alt="view component section" height="600">
 <h2>Introduction<span data-emoji-id="smile"></span></h2>
 <p>ProseMirror provides a set of tools and concepts for building rich text editors, using a user interface inspired by what-you-see-is-what-you-get, but trying to avoid the pitfalls of that style of editing.</p>
 <p>The main principle of ProseMirror is that your code gets full control over the document and what happens to it. This document isn't a blob of HTML, but a custom data structure that only contains elements that you explicitly allow it to contain, in relations that you specified. All updates go through a single point, where you can inspect them and react to them.</p>

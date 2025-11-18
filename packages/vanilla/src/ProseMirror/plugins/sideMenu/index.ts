@@ -5,7 +5,7 @@ import {
   NodeSelection
 } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
-import { getNodeInfoFromEvent, insertText } from '../../utils'
+import { getNodeInfoFromEvent, insertText } from '../../functions'
 import Button from '../../components/Button'
 import { GripVerticalIcon, PlusIcon } from '../../icons'
 import type { DragHandleStateType, Emitter, PluginOptions } from '../../types'
@@ -42,6 +42,10 @@ class SideMenuView {
   }
 
   update(view: EditorView) {
+    if (!view.editable) {
+      this.dom.style.visibility = 'hidden'
+      return
+    }
     const state = pluginKey.getState(view.state)
     if (state && state.domRect) {
       const wrapper = this.view.dom.parentNode as HTMLElement

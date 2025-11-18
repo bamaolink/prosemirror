@@ -1,14 +1,12 @@
 import { emitter } from './events'
 import { schema } from './schema'
 import { EditorView } from 'prosemirror-view'
-import { EditorState, Transaction } from 'prosemirror-state'
+import { EditorState } from 'prosemirror-state'
 import { createPlugins } from './plugins'
 import {
   Schema,
   DOMParser as ProseMirrorDOMParser,
   DOMSerializer as ProseMirrorDOMSerializer,
-  NodeSpec,
-  MarkType,
   Node
 } from 'prosemirror-model'
 import {
@@ -17,6 +15,7 @@ import {
   MarkdownParser,
   MarkdownSerializer
 } from 'prosemirror-markdown'
+import { toast } from './components/Sonner'
 import './styles/index.scss'
 
 import type { EmitterEvents, EditorOptions } from './types'
@@ -68,13 +67,15 @@ class BamaoLinkProseMirror {
       schema,
       emitter,
       wrapper,
-      options
+      options,
+      toast
     })
     const view = new EditorView(wrapper, {
       state: EditorState.create({
         doc,
         plugins
-      })
+      }),
+      editable: (state: EditorState) => options.editable ?? true
     })
 
     this.emitter.emit('initialization', this.view)
@@ -171,6 +172,14 @@ class BamaoLinkProseMirror {
     outor.remove()
     outor = null
     return html
+  }
+
+  // 设置编辑器是否可编辑
+  setEditable(isEditable: boolean) {
+    this.view.setProps({
+      ...this.view.props,
+      editable: () => isEditable
+    })
   }
 }
 
