@@ -13,6 +13,7 @@
   box-sizing: border-box;
   position: relative;
   border: 1px solid var(--bml-border-color, '#dddddd');
+  padding: 0 0.5rem;
 }
 
 .ProseMirror td:not([data-colwidth]):not(.column-resize-dragging),
