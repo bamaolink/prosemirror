@@ -13,8 +13,9 @@ export function taskList(options: PluginOptions): Plugin {
           const target = event.target as HTMLElement
 
           if (
-            (target && target?.dataset.type === 'task-list-item') ||
-            target.closest('li')?.dataset.type === 'task-list-item'
+            (target &&
+              target.classList.contains('task-list-item-checkbox-wrapper')) ||
+            target.closest('.task-list-item-checkbox-wrapper')
           ) {
             event.preventDefault()
 
