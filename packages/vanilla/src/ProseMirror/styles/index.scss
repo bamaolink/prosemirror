@@ -4,7 +4,11 @@
 @use './tooltip.scss';
 @use './toast.scss';
 @use './image-block.scss';
+@use './code-block.scss';
 @use './image-upload-placeholder.scss';
+@use './select.scss';
+@use './table.scss';
+@use './checkbox.scss';
 
 .#{$prefix}prosemirror-wrapper {
   position: relative;
@@ -152,7 +156,7 @@
 }
 
 .#{$prefix}prosemirror-wrapper {
-  &.dark {
+  .dark {
     @include dark-theme-vars;
   }
 }

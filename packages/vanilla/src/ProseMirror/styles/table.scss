@@ -1,0 +1,81 @@
+.ProseMirror .tableWrapper {
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+.ProseMirror table {
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: 100%;
+}
+.ProseMirror td,
+.ProseMirror th {
+  vertical-align: top;
+  box-sizing: border-box;
+  position: relative;
+  border: 1px solid var(--bml-border-color, '#dddddd');
+}
+
+.ProseMirror td:not([data-colwidth]):not(.column-resize-dragging),
+.ProseMirror th:not([data-colwidth]):not(.column-resize-dragging) {
+  /* if there's no explicit width set and the column is not being resized, set a default width */
+  min-width: var(--default-cell-min-width);
+}
+
+.ProseMirror .column-resize-handle {
+  position: absolute;
+  right: -2px;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  z-index: 20;
+  background-color: lab(7.25% 0 0 / 0.562);
+  pointer-events: none;
+}
+.ProseMirror.resize-cursor {
+  cursor: ew-resize;
+  cursor: col-resize;
+}
+/* Give selected cells a blue overlay */
+.ProseMirror .selectedCell:after {
+  z-index: 2;
+  position: absolute;
+  content: '';
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(200, 200, 255, 0.2);
+  pointer-events: none;
+}
+
+/* 确保单元格是相对定位的，这样我们的绝对定位菜单才能相对于它 */
+.ProseMirror td,
+.ProseMirror th {
+  position: relative;
+}
+
+/* 浮动菜单的样式 */
+.table-cell-menu {
+  position: absolute;
+  left: 50%;
+  display: flex;
+  gap: 0.25rem; /* 按钮之间的间距 */
+  background: var(--bml-popover-bg);
+  border: 1px solid var(--bml-border-color);
+  border-radius: var(--bml-border-radius);
+  padding: 0.25rem;
+  z-index: 9; /* 确保菜单在最上层 */
+  box-shadow: var(--bml-box-shadow);
+  button {
+    width: 1.25rem;
+    height: 1.25rem;
+    svg {
+      width: 0.75rem;
+      height: 0.75rem;
+    }
+  }
+}
+
+.tableWrapper + .tableWrapper {
+  margin-top: 1rem;
+}

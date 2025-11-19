@@ -53,3 +53,45 @@ img.ProseMirror-separator {
   border: none !important;
   margin: 0 !important;
 }
+
+// task list
+.ProseMirror li[data-type='task-list-item'] {
+  display: flex;
+  align-items: flex-start;
+  margin-left: 0;
+  padding-left: 0;
+  gap: 8px;
+}
+
+.ProseMirror li[data-type='task-list-item'] > .task-list-item-checkbox {
+  margin-right: 8px;
+  cursor: pointer;
+}
+
+.ProseMirror li[data-type='task-list-item'] > .task-list-item-content {
+  flex: 1;
+}
+
+.ProseMirror li[data-checked='true'] > .task-list-item-content > p {
+  text-decoration: line-through;
+  color: #888;
+}
+
+.ProseMirror ul[data-type='task-list'] {
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  ul[data-type='task-list'] {
+    margin: 0.5em 0 0;
+  }
+}
+
+.ProseMirror ul[data-type='task-list'] p {
+  padding: 0;
+  margin: 0;
+}
+
+.ProseMirror ul[data-type='task-list'] .task-list-item-checkbox-wrapper {
+  margin-top: 4px;
+}

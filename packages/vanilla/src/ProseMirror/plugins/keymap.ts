@@ -18,8 +18,8 @@ import {
 import { undo, redo } from 'prosemirror-history'
 import { undoInputRule } from 'prosemirror-inputrules'
 import { Command } from 'prosemirror-state'
-import { Schema } from 'prosemirror-model'
 import type { PluginOptions } from '../types'
+import type { EditorState, Transaction } from 'prosemirror-state'
 
 const mac =
   typeof navigator != 'undefined'
@@ -37,6 +37,7 @@ const mac =
 /// * **Ctrl-Shift-1** to **Ctrl-Shift-Digit6** for making the current
 ///   textblock a heading of the corresponding level
 /// * **Ctrl-Shift-Backslash** to make the current textblock a code block
+/// * **Ctrl-Shift-7** to wrap the selection in an task list
 /// * **Ctrl-Shift-8** to wrap the selection in an ordered list
 /// * **Ctrl-Shift-9** to wrap the selection in a bullet list
 /// * **Ctrl->** to wrap the selection in a block quote
@@ -53,6 +54,7 @@ const mac =
 /// You can suppress or map these bindings by passing a `mapKeys`
 /// argument, which maps key names (say `"Mod-B"` to either `false`, to
 /// remove the binding, or a new key name string.
+
 export function buildKeymap(
   options: PluginOptions,
   mapKeys?: { [key: string]: false | string }
@@ -107,6 +109,8 @@ export function buildKeymap(
     bind('Enter', splitListItem(type))
     bind('Mod-[', liftListItem(type))
     bind('Mod-]', sinkListItem(type))
+    bind('Shift-Tab', liftListItem(type))
+    bind('Tab', sinkListItem(type))
   }
   if ((type = schema.nodes.paragraph)) bind('Shift-Ctrl-0', setBlockType(type))
   if ((type = schema.nodes.code_block))
@@ -121,6 +125,16 @@ export function buildKeymap(
         dispatch(state.tr.replaceSelectionWith(hr.create()).scrollIntoView())
       return true
     })
+  }
+
+  if ((type = schema.nodes.task_list)) bind('Shift-Ctrl-7', wrapInList(type))
+  if ((type = schema.nodes.task_list_item)) {
+    const listItem = schema.nodes.list_item
+    bind('Enter', chainCommands(splitListItem(type), splitListItem(listItem)))
+    bind('Mod-[', chainCommands(liftListItem(type), liftListItem(listItem)))
+    bind('Mod-]', chainCommands(sinkListItem(type), sinkListItem(listItem)))
+    bind('Shift-Tab', chainCommands(liftListItem(type), liftListItem(listItem)))
+    bind('Tab', chainCommands(sinkListItem(type), sinkListItem(listItem)))
   }
 
   return keys

@@ -1,0 +1,33 @@
+.task-list-item-checkbox-wrapper {
+  --checked-color: lab(7.78201 -0.0000149012 0);
+  position: relative;
+  width: 1rem;
+  height: 1rem;
+  border: 1px solid var(--bml-border-color);
+  border-radius: var(--bml-border-radius);
+  overflow: hidden;
+  input[type="checkbox"] {
+    visibility: hidden;
+  }
+  .checkbox-icon {
+    display: block;
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1jaGVjay1pY29uIGx1Y2lkZS1jaGVjayI+PHBhdGggZD0iTTIwIDYgOSAxN2wtNS01Ii8+PC9zdmc+');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 80% auto;
+    opacity: 0;
+  }
+  input[type="checkbox"]:checked + .checkbox-icon {
+    background-color: var(--checked-color);
+    opacity: 1;
+  }
+  &:has(input[type="checkbox"]:checked) {
+    background-color: var(--checked-color);
+  }
+}

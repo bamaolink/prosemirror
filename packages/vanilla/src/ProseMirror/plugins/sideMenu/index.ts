@@ -115,7 +115,11 @@ class SideMenuView {
       if (!currentNode || !currentNode.nodePos) {
         return
       }
-      insertText(this.view, '/', currentNode.nodePos)
+      insertText(
+        this.view,
+        '/',
+        currentNode.nodePos + currentNode.node.nodeSize
+      )
       this.view.focus()
 
       this.hideSideMenu()

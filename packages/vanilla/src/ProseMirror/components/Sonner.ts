@@ -59,7 +59,7 @@ class BmlSonnerToast {
 
   constructor(message: string, options: ToastOptions) {
     this.options = {
-      duration: 4000,
+      duration: 3000,
       type: 'default',
       position: 'top-center',
       description: '',

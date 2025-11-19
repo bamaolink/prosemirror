@@ -19,14 +19,24 @@ import {
   List,
   ListTodo,
   Code,
+  FileCodeCorner,
   Image,
   Search,
   ArrowRight,
   CircleQuestionMark,
   SmilePlus,
+  ChevronDown,
   ChevronRight,
   SquarePen,
-  Trash2
+  Trash2,
+  Copy,
+  Sheet,
+  ArrowDownFromLine,
+  ArrowLeftFromLine,
+  ArrowRightFromLine,
+  ArrowUpFromLine,
+  TableCellsMerge,
+  TableCellsSplit
 } from 'lucide'
 export const createIcon = (icon: IconNode, name: string) => {
   return createElement(icon, {
@@ -51,6 +61,7 @@ export const ListOrderedIcon = createIcon(ListOrdered, 'list-ordered')
 export const ListIcon = createIcon(List, 'list')
 export const ListTodoIcon = createIcon(ListTodo, 'list-todo')
 export const CodeIcon = createIcon(Code, 'code')
+export const FileCodeCornerIcon = createIcon(FileCodeCorner, 'file-code-corner')
 export const ImageIcon = createIcon(Image, 'image')
 export const SearchIcon = createIcon(Search, 'search')
 export const ArrowRightIcon = createIcon(ArrowRight, 'arrow-right')
@@ -59,6 +70,34 @@ export const CircleQuestionMarkIcon = createIcon(
   'circle-question-mark'
 )
 export const SmilePlusIcon = createIcon(SmilePlus, 'smile-plus')
+export const ChevronDownIcon = createIcon(ChevronDown, 'chevron-down')
 export const ChevronRightIcon = createIcon(ChevronRight, 'chevron-right')
 export const SquarePenIcon = createIcon(SquarePen, 'square-pen')
 export const Trash2Icon = createIcon(Trash2, 'trash-2')
+export const CopyIcon = createIcon(Copy, 'copy')
+export const SheetIcon = createIcon(Sheet, 'sheet')
+
+export const ArrowLeftFromLineIcon = createIcon(
+  ArrowLeftFromLine,
+  'arrow-left-from-line'
+)
+export const ArrowRightFromLineIcon = createIcon(
+  ArrowRightFromLine,
+  'arrow-right-from-line'
+)
+export const ArrowUpFromLineIcon = createIcon(
+  ArrowUpFromLine,
+  'arrow-up-from-line'
+)
+export const ArrowDownFromLineIcon = createIcon(
+  ArrowDownFromLine,
+  'arrow-down-from-line'
+)
+export const TableCellsMergeIcon = createIcon(
+  TableCellsMerge,
+  'table-cells-merge'
+)
+export const TableCellsSplitIcon = createIcon(
+  TableCellsSplit,
+  'table-cells-split'
+)

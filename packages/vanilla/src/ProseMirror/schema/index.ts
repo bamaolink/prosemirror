@@ -10,6 +10,14 @@ import {
   ImageUploadPlaceholderNodeName
 } from './nodes/imageUploadPlaceholder'
 import {
+  TaskListItemNode,
+  TaskListItemNodeName,
+  TaskListNode,
+  TaskListNodeName
+} from './nodes/taskList'
+import { CodeBlockNode, CodeBlockNodeName } from './nodes/codeBlock'
+import { tableNodes } from './nodes/table'
+import {
   NoteGroupNode,
   NoteGroupNodeName,
   NoteNode,
@@ -36,7 +44,11 @@ export const schema = new Schema({
       content: '(block | note | notegroup)+'
     })
     .append(nodes)
-    .addBefore('image', ImageBlockNodeName, ImageBlockNode),
+    .append(tableNodes)
+    .addBefore('heading', CodeBlockNodeName, CodeBlockNode)
+    .addBefore('image', ImageBlockNodeName, ImageBlockNode)
+    .addBefore('ordered_list', TaskListNodeName, TaskListNode)
+    .addBefore('ordered_list', TaskListItemNodeName, TaskListItemNode),
 
   marks: basicSchema.spec.marks.append(marks)
 })

@@ -11,11 +11,14 @@ import {
   Heading6Icon,
   ListIcon,
   ListOrderedIcon,
+  ListTodoIcon,
   ImageIcon,
-  SmilePlusIcon
+  SmilePlusIcon,
+  FileCodeCornerIcon,
+  SheetIcon
 } from '../icons'
 import { emojis } from '../config/emojis'
-import { insertImagePlaceholderCommand } from '../functions'
+import { insertImagePlaceholderCommand, insertTableCommand } from '../functions'
 
 const headingIcons = [
   Heading1Icon,
@@ -111,6 +114,39 @@ export const commands: CommandItemType[] = [
     action: (view, schema) => {
       wrapInList(schema.nodes.ordered_list)(view.state, view.dispatch)
     }
+  },
+  {
+    id: 'task_list',
+    name: 'Task list',
+    gid: 'basic-blocks',
+    type: 'command',
+    description: 'Task list',
+    icon: ListTodoIcon,
+    action: (view, schema) => {
+      wrapInList(schema.nodes.task_list)(view.state, view.dispatch)
+    }
+  },
+  {
+    id: 'code_block',
+    name: 'Code block',
+    gid: 'basic-blocks',
+    type: 'command',
+    description: 'Code block',
+    icon: FileCodeCornerIcon,
+    action: (view, schema) => {
+      setBlockType(schema.nodes.code_block, {
+        language: 'plaintext'
+      })(view.state, view.dispatch)
+    }
+  },
+  {
+    id: 'prose_table',
+    name: 'Table',
+    gid: 'basic-blocks',
+    type: 'command',
+    description: 'Table',
+    icon: SheetIcon,
+    action: insertTableCommand
   },
   {
     id: 'image',

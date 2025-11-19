@@ -6,7 +6,7 @@ import {
   emDash,
   ellipsis
 } from 'prosemirror-inputrules'
-import { NodeType, Schema } from 'prosemirror-model'
+import { NodeType } from 'prosemirror-model'
 import type { PluginOptions } from '../types'
 
 /// Given a blockquote node type, returns an input rule that turns `"> "`
@@ -36,7 +36,10 @@ export function bulletListRule(nodeType: NodeType) {
 /// Given a code block node type, returns an input rule that turns a
 /// textblock starting with three backticks into a code block.
 export function codeBlockRule(nodeType: NodeType) {
-  return textblockTypeInputRule(/^```$/, nodeType)
+  // return textblockTypeInputRule(/^```$/, nodeType)
+  return textblockTypeInputRule(/^```(\w+)?\s$/, nodeType, (match) => ({
+    language: match[1] || 'plaintext'
+  }))
 }
 
 /// Given a node type and a maximum level, creates an input rule that
@@ -51,6 +54,19 @@ export function headingRule(nodeType: NodeType, maxLevel: number) {
   )
 }
 
+/// Input rules for task list items
+export function taskListInputRule(nodeType: NodeType, checked: boolean) {
+  // uncheckedTaskListInputRule input rule for `-[]` or `-[ ]` for an unchecked item.
+  // checkedTaskListInputRule input rule for `-[x]` for a checked item.
+  const pattern = checked ? /^\s*(-\[x\])\s$/i : /^\s*(-\[\s*\])\s$/
+  return wrappingInputRule(
+    pattern,
+    nodeType,
+    { checked },
+    (match, node) => node.childCount + node.attrs.checked === (checked ? 1 : 0)
+  )
+}
+
 /// A set of input rules for creating the basic block quotes, lists,
 /// code blocks, and heading.
 export function buildInputRules(options: PluginOptions) {
@@ -62,5 +78,9 @@ export function buildInputRules(options: PluginOptions) {
   if ((type = schema.nodes.bullet_list)) rules.push(bulletListRule(type))
   if ((type = schema.nodes.code_block)) rules.push(codeBlockRule(type))
   if ((type = schema.nodes.heading)) rules.push(headingRule(type, 6))
+  if ((type = schema.nodes.task_list_item))
+    rules.push(taskListInputRule(type, true))
+  if ((type = schema.nodes.task_list_item))
+    rules.push(taskListInputRule(type, false))
   return inputRules({ rules })
 }
