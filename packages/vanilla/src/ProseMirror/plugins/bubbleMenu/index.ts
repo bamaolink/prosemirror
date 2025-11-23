@@ -3,9 +3,14 @@ import { EditorView } from 'prosemirror-view'
 import { toggleMark } from 'prosemirror-commands'
 import type { PluginOptions } from '../../types'
 import { prefix } from '../../config/constants'
-import Button from '../../components/Button'
-import { ItalicIcon, BoldIcon, CodeIcon } from '../../icons'
+import BmlButton from '../../components/Button'
+import BmlTooltip from '../../components/Tooltip'
 import { pluginKey as selectedMarksAndNodesPluginKey } from '../selectedMarksAndNodes'
+import { menus } from '../../config/menuItems'
+import { htmlStringtoDom } from '../../utils'
+import { createLinkFormItems } from './link'
+
+const _prefix = `${prefix}bubble-menu`
 
 export function canShowInlineAndMark(state: EditorState) {
   const { schema, selection } = state
@@ -91,9 +96,10 @@ class BubbleMenuView {
   private bubble: HTMLDivElement
   private options: PluginOptions
   private buttons: Array<{
-    button: Button
-    item: any
+    button: BmlButton
+    item: (typeof menus)[number]
   }> = []
+  private isEditing = false
 
   constructor(view: EditorView, options: PluginOptions) {
     this.view = view
@@ -109,26 +115,80 @@ class BubbleMenuView {
   }
 
   renderButtons() {
-    const buttons = [
-      { mark: 'strong', label: 'B', icon: BoldIcon },
-      { mark: 'em', label: 'I', icon: ItalicIcon },
-      { mark: 'code', label: 'C', icon: CodeIcon }
-    ]
-
-    this.buttons = buttons.map((item) => {
-      const { mark, label, icon } = item
-      const button = new Button()
+    this.buttons = menus.map((item) => {
+      const { id, label, icon, action } = item
+      const button = new BmlButton()
       button.setIcon(icon)
       button.element.title = label
-      button.element.addEventListener('mousedown', (e) => {
-        e.preventDefault()
-        this.view.focus()
-        toggleMark(this.view.state.schema.marks[mark])(
-          this.view.state,
-          this.view.dispatch
-        )
-      })
-      this.bubble.appendChild(button.element)
+
+      switch (id) {
+        case 'link':
+          const tooltip = new BmlTooltip({
+            trigger: button.element,
+            popoverId: `${_prefix}-tooltip`,
+            anchorName: `${_prefix}-tooltip-anchor`,
+            hover: false,
+            positionArea: 'bottom'
+          })
+          button.element.addEventListener('mousedown', (e) => {
+            e.preventDefault()
+            e.stopPropagation()
+          })
+
+          const elements = createLinkFormItems(prefix)
+
+          elements.formElement.addEventListener('submit', (e) => {
+            e.preventDefault()
+            const formData = new FormData(dom)
+
+            const attrs = Object.fromEntries(formData)
+            const state = this.view.state
+            const selection = state.selection
+            const from = selection.from
+            const to = selection.to
+
+            const linkMark = this.view.state.schema.marks.link.create(attrs)
+            this.view.dispatch(this.view.state.tr.addMark(from, to, linkMark))
+            this.view.focus()
+          })
+          tooltip.popover.appendChild(elements.formElement)
+          // tooltip.popover.classList.add('light')
+
+          // 防止点击 Tooltip 时导致编辑器失去焦点或选区混乱
+          tooltip.popover.addEventListener(
+            'mousedown',
+            (e) => {
+              const target = e.target as HTMLElement
+              if (!['INPUT', 'LABEL'].includes(target.tagName)) {
+                e.preventDefault()
+              }
+              this.isEditing = true
+            },
+            true
+          )
+
+          tooltip.popover.addEventListener(
+            'focusin',
+            () => (this.isEditing = true)
+          )
+          tooltip.popover.addEventListener(
+            'focusout',
+            () => (this.isEditing = false)
+          )
+
+          this.bubble.appendChild(button.element)
+          this.bubble.appendChild(tooltip.popover)
+          break
+        default:
+          button.element.addEventListener('mousedown', (e) => {
+            e.preventDefault()
+            this.view.focus()
+            action(this.view, this.view.state.schema)
+          })
+          this.bubble.appendChild(button.element)
+          break
+      }
+
       return {
         item,
         button
@@ -139,12 +199,17 @@ class BubbleMenuView {
   updateSelectedMarksAndNodes() {
     const newState = selectedMarksAndNodesPluginKey.getState(this.view.state)
     this.buttons.forEach(({ button, item }) => {
-      const isActive = newState.marks[item.mark]
+      const isActive = newState.marks[item.id]
       button.element.classList.toggle('active', isActive)
     })
+    if (newState.marks.link) {
+    }
   }
 
   update(view: EditorView) {
+    if (this.isEditing) {
+      return
+    }
     const { state } = view
     const { selection } = state
     const { from, to, empty } = selection

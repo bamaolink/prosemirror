@@ -1,23 +1,14 @@
 import { toggleMark, setBlockType } from 'prosemirror-commands'
 import { Schema } from 'prosemirror-model'
 import { EditorView } from 'prosemirror-view'
-import { ItalicIcon, BoldIcon, CodeIcon, TextInitialIcon } from '../icons'
+import { ItalicIcon, BoldIcon, CodeIcon, Link2Icon } from '../icons'
 
 // ['doc', 'paragraph', 'blockquote', 'horizontal_rule', 'heading', 'code_block', 'text', 'image', 'hard_break', 'ordered_list', 'bullet_list', 'list_item', 'star', 'note', 'notegroup']
 // ['link', 'em', 'strong', 'code', 'sub', 'sup']
 
 export const menus = [
   {
-    key: 'note',
-    type: 'node',
-    label: 'Paragraph',
-    icon: TextInitialIcon,
-    action: (view: EditorView, schema: Schema) => {
-      setBlockType(schema.nodes.note)(view.state, view.dispatch)
-    }
-  },
-  {
-    key: 'strong',
+    id: 'strong',
     type: 'mark',
     label: 'Strong',
     icon: BoldIcon,
@@ -26,7 +17,7 @@ export const menus = [
     }
   },
   {
-    key: 'em',
+    id: 'em',
     type: 'mark',
     label: 'Em',
     icon: ItalicIcon,
@@ -35,12 +26,21 @@ export const menus = [
     }
   },
   {
-    key: 'code',
+    id: 'code',
     type: 'mark',
     label: 'Code',
     icon: CodeIcon,
     action: (view: EditorView, schema: Schema) => {
-      toggleMark(schema.marks.strong)(view.state, view.dispatch)
+      toggleMark(schema.marks.code)(view.state, view.dispatch)
+    }
+  },
+  {
+    id: 'link',
+    type: 'mark',
+    label: 'Link',
+    icon: Link2Icon,
+    action: (view: EditorView, schema: Schema) => {
+      toggleMark(schema.marks.link)(view.state, view.dispatch)
     }
   }
 ]

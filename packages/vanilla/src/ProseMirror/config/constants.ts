@@ -1,1 +1,1 @@
-export const prefix = 'bamao-link-'
+export const prefix = 'bml-'

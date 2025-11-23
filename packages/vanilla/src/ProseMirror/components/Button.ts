@@ -6,7 +6,7 @@ type BmlButtonProps = {
 
 export type ButtonOptions = Partial<BmlButtonProps>
 
-class BmlButton {
+export class BmlButton {
   element: HTMLButtonElement
   options: ButtonOptions
   constructor(options: Partial<ButtonOptions> = {}) {

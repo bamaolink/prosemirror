@@ -5,6 +5,28 @@ interface BmlTooltipOptions {
   popoverId: string
   anchorName: string
   hover?: boolean
+  popover?: 'auto' | 'hint' | 'manual'
+  positionArea?:
+    | 'top center'
+    | 'top span-left'
+    | 'top span-right'
+    | 'top'
+    | 'left center'
+    | 'left span-top'
+    | 'left span-bottom'
+    | 'left'
+    | 'bottom center'
+    | 'bottom span-left'
+    | 'bottom span-right'
+    | 'bottom'
+    | 'right center'
+    | 'right span-top'
+    | 'right span-bottom'
+    | 'right'
+    | 'top left'
+    | 'top right'
+    | 'bottom left'
+    | 'bottom right'
 }
 export default class BmlTooltip {
   options: BmlTooltipOptions
@@ -14,11 +36,13 @@ export default class BmlTooltip {
     this.options = options
     this.popover = document.createElement('div')
     this.popover.classList.add(`${prefix}tooltip`)
-    this.popover.setAttribute('popover', 'hint')
+    this.popover.setAttribute('popover', options.popover ?? 'hint')
     this.popover.setAttribute('id', options.popoverId)
     this.popover.setAttribute(
       'style',
-      `position-anchor: --${options.anchorName}; view-transition-name: --${options.anchorName}; position-area: top;`
+      `position-anchor: --${options.anchorName}; view-transition-name: --${
+        options.anchorName
+      }; position-area: ${options?.positionArea ?? 'top'};`
     )
     this.trigger = options.trigger
     this.trigger.setAttribute('popovertarget', options.popoverId)

@@ -1,0 +1,25 @@
+@use './var.scss' as *;
+
+.#{$prefix}input-text{
+  background-color: var(--bml-input-bg);
+  outline: 1px solid var(--bml-input-border-color);
+  border-radius: var(--bml-border-radius);
+  overflow: hidden;
+  box-sizing: border-box;
+  &:has(input:focus) {
+    outline-color: var(--bml-input-border-color-active);
+    outline-width: 2px;
+  }
+  > input {
+    border: 0;
+    outline: none;
+    padding: 0.25rem 0.5rem;
+    line-height: 1.5;
+    font-size: 0.875rem;
+    background-color: transparent;
+    color: var(--bml-input-color);
+    &::placeholder {
+      color: var(--bml-input-placeholder-color);
+    }
+  }
+}

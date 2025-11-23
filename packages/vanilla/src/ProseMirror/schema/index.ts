@@ -26,6 +26,7 @@ import {
 
 import { SupMark, SupMarkName } from './marks/sup'
 import { SubMark, SubMarkName } from './marks/sub'
+import { LinkMark, LinkName } from './marks/link'
 
 const nodes: Record<string, NodeSpec> = {}
 nodes[EmojiNodeName] = EmojiNode
@@ -50,5 +51,6 @@ export const schema = new Schema({
     .addBefore('ordered_list', TaskListNodeName, TaskListNode)
     .addBefore('ordered_list', TaskListItemNodeName, TaskListItemNode),
 
-  marks: basicSchema.spec.marks.append(marks)
+  marks: basicSchema.spec.marks.append(marks).update(LinkName, LinkMark)
 })
+console.log(schema.marks)

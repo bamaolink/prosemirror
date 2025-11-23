@@ -3,6 +3,7 @@
 .#{$prefix}tooltip[popover] {
     position: absolute;
     background-color: var(--bml-tooltip-bg);
+    border: 1px solid var(--bml-tooltip-bg);
     color:var(--bml-tooltip-color);
     padding: 0.5rem 0.75rem;
     border-radius: var(--bml-border-radius);
@@ -15,6 +16,12 @@
     max-height: 18.75rem;
     overflow: auto;
     scrollbar-width: thin;
+    z-index: 10;
+
+    &.light {
+      --bml-tooltip-bg: var(--bml-popover-bg);
+      border-color: var(--bml-border-color);
+    }
     
     kbd {
       background-color: var(--bml-tooltip-kdb-bg);

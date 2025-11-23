@@ -8,3 +8,10 @@ export function compressHTML(html: string) {
   html = html.replace(/>\s+</g, '><')
   return html.trim()
 }
+
+export function htmlStringtoDom(html: string) {
+  const parser = new DOMParser()
+  const doc = parser.parseFromString(compressHTML(html), 'text/html')
+  const dom = doc.body.firstChild as HTMLElement
+  return dom
+}
