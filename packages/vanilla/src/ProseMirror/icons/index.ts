@@ -40,7 +40,9 @@ import {
   Link2,
   ExternalLink,
   Save,
-  Check
+  Check,
+  Palette,
+  Highlighter
 } from 'lucide'
 export const createIcon = (icon: IconNode, name: string) => {
   return createElement(icon, {
@@ -109,3 +111,5 @@ export const Link2Icon = createIcon(Link2, 'link-2')
 export const ExternalLinkIcon = createIcon(ExternalLink, 'external-link')
 export const SaveIcon = createIcon(Save, 'save')
 export const CheckIcon = createIcon(Check, 'check')
+export const PaletteIcon = createIcon(Palette, 'palette')
+export const HighlighterIcon = createIcon(Highlighter, 'highlighter')

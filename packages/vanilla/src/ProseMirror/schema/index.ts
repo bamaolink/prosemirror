@@ -27,6 +27,8 @@ import {
 import { SupMark, SupMarkName } from './marks/sup'
 import { SubMark, SubMarkName } from './marks/sub'
 import { LinkMark, LinkName } from './marks/link'
+import { HighlightColorMark, HighlightColorName } from './marks/highlightColor'
+import { TextColorMark, TextColorName } from './marks/textColor'
 
 const nodes: Record<string, NodeSpec> = {}
 nodes[EmojiNodeName] = EmojiNode
@@ -38,6 +40,8 @@ nodes[NoteNodeName] = NoteNode
 const marks: Record<string, MarkSpec> = {}
 marks[SupMarkName] = SupMark
 marks[SubMarkName] = SubMark
+marks[HighlightColorName] = HighlightColorMark
+marks[TextColorName] = TextColorMark
 
 export const schema = new Schema({
   nodes: addListNodes(basicSchema.spec.nodes, 'paragraph block*', 'block')

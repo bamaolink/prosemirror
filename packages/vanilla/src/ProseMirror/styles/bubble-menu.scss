@@ -13,3 +13,29 @@
   border: 1px solid var(--bml-border-color);
   z-index: 8;
 }
+
+.#{$prefix}color-wrapper {
+  display: flex;
+  gap: 8px;
+  button {
+    width: 18px;
+    height: 18px;
+    display: block;
+    border-radius: 16px;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    cursor: pointer;
+    border: 1px solid var(--bml-border-color);
+    span {
+      width: 16px;
+      height: 16px;
+      display: block;
+      border-radius: 16px;
+    }
+    &:hover,
+    &.active {
+      border-color: var(--bml-btn-bg-hover);
+    }
+  }
+}

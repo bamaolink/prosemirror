@@ -7,6 +7,7 @@ import BmlButton from '../../components/Button'
 import { selectedMarksAndNodesPluginKey } from '../selectedMarksAndNodes'
 import { menus } from '../../config/menuItems'
 import { LinkView } from './LinkView'
+import { HighlightColorView } from './HighlightColorView'
 
 const _prefix = `${prefix}bubble-menu`
 
@@ -100,6 +101,7 @@ export class BubbleMenuView {
   private isEditing = false
 
   private linkView: LinkView | null = null
+  private highlightColorView: HighlightColorView | null = null
 
   constructor(view: EditorView, options: PluginOptions) {
     this.view = view
@@ -135,6 +137,20 @@ export class BubbleMenuView {
           this.linkView = linkView
 
           break
+        case 'highlightColor': {
+          const highlightColorView = new HighlightColorView({
+            view: this.view,
+            trigger: button,
+            setIsEditing: this.setIsEditing.bind(this),
+            getIsEditing: this.getIsEditing.bind(this),
+            prefix
+          })
+          this.bubble.appendChild(button.element)
+          this.bubble.appendChild(highlightColorView.popover.popover)
+          this.highlightColorView = highlightColorView
+
+          break
+        }
         default:
           button.element.addEventListener('mousedown', (e) => {
             e.preventDefault()
