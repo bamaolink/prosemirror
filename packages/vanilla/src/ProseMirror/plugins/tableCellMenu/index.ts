@@ -21,10 +21,10 @@ import {
   TableCellsMergeIcon,
   TableCellsSplitIcon
 } from '../../icons'
-import BmlButton from '../../components/Button'
-import BmlTooltip from '../../components/Tooltip'
+import { BmlButton } from '../../components/Button'
+import { BmlPopover } from '../../components/Popover'
 
-export const pluginKey = new PluginKey('table-cell-menu')
+export const tableCellMenuPluginKey = new PluginKey('table-cell-menu-plugin')
 export const allButtons = [
   {
     value: 'add-row-before',
@@ -86,13 +86,14 @@ function createTooltip(item: (typeof allButtons)[number], view: EditorView) {
     command(view.state, view.dispatch)
   })
 
-  const tooltip = new BmlTooltip({
+  const tooltip = new BmlPopover({
     trigger: trigger.element,
     popoverId: `${value}-tooltip`,
     anchorName: `${value}-tooltip-anchor`,
     hover: true
   })
   tooltip.popover.textContent = label
+  tooltip.popover.classList.add('dark')
   return {
     trigger,
     tooltip
@@ -198,9 +199,9 @@ class CellMenuManager {
   }
 }
 
-export function tableCellMenu(options: PluginOptions) {
+export function tableCellMenuPlugin(options: PluginOptions) {
   return new Plugin({
-    key: pluginKey,
+    key: tableCellMenuPluginKey,
     view(editorView) {
       const menuManager = new CellMenuManager(editorView, options)
       return {

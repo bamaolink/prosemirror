@@ -2,11 +2,12 @@ import {
   inputRules,
   wrappingInputRule,
   textblockTypeInputRule,
+  InputRule,
   smartQuotes,
   emDash,
   ellipsis
 } from 'prosemirror-inputrules'
-import { NodeType } from 'prosemirror-model'
+import { NodeType, MarkType } from 'prosemirror-model'
 import type { PluginOptions } from '../types'
 
 /// Given a blockquote node type, returns an input rule that turns `"> "`
@@ -67,6 +68,28 @@ export function taskListInputRule(nodeType: NodeType, checked: boolean) {
   )
 }
 
+export function createLinkInputRule(linkType: MarkType) {
+  return new InputRule(
+    // 正则表达式：匹配 [text](url) 或 [text](url "title")
+    /\[([^\]]+)]\(([^)\s]+)(?:\s+"([^"]+)")?\) $/,
+    (state, match, start, end) => {
+      const [fullMatch, text, href, title] = match
+      const tr = state.tr
+
+      if (!href) return null
+
+      // 1. 替换文本：把 [text](url) 替换为 text
+      tr.insertText(text, start, end)
+
+      // 2. 添加 Mark：给 text 添加 link mark
+      const mark = linkType.create({ href, title: title || '' })
+      tr.addMark(start, start + text.length, mark)
+
+      return tr
+    }
+  )
+}
+
 /// A set of input rules for creating the basic block quotes, lists,
 /// code blocks, and heading.
 export function buildInputRules(options: PluginOptions) {
@@ -82,5 +105,6 @@ export function buildInputRules(options: PluginOptions) {
     rules.push(taskListInputRule(type, true))
   if ((type = schema.nodes.task_list_item))
     rules.push(taskListInputRule(type, false))
+  if ((type = schema.marks.link)) rules.push(createLinkInputRule(type))
   return inputRules({ rules })
 }

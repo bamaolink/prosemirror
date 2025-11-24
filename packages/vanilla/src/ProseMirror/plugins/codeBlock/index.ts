@@ -39,7 +39,7 @@ const getFuzzyLanguage = (language: string) => {
   }
 }
 
-export const pluginKey = new PluginKey('code-block')
+export const codeBlockPluginKey = new PluginKey('code-block-plugin')
 
 export class CodeBlockNodeView implements NodeView {
   dom: HTMLElement
@@ -207,9 +207,9 @@ export class CodeBlockNodeView implements NodeView {
     this.cmView.destroy()
   }
 }
-export function codeBlock(options: PluginOptions): Plugin {
+export function codeBlockPlugin(options: PluginOptions): Plugin {
   return new Plugin({
-    key: pluginKey,
+    key: codeBlockPluginKey,
     props: {
       nodeViews: {
         code_block: (node, view, getPos) => {

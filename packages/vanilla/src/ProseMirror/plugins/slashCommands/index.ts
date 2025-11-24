@@ -4,9 +4,9 @@ import type { CommandItemType, PluginOptions } from '../../types'
 import { prefix } from '../../config/constants'
 import { commands, commandRootGroups } from '../../config/commands'
 import { ChevronRightIcon, CircleQuestionMarkIcon } from '../../icons'
-import BmlTooltip from '../../components/Tooltip'
+import { BmlPopover } from '../../components/Popover'
 
-export const pluginKey = new PluginKey('slash-commands')
+export const slashCommandsPluginKey = new PluginKey('slash-commands-plugin')
 
 const _prefix = `${prefix}slash-commands`
 const createDomElement = () => {
@@ -26,12 +26,14 @@ const createDomElement = () => {
   trigger.appendChild(CircleQuestionMarkIcon.cloneNode(true))
   trigger.classList.add(`${prefix}button`, `${prefix}button-icon`)
 
-  const tooltip = new BmlTooltip({
+  const tooltip = new BmlPopover({
     trigger,
     popoverId: `${_prefix}-tooltip`,
     anchorName: `${_prefix}-tooltip-anchor`,
     hover: false
   })
+
+  tooltip.popover.classList.add('dark')
 
   tooltip.popover.innerHTML = `<div class="${_prefix}-tooltip-content">
     <span><kbd>↑</kbd> <kbd>↓</kbd> to navigate</span>
@@ -128,7 +130,7 @@ const findNextItem = (currState: SlashCommandsState) => {
   return filteredCommands[0]
 }
 
-class SlashCommandsView {
+export class SlashCommandsView {
   private view: EditorView
   private commands: CommandItemType[]
   private dom: HTMLElement
@@ -308,7 +310,7 @@ class SlashCommandsView {
         if (firstChild) {
           filteredCommands = setSelectedItems(firstChild.id, filteredCommands)
           view.dispatch(
-            view.state.tr.setMeta(pluginKey, {
+            view.state.tr.setMeta(slashCommandsPluginKey, {
               selectedIds: [...selectedIds, firstChild.id],
               rootCommands,
               filteredCommands,
@@ -350,13 +352,11 @@ class SlashCommandsView {
     })
 
     this.list.appendChild(fragment)
-    this.list
-      .querySelector('.selected')
-      ?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest',
-        inline: 'nearest'
-      })
+    this.list.querySelector('.selected')?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+      inline: 'nearest'
+    })
   }
 
   createBreadcrumbItem() {
@@ -397,7 +397,9 @@ class SlashCommandsView {
   }
 
   update(view: EditorView) {
-    const state: SlashCommandsState = pluginKey.getState(view.state)
+    const state: SlashCommandsState = slashCommandsPluginKey.getState(
+      view.state
+    )
 
     if (!state || !state.active) {
       this.close()
@@ -441,17 +443,17 @@ class SlashCommandsView {
   }
 }
 
-export function slashCommands(options: PluginOptions): Plugin {
+export function slashCommandsPlugin(options: PluginOptions): Plugin {
   let slashView: SlashCommandsView
 
   return new Plugin({
-    key: pluginKey,
+    key: slashCommandsPluginKey,
     state: {
       init(): SlashCommandsState {
         return initialState
       },
       apply(tr, state: SlashCommandsState): SlashCommandsState {
-        const meta = tr.getMeta(pluginKey)
+        const meta = tr.getMeta(slashCommandsPluginKey)
         if (meta) {
           return { ...state, ...meta }
         }
@@ -503,7 +505,9 @@ export function slashCommands(options: PluginOptions): Plugin {
     },
     props: {
       handleKeyDown(view, event) {
-        const state: SlashCommandsState = pluginKey.getState(view.state)
+        const state: SlashCommandsState = slashCommandsPluginKey.getState(
+          view.state
+        )
         if (!state.active) {
           return false
           // return false 表示当前插件不处理，继续传递给其他插件处理 return true 表示当前插件处理了，其他插件不再处理
@@ -513,7 +517,7 @@ export function slashCommands(options: PluginOptions): Plugin {
           const prevItem = findPrevItem(state)
           state.selectedIds[state.level] = prevItem.id
           view.dispatch(
-            view.state.tr.setMeta(pluginKey, {
+            view.state.tr.setMeta(slashCommandsPluginKey, {
               selectedIds: state.selectedIds,
               filteredCommands: setSelectedItems(
                 prevItem.id,
@@ -528,7 +532,7 @@ export function slashCommands(options: PluginOptions): Plugin {
           const nextItem = findNextItem(state)
           state.selectedIds[state.level] = nextItem.id
           view.dispatch(
-            view.state.tr.setMeta(pluginKey, {
+            view.state.tr.setMeta(slashCommandsPluginKey, {
               selectedIds: state.selectedIds,
               filteredCommands: setSelectedItems(
                 nextItem.id,
@@ -571,7 +575,7 @@ export function slashCommands(options: PluginOptions): Plugin {
               )
 
               view.dispatch(
-                view.state.tr.setMeta(pluginKey, {
+                view.state.tr.setMeta(slashCommandsPluginKey, {
                   selectedIds: [...selectedIds, firstChild.id],
                   rootCommands,
                   filteredCommands,
@@ -614,7 +618,7 @@ export function slashCommands(options: PluginOptions): Plugin {
             }
 
             view.dispatch(
-              view.state.tr.setMeta(pluginKey, {
+              view.state.tr.setMeta(slashCommandsPluginKey, {
                 selectedIds: [...selectedIds],
                 rootCommands,
                 filteredCommands,
@@ -651,7 +655,7 @@ export function slashCommands(options: PluginOptions): Plugin {
                   filteredCommands
                 )
                 view.dispatch(
-                  view.state.tr.setMeta(pluginKey, {
+                  view.state.tr.setMeta(slashCommandsPluginKey, {
                     selectedIds: [...selectedIds, firstChild.id],
                     rootCommands,
                     filteredCommands,
@@ -668,7 +672,9 @@ export function slashCommands(options: PluginOptions): Plugin {
         }
 
         if (event.key === 'Escape') {
-          view.dispatch(view.state.tr.setMeta(pluginKey, { ...initialState }))
+          view.dispatch(
+            view.state.tr.setMeta(slashCommandsPluginKey, { ...initialState })
+          )
           return true
         }
 

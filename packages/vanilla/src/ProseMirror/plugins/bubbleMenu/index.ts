@@ -4,11 +4,9 @@ import { toggleMark } from 'prosemirror-commands'
 import type { PluginOptions } from '../../types'
 import { prefix } from '../../config/constants'
 import BmlButton from '../../components/Button'
-import BmlTooltip from '../../components/Tooltip'
-import { pluginKey as selectedMarksAndNodesPluginKey } from '../selectedMarksAndNodes'
+import { selectedMarksAndNodesPluginKey } from '../selectedMarksAndNodes'
 import { menus } from '../../config/menuItems'
-import { htmlStringtoDom } from '../../utils'
-import { createLinkFormItems } from './link'
+import { LinkView } from './LinkView'
 
 const _prefix = `${prefix}bubble-menu`
 
@@ -46,11 +44,11 @@ export function canShowInlineAndMark(state: EditorState) {
   return isCanShowInlineAndMark
 }
 
-export const pluginKey = new PluginKey('bubbleMenu')
+export const bubbleMenuPluginKey = new PluginKey('bubble-menu-plugin')
 
-export function bubbleMenu(options: PluginOptions): Plugin {
+export function bubbleMenuPlugin(options: PluginOptions): Plugin {
   return new Plugin({
-    key: pluginKey,
+    key: bubbleMenuPluginKey,
     state: {
       init() {
         return {
@@ -58,7 +56,7 @@ export function bubbleMenu(options: PluginOptions): Plugin {
         }
       },
       apply(tr, prev) {
-        const meta = tr.getMeta(pluginKey)
+        const meta = tr.getMeta(bubbleMenuPluginKey)
         if (meta) {
           return meta
         }
@@ -72,7 +70,7 @@ export function bubbleMenu(options: PluginOptions): Plugin {
       handleDOMEvents: {
         focus(view) {
           view.dispatch(
-            view.state.tr.setMeta(pluginKey, {
+            view.state.tr.setMeta(bubbleMenuPluginKey, {
               visible: true
             })
           )
@@ -80,7 +78,7 @@ export function bubbleMenu(options: PluginOptions): Plugin {
         },
         blur(view) {
           view.dispatch(
-            view.state.tr.setMeta(pluginKey, {
+            view.state.tr.setMeta(bubbleMenuPluginKey, {
               visible: false
             })
           )
@@ -91,7 +89,7 @@ export function bubbleMenu(options: PluginOptions): Plugin {
   })
 }
 
-class BubbleMenuView {
+export class BubbleMenuView {
   private view: EditorView
   private bubble: HTMLDivElement
   private options: PluginOptions
@@ -100,6 +98,8 @@ class BubbleMenuView {
     item: (typeof menus)[number]
   }> = []
   private isEditing = false
+
+  private linkView: LinkView | null = null
 
   constructor(view: EditorView, options: PluginOptions) {
     this.view = view
@@ -123,61 +123,17 @@ class BubbleMenuView {
 
       switch (id) {
         case 'link':
-          const tooltip = new BmlTooltip({
-            trigger: button.element,
-            popoverId: `${_prefix}-tooltip`,
-            anchorName: `${_prefix}-tooltip-anchor`,
-            hover: false,
-            positionArea: 'bottom'
+          const linkView = new LinkView({
+            view: this.view,
+            trigger: button,
+            setIsEditing: this.setIsEditing.bind(this),
+            getIsEditing: this.getIsEditing.bind(this),
+            prefix
           })
-          button.element.addEventListener('mousedown', (e) => {
-            e.preventDefault()
-            e.stopPropagation()
-          })
-
-          const elements = createLinkFormItems(prefix)
-
-          elements.formElement.addEventListener('submit', (e) => {
-            e.preventDefault()
-            const formData = new FormData(dom)
-
-            const attrs = Object.fromEntries(formData)
-            const state = this.view.state
-            const selection = state.selection
-            const from = selection.from
-            const to = selection.to
-
-            const linkMark = this.view.state.schema.marks.link.create(attrs)
-            this.view.dispatch(this.view.state.tr.addMark(from, to, linkMark))
-            this.view.focus()
-          })
-          tooltip.popover.appendChild(elements.formElement)
-          // tooltip.popover.classList.add('light')
-
-          // 防止点击 Tooltip 时导致编辑器失去焦点或选区混乱
-          tooltip.popover.addEventListener(
-            'mousedown',
-            (e) => {
-              const target = e.target as HTMLElement
-              if (!['INPUT', 'LABEL'].includes(target.tagName)) {
-                e.preventDefault()
-              }
-              this.isEditing = true
-            },
-            true
-          )
-
-          tooltip.popover.addEventListener(
-            'focusin',
-            () => (this.isEditing = true)
-          )
-          tooltip.popover.addEventListener(
-            'focusout',
-            () => (this.isEditing = false)
-          )
-
           this.bubble.appendChild(button.element)
-          this.bubble.appendChild(tooltip.popover)
+          this.bubble.appendChild(linkView.popover.popover)
+          this.linkView = linkView
+
           break
         default:
           button.element.addEventListener('mousedown', (e) => {
@@ -202,7 +158,8 @@ class BubbleMenuView {
       const isActive = newState.marks[item.id]
       button.element.classList.toggle('active', isActive)
     })
-    if (newState.marks.link) {
+    if (this.linkView) {
+      this.linkView.popover.hide()
     }
   }
 
@@ -224,7 +181,7 @@ class BubbleMenuView {
       return
     }
 
-    const visibleState = pluginKey.getState(this.view.state)
+    const visibleState = bubbleMenuPluginKey.getState(this.view.state)
     if (!visibleState.visible) {
       this.bubble.style.display = 'none'
       return
@@ -253,6 +210,13 @@ class BubbleMenuView {
     this.bubble.style.display = 'flex'
 
     this.updateSelectedMarksAndNodes()
+  }
+
+  setIsEditing(isEditing: boolean) {
+    this.isEditing = isEditing
+  }
+  getIsEditing() {
+    return this.isEditing
   }
 
   destroy() {

@@ -1,11 +1,12 @@
 @use './var.scss' as *;
 
-.#{$prefix}input-text{
+.#{$prefix}input-text {
   background-color: var(--bml-input-bg);
   outline: 1px solid var(--bml-input-border-color);
   border-radius: var(--bml-border-radius);
   overflow: hidden;
   box-sizing: border-box;
+  transition: all 200ms ease-in-out;
   &:has(input:focus) {
     outline-color: var(--bml-input-border-color-active);
     outline-width: 2px;
@@ -17,7 +18,7 @@
     line-height: 1.5;
     font-size: 0.875rem;
     background-color: transparent;
-    color: var(--bml-input-color);
+    color: inherit;
     &::placeholder {
       color: var(--bml-input-placeholder-color);
     }

@@ -2,15 +2,17 @@ import { Plugin, PluginKey } from 'prosemirror-state'
 import { Node } from 'prosemirror-model'
 import type { PluginOptions } from '../../types'
 
-const pluginKey = new PluginKey('force-trailing-empty-line')
+const forceTrailingEmptyLinePluginKey = new PluginKey(
+  'force-trailing-empty-line-plugin'
+)
 
-export function forceTrailingEmptyLine(options: PluginOptions) {
+export function forceTrailingEmptyLinePlugin(options: PluginOptions) {
   return new Plugin({
-    key: pluginKey,
+    key: forceTrailingEmptyLinePluginKey,
     appendTransaction(transactions, oldState, newState) {
       if (
         !transactions.some((tr) => tr.docChanged) ||
-        newState.tr.getMeta(pluginKey)
+        newState.tr.getMeta(forceTrailingEmptyLinePluginKey)
       ) {
         return null
       }
@@ -32,7 +34,7 @@ export function forceTrailingEmptyLine(options: PluginOptions) {
 
       tr.insert(pos, paragraph)
 
-      tr.setMeta(pluginKey, true)
+      tr.setMeta(forceTrailingEmptyLinePluginKey, true)
       return tr
     }
   })

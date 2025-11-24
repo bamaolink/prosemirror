@@ -1,5 +1,5 @@
 import { EditorState } from 'prosemirror-state'
-import { MarkType } from 'prosemirror-model'
+import { MarkType, Mark } from 'prosemirror-model'
 
 export function isMarkActive(state: EditorState, markType: MarkType): boolean {
   const { from, to, empty, $from } = state.selection
@@ -32,4 +32,33 @@ export function isMarkActive(state: EditorState, markType: MarkType): boolean {
 
   // 只有当选区内有文本节点，并且所有文本节点都包含该标记时，才认为是激活状态。
   return hasAnyTextNode && allTextNodesHaveMark
+}
+
+export function getMarksInRange(state: EditorState) {
+  const { from, to } = state.selection
+  const marks: Mark[] = []
+
+  // 遍历选区内的所有节点
+  state.doc.nodesBetween(from, to, (node) => {
+    // node.marks 是一个包含该节点所有 Mark 的数组
+    // 使用扩展运算符 (...) 将它们全部添加到 marks 数组中
+    marks.push(...node.marks)
+  })
+
+  // 去重：因为多个节点可能共享相同的 Mark 实例，我们需要一个唯一的列表
+  const uniqueMarks: Mark[] = []
+  marks.forEach((mark) => {
+    // Mark 对象有一个 eq 方法可以比较两个 Mark 是否完全相同（包括属性）
+    const alreadyExists = uniqueMarks.some((m) => m.eq(mark))
+    if (!alreadyExists) {
+      uniqueMarks.push(mark)
+    }
+  })
+
+  return uniqueMarks
+}
+
+export function getMarkNodeInRange(state: EditorState, markType: MarkType) {
+  const marks: Mark[] = getMarksInRange(state)
+  return marks.find((m) => m.type === markType)
 }

@@ -1,6 +1,6 @@
 import { prefix } from '../config/constants'
 
-interface BmlTooltipOptions {
+export interface BmlPopoverOptions {
   trigger: HTMLButtonElement
   popoverId: string
   anchorName: string
@@ -28,14 +28,15 @@ interface BmlTooltipOptions {
     | 'bottom left'
     | 'bottom right'
 }
-export default class BmlTooltip {
-  options: BmlTooltipOptions
+
+export class BmlPopover {
+  options: BmlPopoverOptions
   popover: HTMLElement
   trigger: HTMLElement
-  constructor(options: BmlTooltipOptions) {
+  constructor(options: BmlPopoverOptions) {
     this.options = options
     this.popover = document.createElement('div')
-    this.popover.classList.add(`${prefix}tooltip`)
+    this.popover.classList.add(`${prefix}popover`)
     this.popover.setAttribute('popover', options.popover ?? 'hint')
     this.popover.setAttribute('id', options.popoverId)
     this.popover.setAttribute(
@@ -45,11 +46,14 @@ export default class BmlTooltip {
       }; position-area: ${options?.positionArea ?? 'top'};`
     )
     this.trigger = options.trigger
+
+    // if (options?.popover !== 'manual') {
     this.trigger.setAttribute('popovertarget', options.popoverId)
     this.trigger.setAttribute(
       'popovertargetaction',
       options.hover ? 'show' : 'toggle'
     )
+    // }
     this.trigger.style = `${this.trigger.style.cssText} anchor-name: --${options.anchorName};`
 
     if (options.hover) {
@@ -81,3 +85,5 @@ export default class BmlTooltip {
     }
   }
 }
+
+export default BmlPopover

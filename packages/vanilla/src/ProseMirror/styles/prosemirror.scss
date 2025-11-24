@@ -96,7 +96,6 @@ img.ProseMirror-separator {
   margin-top: 4px;
 }
 
-
 .ProseMirror a {
   color: var(--bml-primary-color);
   text-decoration: none;
@@ -106,69 +105,4 @@ img.ProseMirror-separator {
 
 .ProseMirror a:hover {
   border-bottom-style: solid;
-}
-
-/* Popover Styles */
-.link-popover {
-  position: absolute;
-  background: white;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 15px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  display: none;
-  z-index: 100;
-  width: 320px;
-}
-
-.link-popover-input-group {
-  margin-bottom: 10px;
-}
-
-.link-popover-input-group label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-  font-size: 14px;
-}
-
-.link-popover-input-group input,
-.link-popover-input-group select {
-  width: 100%;
-  padding: 8px;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.link-popover-buttons {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  margin-top: 15px;
-}
-
-.link-popover-buttons button {
-  padding: 6px 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.link-popover-buttons .confirm {
-  background-color: #28a745;
-  color: white;
-  border-color: #28a745;
-}
-
-.link-popover-buttons .remove {
-  background-color: #dc3545;
-  color: white;
-  border-color: #dc3545;
-}
-
-.link-popover-buttons .edit {
-    background-color: #007bff;
-    color: white;
-    border-color: #007bff;
 }

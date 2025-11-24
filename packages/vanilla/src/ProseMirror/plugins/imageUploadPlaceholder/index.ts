@@ -6,7 +6,9 @@ import { Trash2Icon } from '../../icons'
 import BmlButton from '../../components/Button'
 import { prefix } from '../../config/constants'
 
-export const pluginKey = new PluginKey('image-upload')
+export const imageUploadPlaceholderPluginKey = new PluginKey(
+  'image-upload-placeholder-plugin'
+)
 
 // 一个模拟的上传函数
 function mockUploadFile(
@@ -29,8 +31,9 @@ function mockUploadFile(
   })
 }
 
-export const imageUploadPlaceholder = (options: PluginOptions) => {
+export const imageUploadPlaceholderPlugin = (options: PluginOptions) => {
   return new Plugin({
+    key: imageUploadPlaceholderPluginKey,
     props: {
       nodeViews: {
         image_upload_placeholder(node, view, getPos) {

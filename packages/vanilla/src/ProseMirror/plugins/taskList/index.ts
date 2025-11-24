@@ -2,11 +2,11 @@ import { Plugin, PluginKey } from 'prosemirror-state'
 import { PluginOptions, EditorView } from '../../types'
 import { isEventMatchNode } from '../../functions'
 
-export const pluginKey = new PluginKey('task-list')
+export const taskListPluginKey = new PluginKey('task-list-plugin')
 
-export function taskList(options: PluginOptions): Plugin {
+export function taskListPlugin(options: PluginOptions): Plugin {
   return new Plugin({
-    key: pluginKey,
+    key: taskListPluginKey,
     props: {
       handleDOMEvents: {
         mousedown(view: EditorView, event: MouseEvent): boolean {

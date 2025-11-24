@@ -53,4 +53,3 @@ export const schema = new Schema({
 
   marks: basicSchema.spec.marks.append(marks).update(LinkName, LinkMark)
 })
-console.log(schema.marks)

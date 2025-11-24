@@ -6,7 +6,7 @@ import { prefix } from '../../config/constants'
 import { Trash2Icon } from '../../icons'
 import { compressHTML } from '../../utils'
 
-export const pluginKey = new PluginKey('image-block')
+export const imageBlockPluginKey = new PluginKey('image-block-plugin')
 
 export class ImageBlockNodeView implements NodeView {
   dom: HTMLElement
@@ -181,8 +181,9 @@ export class ImageBlockNodeView implements NodeView {
   }
 }
 
-export function imageBlock(options: PluginOptions): Plugin {
+export function imageBlockPlugin(options: PluginOptions): Plugin {
   return new Plugin({
+    key: imageBlockPluginKey,
     props: {
       nodeViews: {
         image_block(node, view, getPos) {

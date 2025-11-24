@@ -2,7 +2,9 @@ import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
 import { MarkType, NodeType, Node } from 'prosemirror-model'
 import type { PluginOptions } from '../../types'
 
-export const pluginKey = new PluginKey('selected-marks-and-nodes')
+export const selectedMarksAndNodesPluginKey = new PluginKey(
+  'selected-marks-and-nodes-plugin'
+)
 
 /**
  * 检查给定的 Mark 类型在当前选区是否处于激活状态。
@@ -107,7 +109,7 @@ function isNodeActive(
   return false // 没有找到匹配的节点
 }
 
-export const selectedMarksAndNodes = (options: PluginOptions) => {
+export const selectedMarksAndNodesPlugin = (options: PluginOptions) => {
   const { emitter, schema } = options
   function getNodesAndMarksActive(state: EditorState) {
     const { nodes, marks } = schema
@@ -124,13 +126,13 @@ export const selectedMarksAndNodes = (options: PluginOptions) => {
   }
 
   return new Plugin({
-    key: pluginKey,
+    key: selectedMarksAndNodesPluginKey,
     state: {
       init() {
         return null
       },
       apply(tr, value) {
-        const meta = tr.getMeta(pluginKey)
+        const meta = tr.getMeta(selectedMarksAndNodesPluginKey)
         return meta || value || null
       }
     },
@@ -147,7 +149,12 @@ export const selectedMarksAndNodes = (options: PluginOptions) => {
               view,
               prevState
             }
-            view.dispatch(view.state.tr.setMeta(pluginKey, nodesAndMarks))
+            view.dispatch(
+              view.state.tr.setMeta(
+                selectedMarksAndNodesPluginKey,
+                nodesAndMarks
+              )
+            )
             emitter.emit('selected', res)
           }
         }

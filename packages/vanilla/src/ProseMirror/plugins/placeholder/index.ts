@@ -3,12 +3,12 @@ import { Decoration, DecorationSet } from 'prosemirror-view'
 import { prefix } from '../../config/constants'
 import type { PluginOptions } from '../../types'
 
-export const pluginKey = new PluginKey('placeholder-plugin')
+export const placeholderPluginKey = new PluginKey('placeholder-plugin')
 export const placeholderPlugin = (options: PluginOptions) => {
   const { placeholder = `Write, type '/' for commands` } =
     options?.options || {}
   return new Plugin({
-    key: pluginKey,
+    key: placeholderPluginKey,
     props: {
       decorations: (state: EditorState) => {
         const decorations: Decoration[] = []

@@ -1,0 +1,11 @@
+@use './var.scss' as *;
+
+.#{$prefix}link-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  .link-input-actions {
+    display: flex;
+    gap: 0.25rem;
+  }
+}

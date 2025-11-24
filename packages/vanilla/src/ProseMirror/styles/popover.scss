@@ -1,8 +1,24 @@
 @use './var.scss' as *;
 
-.#{$prefix}popover {
+.#{$prefix}popover[popover] {
   position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 6;
+  background-color: var(--bml-popover-bg);
+  border: 1px solid var(--bml-popover-border-color);
+  color: var(--bml-popover-color);
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--bml-border-radius);
+  font-size: 0.875rem;
+  max-width: 12.5rem;
+  box-shadow: var(--bml-box-shadow);
+  margin: 0;
+  inset: unset;
+  max-height: 18.75rem;
+  overflow: auto;
+  scrollbar-width: thin;
+  z-index: 10;
+}
+
+.#{$prefix}tooltip[popover]:popover-open {
+  display: block;
+  margin: 0.25rem 0;
 }

@@ -1,0 +1,15 @@
+@use './var.scss' as *;
+
+.#{$prefix}bubble-menu {
+  background: var(--bml-popover-bg);
+  box-shadow: var(--bml-box-shadow);
+  color: inherit;
+  padding: 0.25rem;
+  border-radius: var(--bml-border-radius);
+  display: flex;
+  flex-wrap: nowrap;
+  gap: var(--bml-gap);
+  position: absolute;
+  border: 1px solid var(--bml-border-color);
+  z-index: 8;
+}

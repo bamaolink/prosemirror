@@ -1,7 +1,7 @@
 import { prefix } from '../config/constants'
 import { ChevronDownIcon } from '../icons'
 
-type BmlSelectProps = {
+export type BmlSelectProps = {
   children: HTMLElement | string | SVGElement
   options?: Array<
     | {
@@ -14,7 +14,7 @@ type BmlSelectProps = {
 
 export type SelectOptions = Partial<BmlSelectProps>
 
-class BmlSelect {
+export class BmlSelect {
   element: HTMLLabelElement
   select: HTMLSelectElement
   options: SelectOptions

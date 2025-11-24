@@ -1,16 +1,17 @@
-import { sideMenu } from './sideMenu'
-import { basicStructure } from './basicStructure'
-import { slashCommands } from './slashCommands'
+import { sideMenuPlugin } from './sideMenu'
+import { basicStructurePlugin } from './basicStructure'
+import { slashCommandsPlugin } from './slashCommands'
 import { placeholderPlugin } from './placeholder'
-import { changeEvent } from './changeEvent'
-import { selectedMarksAndNodes } from './selectedMarksAndNodes'
-import { bubbleMenu } from './bubbleMenu'
-import { imageUploadPlaceholder } from './imageUploadPlaceholder'
-import { imageBlock } from './imageBlock'
-import { taskList } from './taskList'
-import { codeBlock } from './codeBlock'
-import { forceTrailingEmptyLine } from './forceTrailingEmptyLine'
-import { tableCellMenu } from './tableCellMenu'
+import { changeEventPlugin } from './changeEvent'
+import { selectedMarksAndNodesPlugin } from './selectedMarksAndNodes'
+import { bubbleMenuPlugin } from './bubbleMenu'
+import { imageUploadPlaceholderPlugin } from './imageUploadPlaceholder'
+import { imageBlockPlugin } from './imageBlock'
+import { taskListPlugin } from './taskList'
+import { codeBlockPlugin } from './codeBlock'
+import { forceTrailingEmptyLinePlugin } from './forceTrailingEmptyLine'
+import { tableCellMenuPlugin } from './tableCellMenu'
+import { linkHandlerPlugin } from './linkHandler'
 import { keymap } from 'prosemirror-keymap'
 import { baseKeymap } from 'prosemirror-commands'
 import { buildInputRules } from './inputrules'
@@ -31,23 +32,24 @@ export const createPlugins = (options: PluginOptions) => {
   return [
     buildInputRules(options),
     keymap(buildKeymap(options)),
-    basicStructure(options),
+    basicStructurePlugin(options),
     placeholderPlugin(options),
-    changeEvent(options),
-    selectedMarksAndNodes(options),
-    sideMenu(options),
-    slashCommands(options),
-    bubbleMenu(options),
-    imageUploadPlaceholder(options),
-    imageBlock(options),
-    taskList(options),
-    codeBlock(options),
-    forceTrailingEmptyLine(options),
+    changeEventPlugin(options),
+    selectedMarksAndNodesPlugin(options),
+    sideMenuPlugin(options),
+    slashCommandsPlugin(options),
+    bubbleMenuPlugin(options),
+    imageUploadPlaceholderPlugin(options),
+    imageBlockPlugin(options),
+    taskListPlugin(options),
+    codeBlockPlugin(options),
+    forceTrailingEmptyLinePlugin(options),
+    linkHandlerPlugin(options),
 
     columnResizing(), // 允许调整列宽
     tableEditing(), // 提供表格的核心编辑功能（如单元格选择）
     tableKeymap, // 应用我们上面创建的表格导航快捷键
-    tableCellMenu(options),
+    tableCellMenuPlugin(options),
 
     keymap(baseKeymap),
     dropCursor({

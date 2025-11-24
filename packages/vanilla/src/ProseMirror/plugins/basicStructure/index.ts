@@ -3,7 +3,7 @@ import { EditorView } from 'prosemirror-view'
 import type { PluginOptions } from '../../types'
 import { prefix as prefixDefault } from '../../config/constants'
 
-export const pluginKey = new PluginKey('basic-structure')
+export const basicStructurePluginKey = new PluginKey('basic-structure-plugin')
 
 class BasicStructureView {
   view: EditorView
@@ -23,9 +23,9 @@ class BasicStructureView {
   destroy() {}
 }
 
-export const basicStructure = (options: PluginOptions) => {
+export const basicStructurePlugin = (options: PluginOptions) => {
   return new Plugin({
-    key: pluginKey,
+    key: basicStructurePluginKey,
     view: (view) => {
       return new BasicStructureView(view, options)
     }

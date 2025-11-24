@@ -1,11 +1,11 @@
 import { EditorState, Plugin, PluginKey, Transaction } from 'prosemirror-state'
 import type { PluginOptions } from '../../types'
 
-export const pluginKey = new PluginKey('change-event')
-export const changeEvent = (options: PluginOptions) => {
+export const changeEventPluginKey = new PluginKey('change-event-plugin')
+export const changeEventPlugin = (options: PluginOptions) => {
   const { emitter } = options
   return new Plugin({
-    key: pluginKey,
+    key: changeEventPluginKey,
     state: {
       init() {
         return null

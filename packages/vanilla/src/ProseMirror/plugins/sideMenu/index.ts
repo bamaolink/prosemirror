@@ -11,7 +11,7 @@ import { GripVerticalIcon, PlusIcon } from '../../icons'
 import type { DragHandleStateType, Emitter, PluginOptions } from '../../types'
 import { prefix } from '../../config/constants'
 
-export const pluginKey = new PluginKey('side-menu')
+export const sideMenuPluginKey = new PluginKey('side-menu-plugin')
 
 type StateType = DragHandleStateType | null
 
@@ -46,7 +46,7 @@ class SideMenuView {
       this.dom.style.visibility = 'hidden'
       return
     }
-    const state = pluginKey.getState(view.state)
+    const state = sideMenuPluginKey.getState(view.state)
     if (state && state.domRect) {
       const wrapper = this.view.dom.parentNode as HTMLElement
       const wrapperRect = wrapper.getBoundingClientRect()
@@ -66,7 +66,7 @@ class SideMenuView {
     dragButton.element.style.cursor = 'grab'
 
     dragButton.element.addEventListener('mousedown', () => {
-      this.currentNode = pluginKey.getState(this.view.state)
+      this.currentNode = sideMenuPluginKey.getState(this.view.state)
       if (!this.currentNode) {
         return
       }
@@ -111,7 +111,7 @@ class SideMenuView {
     addButton.setIcon(PlusIcon)
 
     addButton.element.addEventListener('click', () => {
-      const currentNode = pluginKey.getState(this.view.state)
+      const currentNode = sideMenuPluginKey.getState(this.view.state)
       if (!currentNode || !currentNode.nodePos) {
         return
       }
@@ -142,15 +142,15 @@ class SideMenuView {
   }
 }
 
-export const sideMenu = (options: PluginOptions) => {
+export const sideMenuPlugin = (options: PluginOptions) => {
   return new Plugin({
-    key: pluginKey,
+    key: sideMenuPluginKey,
     state: {
       init(): StateType {
         return null
       },
       apply(tr: Transaction, value: StateType) {
-        const meta = tr.getMeta(pluginKey)
+        const meta = tr.getMeta(sideMenuPluginKey)
         return meta || value || null
       }
     },
@@ -163,13 +163,13 @@ export const sideMenu = (options: PluginOptions) => {
         mouseover(view, event) {
           const nodeInfo = getNodeInfoFromEvent(view, event)
           if (nodeInfo) {
-            view.dispatch(view.state.tr.setMeta(pluginKey, nodeInfo))
+            view.dispatch(view.state.tr.setMeta(sideMenuPluginKey, nodeInfo))
           }
         },
         click(view, event) {
           const nodeInfo = getNodeInfoFromEvent(view, event)
           if (nodeInfo) {
-            view.dispatch(view.state.tr.setMeta(pluginKey, nodeInfo))
+            view.dispatch(view.state.tr.setMeta(sideMenuPluginKey, nodeInfo))
           }
         }
       }
