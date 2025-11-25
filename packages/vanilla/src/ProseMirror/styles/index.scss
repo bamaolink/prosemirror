@@ -85,6 +85,9 @@
     color: lab(7.78201% -0.0000149012 0);
     // mix-blend-mode: difference;
   }
+  * {
+    scrollbar-color: #4f4f4f #2c2c2c;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
