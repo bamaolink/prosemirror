@@ -1,8 +1,8 @@
 import { MarkSpec } from 'prosemirror-model'
 
-export const SupMarkName = 'sup'
+export const SuperscriptName = 'superscript'
 
-export const SupMark: MarkSpec = {
+export const SuperscriptMark: MarkSpec = {
   parseDOM: [{ tag: 'sup' }],
   toDOM() {
     return ['sup', 0]

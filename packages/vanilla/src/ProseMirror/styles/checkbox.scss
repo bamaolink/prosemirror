@@ -46,7 +46,7 @@
   background-color: var(--bml-input-checkbox-bg);
   border: 1px solid var(--bml-input-checkbox-border-color);
   border-radius: var(--bml-border-radius);
-  transition: all 200ms ease-in-out;
+  transition: var(--bml-transition);
 
   &:has(.input-checkbox:checked) {
     background-color: var(--bml-input-checkbox-checked-bg);
@@ -77,7 +77,7 @@
     top: 0;
     opacity: 0;
     z-index: 1;
-    transition: all 200ms ease-in-out;
+    transition: var(--bml-transition);
   }
   .input-checkbox:checked + .checkbox-icon {
     opacity: 1;

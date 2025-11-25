@@ -17,9 +17,9 @@
     rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
     rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
     rgba(0, 0, 0, 0.1) 0px 2px 4px -2px;
-  --bml-popover-bg: lab(100% 0 0); // 背景
   --bml-accent: lab(96.52% -0.0000298023 0.0000119209); // 激活色
   --bml-muted-foreground: lab(48.496% 0 0); // 次级文本颜色
+  --bml-transition: all 200ms ease-in-out;
 
   --bml-popover-bg: #ffffff;
   --bml-popover-color: lab(2.75381 0 0);
@@ -59,7 +59,6 @@
     rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
     rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
     rgba(0, 0, 0, 0.1) 0px 2px 4px -2px;
-  --bml-popover-bg: lab(15.204% 0 -0.00000596046);
   --bml-accent: lab(27.036% 0 0);
   --bml-muted-foreground: lab(66.128% -0.0000298023 0.0000119209);
 

@@ -45,6 +45,10 @@
   .bml-hidden {
     display: none;
   }
+
+  .highlight-color-mark {
+    color: inherit;
+  }
 }
 
 .#{$prefix}icon {
@@ -76,6 +80,10 @@
 
   .prosemirror-dropcursor-block {
     background-color: lab(100 0 0 / 0.2) !important;
+  }
+  .highlight-color-mark {
+    color: lab(7.78201% -0.0000149012 0);
+    // mix-blend-mode: difference;
   }
 }
 

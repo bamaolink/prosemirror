@@ -1,13 +1,23 @@
 import { toggleMark, setBlockType } from 'prosemirror-commands'
 import { Schema } from 'prosemirror-model'
 import { EditorView } from 'prosemirror-view'
+import { setTextAlign } from '../functions'
 import {
   ItalicIcon,
   BoldIcon,
   CodeIcon,
   Link2Icon,
   PaletteIcon,
-  HighlighterIcon
+  HighlighterIcon,
+  UnderlineIcon,
+  StrikethroughIcon,
+  SuperscriptIcon,
+  SubscriptIcon,
+  EllipsisVerticalIcon,
+  TextAlignStartIcon,
+  TextAlignCenterIcon,
+  TextAlignEndIcon,
+  TextAlignJustifyIcon
 } from '../icons'
 
 // ['doc', 'paragraph', 'blockquote', 'horizontal_rule', 'heading', 'code_block', 'text', 'image', 'hard_break', 'ordered_list', 'bullet_list', 'list_item', 'star', 'note', 'notegroup']
@@ -30,6 +40,24 @@ export const menus = [
     icon: ItalicIcon,
     action: (view: EditorView, schema: Schema) => {
       toggleMark(schema.marks.em)(view.state, view.dispatch)
+    }
+  },
+  {
+    id: 'underline',
+    type: 'mark',
+    label: 'Underline',
+    icon: UnderlineIcon,
+    action: (view: EditorView, schema: Schema) => {
+      toggleMark(schema.marks.underline)(view.state, view.dispatch)
+    }
+  },
+  {
+    id: 'strikethrough',
+    type: 'mark',
+    label: 'Strikethrough',
+    icon: StrikethroughIcon,
+    action: (view: EditorView, schema: Schema) => {
+      toggleMark(schema.marks.strikethrough)(view.state, view.dispatch)
     }
   },
   {
@@ -72,6 +100,72 @@ export const menus = [
         view.state,
         view.dispatch
       )
+    }
+  },
+  {
+    id: 'more',
+    type: 'group',
+    label: 'More options',
+    icon: EllipsisVerticalIcon,
+    action: (view: EditorView, schema: Schema) => {
+      return false
+    }
+  }
+]
+
+export const moreMenuItems = [
+  {
+    id: 'superscript',
+    type: 'mark',
+    label: 'Superscript',
+    icon: SuperscriptIcon,
+    action: (view: EditorView, schema: Schema) => {
+      toggleMark(schema.marks.superscript)(view.state, view.dispatch)
+    }
+  },
+  {
+    id: 'subscript',
+    type: 'mark',
+    label: 'Subscript',
+    icon: SubscriptIcon,
+    action: (view: EditorView, schema: Schema) => {
+      toggleMark(schema.marks.subscript)(view.state, view.dispatch)
+    }
+  },
+  {
+    id: 'text-align-start',
+    type: 'mark',
+    label: 'Text align start',
+    icon: TextAlignStartIcon,
+    action: (view: EditorView, schema: Schema) => {
+      setTextAlign('start')(view, schema)
+    }
+  },
+  {
+    id: 'text-align-center',
+    type: 'mark',
+    label: 'Text align center',
+    icon: TextAlignCenterIcon,
+    action: (view: EditorView, schema: Schema) => {
+      setTextAlign('center')(view, schema)
+    }
+  },
+  {
+    id: 'text-align-end',
+    type: 'mark',
+    label: 'Text align end',
+    icon: TextAlignEndIcon,
+    action: (view: EditorView, schema: Schema) => {
+      setTextAlign('end')(view, schema)
+    }
+  },
+  {
+    id: 'text-align-justify',
+    type: 'mark',
+    label: 'Text align justify',
+    icon: TextAlignJustifyIcon,
+    action: (view: EditorView, schema: Schema) => {
+      setTextAlign('justify')(view, schema)
     }
   }
 ]

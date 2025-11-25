@@ -16,6 +16,13 @@ export const HighlightColorMark: MarkSpec = {
     }
   ],
   toDOM: (mark) => {
-    return ['span', { style: `background-color: ${mark.attrs.color}` }, 0]
+    return [
+      'span',
+      {
+        style: `background-color: ${mark.attrs.color}`,
+        class: 'highlight-color-mark'
+      },
+      0
+    ]
   }
 }

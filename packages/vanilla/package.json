@@ -10,20 +10,21 @@
   "exports": {
     ".": {
       "import": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/editor.js"
+        "types": "./dist/types/index.d.ts",
+        "default": "./dist/bamao-link-prosemirror.js"
       },
       "require": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/editor.umd.cjs"
+        "types": "./dist/types/index.d.ts",
+        "default": "./dist/bamao-link-prosemirror-umd.cjs"
       }
     }
   },
-  "main": "./dist/editor.umd.cjs",
-  "module": "./dist/editor.js",
+  "main": "./dist/bamao-link-prosemirror-umd.cjs",
+  "module": "./dist/bamao-link-prosemirror.js",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build:types": "tsc --project tsconfig.build.json",
+    "build": "tsc && vite build && npm run build:types",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -57,7 +58,7 @@
   "devDependencies": {
     "@types/node": "^24.10.0",
     "sass-embedded": "^1.93.3",
-    "typescript": "~5.9.3",
+    "typescript": "^5.9.3",
     "vite": "^7.2.2",
     "vite-plugin-css-injected-by-js": "^3.5.2",
     "vite-plugin-dts": "^4.5.4"

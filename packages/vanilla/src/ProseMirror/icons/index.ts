@@ -42,7 +42,16 @@ import {
   Save,
   Check,
   Palette,
-  Highlighter
+  Highlighter,
+  Underline,
+  Strikethrough,
+  Superscript,
+  EllipsisVertical,
+  Subscript,
+  TextAlignStart,
+  TextAlignCenter,
+  TextAlignEnd,
+  TextAlignJustify
 } from 'lucide'
 export const createIcon = (icon: IconNode, name: string) => {
   return createElement(icon, {
@@ -113,3 +122,21 @@ export const SaveIcon = createIcon(Save, 'save')
 export const CheckIcon = createIcon(Check, 'check')
 export const PaletteIcon = createIcon(Palette, 'palette')
 export const HighlighterIcon = createIcon(Highlighter, 'highlighter')
+export const UnderlineIcon = createIcon(Underline, 'underline')
+export const StrikethroughIcon = createIcon(Strikethrough, 'strikethrough')
+export const SuperscriptIcon = createIcon(Superscript, 'superscript')
+export const SubscriptIcon = createIcon(Subscript, 'subscript')
+export const EllipsisVerticalIcon = createIcon(
+  EllipsisVertical,
+  'ellipsis-vertical'
+)
+export const TextAlignStartIcon = createIcon(TextAlignStart, 'text-align-start')
+export const TextAlignCenterIcon = createIcon(
+  TextAlignCenter,
+  'text-align-center'
+)
+export const TextAlignEndIcon = createIcon(TextAlignEnd, 'text-align-end')
+export const TextAlignJustifyIcon = createIcon(
+  TextAlignJustify,
+  'text-align-justify'
+)

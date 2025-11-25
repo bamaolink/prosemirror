@@ -27,12 +27,15 @@ export interface BmlPopoverOptions {
     | 'top right'
     | 'bottom left'
     | 'bottom right'
+  onOpenChange?: (curr: boolean, prev: boolean) => void
 }
 
 export class BmlPopover {
   options: BmlPopoverOptions
   popover: HTMLElement
   trigger: HTMLElement
+
+  isOpen = false
   constructor(options: BmlPopoverOptions) {
     this.options = options
     this.popover = document.createElement('div')
@@ -45,6 +48,12 @@ export class BmlPopover {
         options.anchorName
       }; position-area: ${options?.positionArea ?? 'top'};`
     )
+    this.popover.addEventListener('beforetoggle', () => {
+      const willOpen = !this.popover.matches(':popover-open')
+      this.isOpen = willOpen
+      this.options?.onOpenChange?.(willOpen, !willOpen)
+    })
+
     this.trigger = options.trigger
 
     // if (options?.popover !== 'manual') {

@@ -32,17 +32,22 @@ export class LinkView {
     this.options = options
 
     this.popover = new BmlPopover({
-      popover: 'manual',
+      popover: 'hint',
       trigger: options.trigger.element,
       popoverId: `${options.prefix}bubble-menu-tooltip`,
       anchorName: `${options.prefix}bubble-menu-tooltip-anchor`,
       hover: false,
-      positionArea: 'bottom'
+      positionArea: 'bottom',
+      onOpenChange: this.onOpenChange.bind(this)
     })
 
     this.items = this.createLinkFormItems()
     this.popover.popover.appendChild(this.items.formElement)
     this.bindEvents()
+  }
+
+  onOpenChange(curr: boolean) {
+    this.options?.setIsEditing(curr)
   }
 
   createLinkFormItems() {
@@ -108,7 +113,7 @@ export class LinkView {
 
   bindEvents() {
     const { popover } = this
-    const { view, trigger, setIsEditing } = this.options
+    const { view, trigger } = this.options
     const {
       formElement,
       hrefInput,
@@ -184,24 +189,24 @@ export class LinkView {
     })
 
     // 防止点击 Tooltip 时导致编辑器失去焦点或选区混乱
-    popover.popover.addEventListener(
-      'mousedown',
-      (e) => {
-        const target = e.target as HTMLElement
-        if (!['INPUT', 'LABEL'].includes(target.tagName)) {
-          e.preventDefault()
-        }
-        setIsEditing(true)
-      },
-      true
-    )
+    // popover.popover.addEventListener(
+    //   'mousedown',
+    //   (e) => {
+    //     const target = e.target as HTMLElement
+    //     if (!['INPUT', 'LABEL'].includes(target.tagName)) {
+    //       e.preventDefault()
+    //     }
+    //     // setIsEditing(true)
+    //   },
+    //   true
+    // )
 
-    popover.popover.addEventListener('focusin', () => {
-      setIsEditing(true)
-    })
-    popover.popover.addEventListener('focusout', () => {
-      setIsEditing(false)
-    })
+    // popover.popover.addEventListener('focusin', () => {
+    //   setIsEditing(true)
+    // })
+    // popover.popover.addEventListener('focusout', () => {
+    //   setIsEditing(false)
+    // })
   }
 
   destroy() {

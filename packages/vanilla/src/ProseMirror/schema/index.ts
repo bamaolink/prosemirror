@@ -17,6 +17,7 @@ import {
 } from './nodes/taskList'
 import { CodeBlockNode, CodeBlockNodeName } from './nodes/codeBlock'
 import { tableNodes } from './nodes/table'
+import { ParagraphNode, ParagraphName } from './nodes/paragraph'
 import {
   NoteGroupNode,
   NoteGroupNodeName,
@@ -24,11 +25,13 @@ import {
   NoteNodeName
 } from './nodes/note'
 
-import { SupMark, SupMarkName } from './marks/sup'
-import { SubMark, SubMarkName } from './marks/sub'
+import { SuperscriptMark, SuperscriptName } from './marks/superscript'
+import { SubscriptMark, SubscriptName } from './marks/subscript'
 import { LinkMark, LinkName } from './marks/link'
 import { HighlightColorMark, HighlightColorName } from './marks/highlightColor'
 import { TextColorMark, TextColorName } from './marks/textColor'
+import { UnderlineMark, UnderlineName } from './marks/underline'
+import { StrikethroughMark, StrikethroughName } from './marks/strikethrough'
 
 const nodes: Record<string, NodeSpec> = {}
 nodes[EmojiNodeName] = EmojiNode
@@ -38,16 +41,19 @@ nodes[NoteGroupNodeName] = NoteGroupNode
 nodes[NoteNodeName] = NoteNode
 
 const marks: Record<string, MarkSpec> = {}
-marks[SupMarkName] = SupMark
-marks[SubMarkName] = SubMark
+marks[SuperscriptName] = SuperscriptMark
+marks[SubscriptName] = SubscriptMark
 marks[HighlightColorName] = HighlightColorMark
 marks[TextColorName] = TextColorMark
+marks[UnderlineName] = UnderlineMark
+marks[StrikethroughName] = StrikethroughMark
 
 export const schema = new Schema({
   nodes: addListNodes(basicSchema.spec.nodes, 'paragraph block*', 'block')
     .update('doc', {
       content: '(block | note | notegroup)+'
     })
+    .update(ParagraphName, ParagraphNode)
     .append(nodes)
     .append(tableNodes)
     .addBefore('heading', CodeBlockNodeName, CodeBlockNode)

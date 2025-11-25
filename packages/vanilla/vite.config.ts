@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import { fileURLToPath, URL } from 'node:url'
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
-import dts from 'vite-plugin-dts'
+// import dts from 'vite-plugin-dts'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -22,6 +22,11 @@ export default defineConfig({
     lib: {
       entry: './src/index.ts',
       name: 'bamao-link-prosemirror',
+      fileName: (format) => {
+        return format === 'es'
+          ? 'bamao-link-prosemirror.js'
+          : `bamao-link-prosemirror-${format}.cjs`
+      },
       formats: ['es', 'umd']
     }
   },

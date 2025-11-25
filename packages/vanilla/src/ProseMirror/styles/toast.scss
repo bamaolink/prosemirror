@@ -107,7 +107,7 @@
     cursor: pointer;
     font-size: 16px;
     opacity: 0.7;
-    transition: opacity 0.2s;
+    transition: var(--bml-transition);
   }
 
   .toast-close-btn:hover {

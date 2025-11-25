@@ -147,3 +147,32 @@ export function insertTableCommand(view: EditorView, schema: Schema) {
   // 5. 派发这个包含了“插入”和“设置选区”两个步骤的事务
   view.dispatch(tr)
 }
+
+export function setTextAlign(
+  alignment: 'start' | 'center' | 'end' | 'justify'
+) {
+  return (view: EditorView, schema: Schema) => {
+    const { selection, doc, tr } = view.state
+    const { from, to } = selection
+
+    let hasChange = false
+
+    doc.nodesBetween(from, to, (node, pos) => {
+      if (node.isBlock && 'textAlign' in node.attrs) {
+        if (node.attrs.textAlign !== alignment) {
+          tr.setNodeMarkup(pos, undefined, {
+            ...node.attrs,
+            textAlign: alignment
+          })
+          hasChange = true
+        }
+      }
+    })
+
+    if (hasChange && view.dispatch) {
+      view.dispatch(tr)
+    }
+
+    return hasChange
+  }
+}

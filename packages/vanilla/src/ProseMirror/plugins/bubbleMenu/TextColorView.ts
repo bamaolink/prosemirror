@@ -4,7 +4,7 @@ import { toggleMark } from 'prosemirror-commands'
 import { getMarkNodeInRange } from '../../functions/mark'
 import { EditorView } from 'prosemirror-view'
 
-interface HighlightColorViewOptions {
+interface TextColorViewOptions {
   view: EditorView
   trigger: BmlButton
   prefix: string
@@ -12,19 +12,19 @@ interface HighlightColorViewOptions {
   getIsEditing: () => boolean
 }
 
-export class HighlightColorView {
-  options: HighlightColorViewOptions
+export class TextColorView {
+  options: TextColorViewOptions
   popover: BmlPopover
   wrapper: HTMLElement
 
-  constructor(options: HighlightColorViewOptions) {
+  constructor(options: TextColorViewOptions) {
     this.options = options
 
     this.popover = new BmlPopover({
       popover: 'hint',
       trigger: options.trigger.element,
-      popoverId: `${options.prefix}bubble-menu-highlight-color`,
-      anchorName: `${options.prefix}bubble-menu-highlight-color-anchor`,
+      popoverId: `${options.prefix}bubble-menu-text-color`,
+      anchorName: `${options.prefix}bubble-menu-text-color-anchor`,
       hover: false,
       positionArea: 'bottom',
       onOpenChange: this.onOpenChange.bind(this)
@@ -40,7 +40,7 @@ export class HighlightColorView {
     if (curr) {
       const node = getMarkNodeInRange(
         this.options.view.state,
-        this.options.view.state.schema.marks.highlightColor
+        this.options.view.state.schema.marks.textColor
       )
       const btns = this.wrapper.querySelectorAll('button')
       btns.forEach((btn) => {
@@ -56,13 +56,13 @@ export class HighlightColorView {
 
   createColorItems() {
     const colors = [
-      ['#f6eddf', '#e5d3bb'], // 填充颜色 边框颜色
-      ['#fdf9c5', '#eae79e'],
-      ['#ddfbe7', '#c4ebca'],
-      ['#e1f2fd', '#c6d9f0'],
-      ['#f3e8fe', '#d9caf2'],
-      ['#fbf1f5', '#e9dae2'],
-      ['#fee4e6', '#e7c6c7']
+      ['#c77f28', '#e5d3bb'], // 文本颜色 边框颜色
+      ['#bf9840', '#eae79e'],
+      ['#5f8769', '#c4ebca'],
+      ['#5981ab', '#c6d9f0'],
+      ['#8e6db1', '#d9caf2'],
+      ['#b35c90', '#e9dae2'],
+      ['#c05c50', '#e7c6c7']
     ]
     const { popover } = this
     const { view } = this.options
@@ -82,13 +82,13 @@ export class HighlightColorView {
 
         const node = getMarkNodeInRange(
           view.state,
-          view.state.schema.marks.highlightColor
+          view.state.schema.marks.textColor
         )
 
         popover.hide()
 
         if (!node || node?.attrs.color === color[0]) {
-          toggleMark(view.state.schema.marks.highlightColor, {
+          toggleMark(view.state.schema.marks.textColor, {
             color: color[0]
           })(view.state, view.dispatch)
         } else {
@@ -97,11 +97,11 @@ export class HighlightColorView {
           const from = selection.from
           const to = selection.to
           const tr = state.tr
-          tr.removeMark(from, to, state.schema.marks.highlightColor)
+          tr.removeMark(from, to, state.schema.marks.textColor)
           tr.addMark(
             from,
             to,
-            state.schema.marks.highlightColor.create({
+            state.schema.marks.textColor.create({
               color: color[0]
             })
           )

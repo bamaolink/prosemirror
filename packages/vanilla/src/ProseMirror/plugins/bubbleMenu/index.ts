@@ -8,6 +8,8 @@ import { selectedMarksAndNodesPluginKey } from '../selectedMarksAndNodes'
 import { menus } from '../../config/menuItems'
 import { LinkView } from './LinkView'
 import { HighlightColorView } from './HighlightColorView'
+import { TextColorView } from './TextColorView'
+import { MoreView } from './MoreView'
 
 const _prefix = `${prefix}bubble-menu`
 
@@ -102,6 +104,8 @@ export class BubbleMenuView {
 
   private linkView: LinkView | null = null
   private highlightColorView: HighlightColorView | null = null
+  private textColorView: TextColorView | null = null
+  private moreView: MoreView | null = null
 
   constructor(view: EditorView, options: PluginOptions) {
     this.view = view
@@ -148,6 +152,34 @@ export class BubbleMenuView {
           this.bubble.appendChild(button.element)
           this.bubble.appendChild(highlightColorView.popover.popover)
           this.highlightColorView = highlightColorView
+
+          break
+        }
+        case 'textColor': {
+          const textColorView = new TextColorView({
+            view: this.view,
+            trigger: button,
+            setIsEditing: this.setIsEditing.bind(this),
+            getIsEditing: this.getIsEditing.bind(this),
+            prefix
+          })
+          this.bubble.appendChild(button.element)
+          this.bubble.appendChild(textColorView.popover.popover)
+          this.textColorView = textColorView
+
+          break
+        }
+        case 'more': {
+          const moreView = new MoreView({
+            view: this.view,
+            trigger: button,
+            setIsEditing: this.setIsEditing.bind(this),
+            getIsEditing: this.getIsEditing.bind(this),
+            prefix
+          })
+          this.bubble.appendChild(button.element)
+          this.bubble.appendChild(moreView.popover.popover)
+          this.moreView = moreView
 
           break
         }

@@ -106,3 +106,12 @@ img.ProseMirror-separator {
 .ProseMirror a:hover {
   border-bottom-style: solid;
 }
+
+.ProseMirror .underline-mark {
+  text-decoration: underline;
+}
+
+.ProseMirror .strikethrough-mark {
+  text-decoration: line-through;
+  color: var(--bml-muted-foreground);
+}
