@@ -22,6 +22,9 @@
     "url": "https://github.com/bamaolink/prose-mirror/issues"
   },
   "homepage": "https://github.com/bamaolink/prose-mirror#readme",
+  "dependencies": {
+    "@bamaolink/prosemirror": "file:./packages/vanilla"
+  },
   "devDependencies": {
   }
 }
