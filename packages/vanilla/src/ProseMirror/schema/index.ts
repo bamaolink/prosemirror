@@ -51,7 +51,7 @@ marks[StrikethroughName] = StrikethroughMark
 export const schema = new Schema({
   nodes: addListNodes(basicSchema.spec.nodes, 'paragraph block*', 'block')
     .update('doc', {
-      content: '(block | note | notegroup)+'
+      content: 'heading (block | note | notegroup)*'
     })
     .update(ParagraphName, ParagraphNode)
     .append(nodes)

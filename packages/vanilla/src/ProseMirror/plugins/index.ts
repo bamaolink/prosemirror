@@ -12,6 +12,7 @@ import { codeBlockPlugin } from './codeBlock'
 import { forceTrailingEmptyLinePlugin } from './forceTrailingEmptyLine'
 import { tableCellMenuPlugin } from './tableCellMenu'
 import { linkHandlerPlugin } from './linkHandler'
+import { titleEnforcerPlugin } from './titleEnforcer'
 import { keymap } from 'prosemirror-keymap'
 import { baseKeymap } from 'prosemirror-commands'
 import { buildInputRules } from './inputrules'
@@ -45,6 +46,7 @@ export const createPlugins = (options: PluginOptions) => {
     codeBlockPlugin(options),
     forceTrailingEmptyLinePlugin(options),
     linkHandlerPlugin(options),
+    titleEnforcerPlugin(options),
 
     columnResizing(), // 允许调整列宽
     tableEditing(), // 提供表格的核心编辑功能（如单元格选择）
