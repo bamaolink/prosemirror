@@ -46,7 +46,9 @@ export class BmlPopover {
       'style',
       `position-anchor: --${options.anchorName}; view-transition-name: --${
         options.anchorName
-      }; position-area: ${options?.positionArea ?? 'top'};`
+      }; position-area: ${
+        options?.positionArea ?? 'top'
+      }; position-try-fallbacks: flip-inline flip-block;`
     )
     this.popover.addEventListener('beforetoggle', () => {
       const willOpen = !this.popover.matches(':popover-open')
