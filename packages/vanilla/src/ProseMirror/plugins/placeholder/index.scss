@@ -1,0 +1,15 @@
+@use '../../styles/var.scss' as *;
+
+.#{$prefix}placeholder {
+  position: relative;
+  font-size: var(--bml-font-size-base);
+  font-weight: normal;
+  &::before {
+    content: attr(data-placeholder);
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 0;
+    color: var(--bml-color-secondary);
+  }
+}

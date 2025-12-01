@@ -11,6 +11,8 @@ $prefix: 'bml-';
     Helvetica Neue, Helvetica, Arial, sans-serif, Segoe UI;
 
   --bml-font-size-base: 16px;
+  --bml-font-size-xs: 0.75rem;
+  --bml-font-size-sm: 0.875rem;
   --bml-font-size-lg: 1.125rem;
   --bml-font-size-xl: 1.25rem;
 
@@ -24,15 +26,17 @@ $prefix: 'bml-';
   --bml-white: #ffffff;
   --bml-black: #0a0a0a;
   --bml-color: #262626;
+  --bml-bg-color: var(--bml-white);
   --bml-color-secondary: #8a8f8d;
 
   --bm-border-color: #e7e9e8;
 
-  --bml-scrollbar-color: #787878 var(--bml-white);
+  --bml-scrollbar-color: #787878 transparent;
   --bml-scrollbar-width: thin;
 }
 
 @mixin dark-theme-vars {
+  --bml-bg-color: var(--bml-black);
   --bml-color: #fafafa;
-  --bml-scrollbar-color: #4f4f4f var(--bml-black);
+  --bml-scrollbar-color: #4f4f4f transparent;
 }

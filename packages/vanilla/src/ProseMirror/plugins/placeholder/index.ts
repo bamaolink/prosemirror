@@ -2,6 +2,7 @@ import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
 import { prefix } from '../../config/constants'
 import type { PluginOptions } from '../../types'
+import './index.scss'
 
 export const placeholderPluginKey = new PluginKey('placeholder-plugin')
 export const placeholderPlugin = (options: PluginOptions) => {
@@ -13,8 +14,10 @@ export const placeholderPlugin = (options: PluginOptions) => {
       decorations: (state: EditorState) => {
         const decorations: Decoration[] = []
         if (state.doc.textContent.length === 0) {
+          let size = state.doc.content.size
+          size = size > 2 ? 2 : size
           decorations.push(
-            Decoration.node(0, state.doc.content.size, {
+            Decoration.node(0, size, {
               class: `${prefix}placeholder`,
               'data-placeholder': placeholder
             })

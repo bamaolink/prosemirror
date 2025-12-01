@@ -1,0 +1,104 @@
+@use './var.scss' as *;
+@use './prosemirror.scss';
+@use './config.scss';
+@use './slash-commands.scss';
+@use './toast.scss';
+@use './image-block.scss';
+@use './code-block.scss';
+@use './image-upload-placeholder.scss';
+@use './select.scss';
+@use './table.scss';
+@use './checkbox.scss';
+@use './popover.scss';
+@use './input.scss';
+@use './button.scss';
+@use './side-menu.scss';
+@use './bubble-menu.scss';
+@use './link.scss';
+
+.#{$prefix}prosemirror-wrapper {
+  position: relative;
+  background-color: lab(100% 0 0);
+  color: lab(7.78201 -0.0000149012 0);
+
+  kbd {
+    background-color: var(--bml-kdb-bg);
+    border: 1px solid var(--bml-kdb-border-color);
+    border-radius: var(--bml-border-radius);
+    color: var(--bml-kdb-color);
+    padding: 0.125rem 0.375rem;
+    font-family: var(--bml-code-font-family);
+    font-size: 0.9em;
+  }
+
+  code {
+    background-color: var(--bml-code-bg);
+    border: 1px solid var(--bml-code-border-color);
+    border-radius: var(--bml-border-radius);
+    color: var(--bml-code-color);
+    padding: 0.125rem 0.375rem;
+    font-family: var(--bml-code-font-family);
+    margin: 1px 3px;
+    padding: 0 4px;
+  }
+
+  .bml-hidden {
+    display: none;
+  }
+
+  .highlight-color-mark {
+    color: inherit;
+  }
+}
+
+.#{$prefix}icon {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+.#{$prefix}prosemirror {
+  padding: 0 4.25rem;
+  font-size: 1rem;
+  outline: none;
+}
+
+.#{$prefix}placeholder {
+  position: relative;
+  &::before {
+    content: attr(data-placeholder);
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 0;
+    color: var(--bml-muted-foreground);
+  }
+}
+
+@mixin dark-theme-vars {
+  background-color: lab(2.75381 0 0);
+  color: lab(98.26 0 0);
+
+  .prosemirror-dropcursor-block {
+    background-color: lab(100 0 0 / 0.2) !important;
+  }
+  .highlight-color-mark {
+    color: lab(7.78201% -0.0000149012 0);
+    // mix-blend-mode: difference;
+  }
+  * {
+    scrollbar-color: #4f4f4f #2c2c2c;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .#{$prefix}prosemirror-wrapper {
+    @include dark-theme-vars;
+  }
+}
+
+.#{$prefix}prosemirror-wrapper {
+  &.dark,
+  .dark {
+    @include dark-theme-vars;
+  }
+}

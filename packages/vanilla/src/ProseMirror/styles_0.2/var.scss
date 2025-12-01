@@ -1,0 +1,40 @@
+$prefix: 'bml-';
+
+@mixin light-theme-vars {
+  --bml-line-height: 1.5;
+  --bml-primary-color: #00a699;
+
+  --bml-code-font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo,
+    Courier, monospace, PingFang SC, Hiragino Sans GB, Microsoft YaHei,
+    Helvetica Neue, Helvetica, Arial, sans-serif, Segoe UI;
+  --bml-font-family: PingFang SC, Hiragino Sans GB, Microsoft YaHei,
+    Helvetica Neue, Helvetica, Arial, sans-serif, Segoe UI;
+
+  --bml-font-size-base: 16px;
+  --bml-font-size-xs: 0.75rem;
+  --bml-font-size-sm: 0.875rem;
+  --bml-font-size-lg: 1.125rem;
+  --bml-font-size-xl: 1.25rem;
+
+  --bml-spacing-unit: 4px;
+  --bml-spacing-md: calc(var(--bml-spacing-unit) * 2); /* 8px */
+  --bml-spacing-lg: calc(var(--bml-spacing-unit) * 3); /* 12px */
+
+  --bml-border-radius: 8px;
+  --bml-box-shadow: rgba(0, 0, 0, 0.04) 0px 8px 16px 4px;
+
+  --bml-white: #ffffff;
+  --bml-black: #0a0a0a;
+  --bml-color: #262626;
+  --bml-color-secondary: #8a8f8d;
+
+  --bm-border-color: #e7e9e8;
+
+  --bml-scrollbar-color: #787878 transparent;
+  --bml-scrollbar-width: thin;
+}
+
+@mixin dark-theme-vars {
+  --bml-color: #fafafa;
+  --bml-scrollbar-color: #4f4f4f transparent;
+}
