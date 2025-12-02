@@ -9,7 +9,7 @@ import type {
   Schema as ProseMirrorSchema,
   Node as ProseMirrorNode
 } from 'prosemirror-model'
-import type { Toast } from './components/Sonner'
+import type { Toast } from './components/Toast/Sonner'
 
 export interface DragHandleStateType {
   nodePos: number // The position of the node in the document.

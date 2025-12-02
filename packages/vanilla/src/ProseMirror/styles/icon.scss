@@ -1,0 +1,6 @@
+@use './var.scss' as *;
+
+.#{$prefix}icon {
+  width: 1rem;
+  height: 1rem;
+}

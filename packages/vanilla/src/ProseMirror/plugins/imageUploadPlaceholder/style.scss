@@ -1,10 +1,10 @@
-@use './var.scss' as *;
+@use '../../styles/var.scss' as *;
 
 .#{$prefix}image-upload-placeholder {
   position: relative;
   width: 100%;
   height: 9.375rem;
-  outline: 2px dashed var(--bml-border-color-active);
+  outline: 2px dashed var(--bml-border-color);
   border-radius: var(--bml-border-radius);
   display: flex;
   align-items: center;
@@ -28,8 +28,8 @@
 
   &:hover,
   &.drag-over {
-    background-color: #f0f0f0;
-    border-color: #aaa;
+    background-color: var(--bml-btn-hover-bg-color);
+    border-color: var(--bml-border-active-color);
   }
 
   &.uploading {
@@ -41,7 +41,7 @@
     bottom: 0;
     left: 0;
     height: 4px;
-    background-color: #4a90e2;
+    background-color: var(--bml-primary-color);
     width: 0;
     transition: width 0.1s;
   }

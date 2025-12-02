@@ -21,7 +21,7 @@ const chalky = '#e5c07b',
   tooltipBackground = '#353a42',
   selection = '#3E4451',
   cursor = '#a1a1a1',
-  fontFamily = 'SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace'
+  fontFamily = 'Menlo, Monaco, Consolas, "Courier New", monospace'
 
 /// The colors used in the theme, as CSS color strings.
 export const color = {
@@ -58,8 +58,8 @@ export const oneDarkTheme = EditorView.theme(
     },
 
     '.cm-scroller': {
-      scrollbarWidth: 'thin',
-      scrollbarColor: '#4f4f4f #2c2c2c'
+      scrollbarWidth: 'var(--bml-scrollbar-width)',
+      scrollbarColor: 'var(--bml-scrollbar-color)'
     },
 
     '.cm-cursor, .cm-dropCursor': { borderLeftColor: cursor },

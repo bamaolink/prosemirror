@@ -10,6 +10,7 @@ import { LinkView } from './LinkView'
 import { HighlightColorView } from './HighlightColorView'
 import { TextColorView } from './TextColorView'
 import { MoreView } from './MoreView'
+import './style.scss'
 
 const _prefix = `${prefix}bubble-menu`
 

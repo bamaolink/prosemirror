@@ -1,5 +1,6 @@
 @use './var.scss' as *;
 @use './prosemirror.scss';
+@use './icon.scss';
 
 :root {
   @include light-theme-vars();

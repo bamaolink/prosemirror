@@ -1,4 +1,5 @@
-import { prefix } from '../config/constants'
+import { prefix } from '../../config/constants'
+import './style.scss'
 
 type BmlButtonProps = {
   children: HTMLElement | string | SVGElement

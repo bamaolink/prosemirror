@@ -5,6 +5,7 @@ import type { PluginOptions } from '../../types'
 import { prefix } from '../../config/constants'
 import { Trash2Icon } from '../../icons'
 import { compressHTML } from '../../utils'
+import './style.scss'
 
 export const imageBlockPluginKey = new PluginKey('image-block-plugin')
 

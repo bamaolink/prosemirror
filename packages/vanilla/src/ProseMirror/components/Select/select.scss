@@ -1,12 +1,10 @@
-@use './var.scss' as *;
+@use '../../styles/var.scss' as *;
 
 .#{$prefix}select-wrapper {
-  --bml-code-block-border-color: lab(13.61% -0.46 -0.16);
-  --bml-code-block-bg: lab(10.27% 0 0);
   position: relative;
   overflow: hidden;
   border-radius: var(--bml-border-radius);
-  background-color: var(--bml-btn-bg);
+  background-color: var(--bml-select-bg-color);
   cursor: pointer;
 
   svg {
@@ -20,16 +18,15 @@
   select {
     -webkit-appearance: none;
     appearance: none;
-    background-color: #21262d;
-    color: #c9d1d9;
+    color: inherit;
     border: none;
     outline: none;
     border-radius: var(--bml-border-radius);
-    background-color: var(--bml-code-block-bg);
-    border: 1px solid var(--bml-code-block-border-color);
-    font-size: 0.875rem;
+    background-color: var(--bml-select-bg-color);
+    border: 1px solid var(--bml-select-border-color);
+    font-size: 1rem;
     cursor: pointer;
-    min-height: 1.75rem;
+    min-height: 2rem;
     padding: 0.25rem 1.75rem 0.25rem 0.5rem;
     text-transform: capitalize;
     option {

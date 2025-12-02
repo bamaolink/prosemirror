@@ -1,0 +1,33 @@
+@use '../../styles/var.scss' as *;
+
+$_prefix: $prefix + 'popover';
+
+.#{$_prefix} {
+  &[popover] {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    inset: unset;
+    overflow: auto;
+    scrollbar-width: var(--bml-scrollbar-width);
+    scrollbar-color: var(--bml-scrollbar-color);
+    max-width: var(--bml-popover-max-width);
+    max-height: var(--bml-popover-max-height);
+    border: 1px solid var(--bml-popover-border-color);
+    box-shadow: var(--bml-popover-box-shadow);
+    border-radius: var(--bml-popover-border-radius);
+    background-color: var(--bml-popover-bg-color);
+    color: var(--bml-popover-color);
+
+    &:popover-open {
+      display: block;
+    }
+    &.bml-tooltip {
+      background-color: var(--bml-black);
+      border-radius: calc(var(--bml-popover-border-radius) / 2);
+      color: var(--bml-white);
+      padding: var(--bml-spacing-unit) calc(var(--bml-spacing-unit) * 1.5);
+      font-size: var(--bml-font-size-sm);
+    }
+  }
+}

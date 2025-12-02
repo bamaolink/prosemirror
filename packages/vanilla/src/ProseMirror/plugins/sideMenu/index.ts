@@ -10,6 +10,7 @@ import Button from '../../components/Button'
 import { GripVerticalIcon, PlusIcon } from '../../icons'
 import type { DragHandleStateType, Emitter, PluginOptions } from '../../types'
 import { prefix } from '../../config/constants'
+import './style.scss'
 
 export const sideMenuPluginKey = new PluginKey('side-menu-plugin')
 

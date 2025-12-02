@@ -1,3 +1,5 @@
+@use '../../styles/var.scss' as *;
+
 .ProseMirror .tableWrapper {
   overflow-x: auto;
   scrollbar-width: thin;

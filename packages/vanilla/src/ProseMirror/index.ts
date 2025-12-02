@@ -15,7 +15,7 @@ import {
   MarkdownParser,
   MarkdownSerializer
 } from 'prosemirror-markdown'
-import { toast } from './components/Sonner'
+import { toast } from './components/Toast/Sonner'
 import './styles/index.scss'
 
 import type { EmitterEvents, EditorOptions } from './types'

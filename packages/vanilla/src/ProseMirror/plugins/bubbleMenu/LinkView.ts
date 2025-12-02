@@ -2,6 +2,7 @@ import { BmlCheckbox } from '../../components/Checkbox'
 import { BmlButton } from '../../components/Button'
 import { BmlInput } from '../../components/Input'
 import { BmlPopover } from '../../components/Popover'
+import { BmlTooltip } from '../../components/Tooltip'
 import { SaveIcon, Trash2Icon, ExternalLinkIcon } from '../../icons'
 import { htmlStringtoDom } from '../../utils'
 import { getMarkNodeInRange } from '../../functions/mark'
@@ -32,13 +33,10 @@ export class LinkView {
     this.options = options
 
     this.popover = new BmlPopover({
-      popover: 'hint',
       trigger: options.trigger.element,
-      popoverId: `${options.prefix}bubble-menu-tooltip`,
-      anchorName: `${options.prefix}bubble-menu-tooltip-anchor`,
       hover: false,
       positionArea: 'bottom',
-      onOpenChange: this.onOpenChange.bind(this)
+      onChange: this.onChange.bind(this)
     })
 
     this.items = this.createLinkFormItems()
@@ -46,19 +44,22 @@ export class LinkView {
     this.bindEvents()
   }
 
-  onOpenChange(curr: boolean) {
+  onChange(curr: boolean) {
     this.options?.setIsEditing(curr)
   }
 
   createLinkFormItems() {
     const template = `<form class="link-input-form">
       <div class="${this.options.prefix}link-input-wrapper">
+        <div class="form-container"> 
+        </div>
         <div class="link-input-actions">
         </div>
       </div>
     </form>`
 
     const formElement = htmlStringtoDom(template) as HTMLFormElement
+    const formContainer = formElement.querySelector('.form-container')!
     const hrefInput = new BmlInput({
       name: 'href',
       placeholder: 'URL (https://...)',
@@ -74,31 +75,52 @@ export class LinkView {
       name: 'target'
     })
     targetCheckbox.input.value = '_blank'
-    targetLabel.style.display = 'flex'
-    targetLabel.style.gap = '8px'
-    targetLabel.style.fontSize = '14px'
-    targetLabel.style.color = 'var(--bml-input-checkbox-color)'
+    targetLabel.style.setProperty('display', 'flex')
+    targetLabel.style.setProperty('align-items', 'center')
+    targetLabel.style.setProperty('gap', '8px')
+    targetLabel.style.setProperty('font-size', '14px')
     targetLabel.appendChild(targetCheckbox.element)
-    targetLabel.append('blank')
+    targetLabel.append('Open in new tab')
 
     const saveButton = new BmlButton()
     saveButton.setIcon(SaveIcon)
     saveButton.element.style.marginLeft = 'auto'
 
+    const saveTooltip = new BmlTooltip({
+      trigger: saveButton.element,
+      title: 'Save'
+    })
+
     const removeButton = new BmlButton()
     removeButton.setIcon(Trash2Icon)
+
+    const removeTooltip = new BmlTooltip({
+      trigger: removeButton.element,
+      title: 'Remove'
+    })
 
     const openButton = new BmlButton()
     openButton.setIcon(ExternalLinkIcon)
 
+    const openTooltip = new BmlTooltip({
+      trigger: openButton.element,
+      title: 'Open in new tab'
+    })
+
     const actions = formElement.querySelector('.link-input-actions')!
 
-    actions.before(hrefInput.element)
-    actions.before(titleInput.element)
-    actions.before(targetLabel)
-    actions.appendChild(removeButton.element)
-    actions.appendChild(openButton.element)
-    actions.appendChild(saveButton.element)
+    formContainer.appendChild(hrefInput.element)
+    formContainer.appendChild(titleInput.element)
+    formContainer.appendChild(targetLabel)
+
+    actions.appendChild(removeTooltip.trigger)
+    actions.appendChild(removeTooltip.popover)
+
+    actions.appendChild(openTooltip.trigger)
+    actions.appendChild(openTooltip.popover)
+
+    actions.appendChild(saveTooltip.trigger)
+    actions.appendChild(saveTooltip.popover)
 
     return {
       formElement,

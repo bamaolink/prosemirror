@@ -2,7 +2,7 @@ import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
 import { prefix } from '../../config/constants'
 import type { PluginOptions } from '../../types'
-import './index.scss'
+import './style.scss'
 
 export const placeholderPluginKey = new PluginKey('placeholder-plugin')
 export const placeholderPlugin = (options: PluginOptions) => {

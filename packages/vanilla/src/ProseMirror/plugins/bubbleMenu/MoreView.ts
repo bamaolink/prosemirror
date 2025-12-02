@@ -1,6 +1,5 @@
 import { BmlButton } from '../../components/Button'
 import { BmlPopover } from '../../components/Popover'
-import { getMarkNodeInRange } from '../../functions/mark'
 import { EditorView } from 'prosemirror-view'
 import { moreMenuItems } from '../../config/menuItems'
 import { selectedMarksAndNodesPluginKey } from '../../plugins/selectedMarksAndNodes'
@@ -22,13 +21,10 @@ export class MoreView {
     this.options = options
 
     this.popover = new BmlPopover({
-      popover: 'hint',
       trigger: options.trigger.element,
-      popoverId: `${options.prefix}bubble-menu-more`,
-      anchorName: `${options.prefix}bubble-menu-more-anchor`,
       hover: false,
       positionArea: 'bottom',
-      onOpenChange: this.onOpenChange.bind(this)
+      onChange: this.onChange.bind(this)
     })
 
     this.wrapper = this.createButtonItems()
@@ -36,7 +32,7 @@ export class MoreView {
     this.bindEvents()
   }
 
-  onOpenChange(curr: boolean) {
+  onChange(curr: boolean) {
     this.options?.setIsEditing(curr)
     if (curr) {
       const newState = selectedMarksAndNodesPluginKey.getState(

@@ -1,5 +1,5 @@
-import { prefix } from '../config/constants'
-import { CheckIcon } from '../icons'
+import { prefix } from '../../config/constants'
+import './style.scss'
 
 type BmlCheckboxProps = {
   name: string
@@ -24,7 +24,6 @@ export class BmlCheckbox {
     const { element, input, options } = this
     const icon = document.createElement('div')
     icon.classList.add('checkbox-icon')
-    icon.appendChild(CheckIcon.cloneNode(true))
 
     input.classList.add('input-checkbox')
     input.name = options?.name || ''

@@ -5,6 +5,7 @@ import { prefix } from '../../config/constants'
 import { commands, commandRootGroups } from '../../config/commands'
 import { ChevronRightIcon, CircleQuestionMarkIcon } from '../../icons'
 import { BmlPopover } from '../../components/Popover'
+import './style.scss'
 
 export const slashCommandsPluginKey = new PluginKey('slash-commands-plugin')
 
@@ -28,8 +29,6 @@ const createDomElement = () => {
 
   const tooltip = new BmlPopover({
     trigger,
-    popoverId: `${_prefix}-tooltip`,
-    anchorName: `${_prefix}-tooltip-anchor`,
     hover: false
   })
 

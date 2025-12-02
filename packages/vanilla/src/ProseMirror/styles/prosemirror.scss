@@ -23,6 +23,35 @@
     scrollbar-width: var(--bml-scrollbar-width);
     scrollbar-color: var(--bml-scrollbar-color);
   }
+
+  kbd {
+    background-color: var(--bml-kdb-bg);
+    border: 1px solid var(--bml-kdb-border-color);
+    border-radius: var(--bml-border-radius-sm);
+    color: var(--bml-kdb-color);
+    padding: 0.125rem 0.375rem;
+    font-family: var(--bml-code-font-family);
+    font-size: 0.9em;
+  }
+
+  code {
+    background-color: var(--bml-code-bg);
+    border: 1px solid var(--bml-code-border-color);
+    border-radius: var(--bml-border-radius-sm);
+    color: var(--bml-code-color);
+    padding: 0.125rem 0.375rem;
+    font-family: var(--bml-code-font-family);
+    margin: 1px 3px;
+    padding: 0 4px;
+  }
+
+  .bml-hidden {
+    display: none;
+  }
+
+  .highlight-color-mark {
+    color: inherit;
+  }
 }
 
 .#{$prefix}prosemirror {
@@ -33,7 +62,7 @@
   -webkit-font-variant-ligatures: none;
   font-variant-ligatures: none;
   font-feature-settings: 'liga' 0;
-  padding: 0 4.25rem;
+  padding: 0 4.75rem;
   font-size: inherit;
   outline: none;
 
@@ -41,8 +70,26 @@
     white-space: pre-wrap;
   }
 
+  ul,
+  ol {
+    margin: 0;
+    padding: 0;
+  }
+
+  ul + ul,
+  ol + ol,
+  ul + ol,
+  ol + ul {
+    margin-top: 16px;
+  }
+
   li {
     position: relative;
+    margin: 0 0 0 24px;
+    padding: 0;
+    > p {
+      margin: 8px 0;
+    }
   }
 
   [draggable][contenteditable='false'] {
@@ -50,7 +97,7 @@
   }
 
   .ProseMirror-selectednode {
-    outline: 2px dashed var(--bml-border-color-active);
+    outline: 2px dashed var(--bml-border-color);
     border-radius: var(--bml-border-radius);
   }
 
@@ -65,7 +112,7 @@
     right: -2px;
     top: -2px;
     bottom: -2px;
-    border: 2px dashed var(--bml-border-color-active);
+    border: 2px dashed var(--bml-border-color);
     pointer-events: none;
   }
 

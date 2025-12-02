@@ -21,13 +21,10 @@ export class TextColorView {
     this.options = options
 
     this.popover = new BmlPopover({
-      popover: 'hint',
       trigger: options.trigger.element,
-      popoverId: `${options.prefix}bubble-menu-text-color`,
-      anchorName: `${options.prefix}bubble-menu-text-color-anchor`,
       hover: false,
       positionArea: 'bottom',
-      onOpenChange: this.onOpenChange.bind(this)
+      onChange: this.onChange.bind(this)
     })
 
     this.wrapper = this.createColorItems()
@@ -35,7 +32,7 @@ export class TextColorView {
     this.bindEvents()
   }
 
-  onOpenChange(curr: boolean) {
+  onChange(curr: boolean) {
     this.options?.setIsEditing(curr)
     if (curr) {
       const node = getMarkNodeInRange(

@@ -1,4 +1,4 @@
-@use './var.scss' as *;
+@use '../../styles/var.scss' as *;
 
 .#{$prefix}image-block + .#{$prefix}image-block {
   margin-top: 1rem;
@@ -7,7 +7,7 @@
 .#{$prefix}image-block {
   border: 1px solid var(--bml-border-color);
   border-radius: var(--bml-border-radius);
-  background-color: var(--bml-btn-bg);
+  background-color: var(--bml-bg-color);
   &.disabled {
     pointer-events: none;
     outline: none;
@@ -55,8 +55,8 @@
       align-items: center;
       justify-content: center;
       &:hover {
-        background-color: var(--bml-btn-bg-hover);
-        border-color: var(--bml-border-color-active);
+        background-color: var(--bml-btn-hover-bg-color);
+        border-color: var(--bml-btn-hover-border-color);
       }
       svg {
         width: 1rem;
@@ -85,8 +85,8 @@
     transform: translateX(-50%);
     width: 100px;
     height: 8px;
-    background-color: #4a90e2;
-    border: 2px solid white;
+    background-color: #373737;
+    outline: 2px solid white;
     border-radius: 4px;
     cursor: ns-resize;
     display: none;

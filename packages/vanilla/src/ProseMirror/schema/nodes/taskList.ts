@@ -36,7 +36,7 @@ export const TaskListItemNode: NodeSpec = {
         'label',
         {
           contenteditable: 'false',
-          class: 'task-list-item-checkbox-wrapper'
+          class: 'task-list-item-checkbox-wrapper bml-checkbox'
         },
         [
           'input',

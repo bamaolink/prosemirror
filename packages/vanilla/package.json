@@ -1,7 +1,7 @@
 {
   "name": "@bamaolink/prosemirror",
   "private": false,
-  "version": "0.0.2",
+  "version": "0.0.4",
   "type": "module",
   "files": [
     "dist",
@@ -41,6 +41,7 @@
     "@lezer/highlight": "^1.2.3",
     "lucide": "^0.553.0",
     "mitt": "^3.0.1",
+    "nanoid": "^5.1.6",
     "prosemirror-commands": "^1.7.1",
     "prosemirror-dropcursor": "^1.8.2",
     "prosemirror-gapcursor": "^1.4.0",
@@ -70,5 +71,8 @@
   "homepage": "https://github.com/bamaolink/prosemirror/tree/main/packages/vanilla#readme",
   "bugs": {
     "url": "https://github.com/bamaolink/prosemirror/issues"
-  }
+  },
+  "keywords": ["prosemirror", "editor", "WYSIWYG"],
+  "author": "bamaolink",
+  "license": "MIT"
 }

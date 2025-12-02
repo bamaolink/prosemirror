@@ -1,0 +1,66 @@
+@use '../../styles/var.scss' as *;
+
+.#{$prefix}bubble-menu {
+  background-color: var(--bml-bg-color);
+  box-shadow: var(--bml-box-shadow);
+  border-radius: var(--bml-border-radius-sm);
+  border: 1px solid var(--bml-border-color);
+  color: inherit;
+  padding: 0.25rem;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: var(--bml-spacing-md);
+  position: absolute;
+  z-index: 8;
+}
+
+.#{$prefix}color-wrapper {
+  display: flex;
+  gap: var(--bml-spacing-md);
+  padding: var(--bml-spacing-md);
+
+  button {
+    display: flex;
+    border-radius: 20px;
+    padding: 0;
+    margin: 0;
+    outline: 2px solid transparent;
+    cursor: pointer;
+    border: 1px solid var(--bml-border-color);
+    transition: var(--bml-transition-base);
+    span {
+      width: 20px;
+      height: 20px;
+      display: block;
+      border-radius: 50%;
+      border: 1px solid var(--bml-popover-bg-color);
+    }
+    &:hover,
+    &.active {
+      outline-color: var(--bml-border-active-color);
+    }
+  }
+}
+.#{$prefix}more-wrapper {
+  display: flex;
+  gap: var(--bml-spacing-md);
+  padding: var(--bml-spacing-md);
+}
+
+.#{$prefix}link-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  .form-container {
+    padding: var(--bml-spacing-lg) var(--bml-spacing-lg) 0 var(--bml-spacing-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--bml-spacing-lg);
+  }
+  .link-input-actions {
+    display: flex;
+    gap: 0.25rem;
+    border-top: 1px solid var(--bml-border-color);
+    padding: var(--bml-spacing-md);
+  }
+}

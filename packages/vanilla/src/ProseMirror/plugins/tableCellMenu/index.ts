@@ -22,7 +22,8 @@ import {
   TableCellsSplitIcon
 } from '../../icons'
 import { BmlButton } from '../../components/Button'
-import { BmlPopover } from '../../components/Popover'
+import { BmlTooltip } from '../../components/Tooltip'
+import './style.scss'
 
 export const tableCellMenuPluginKey = new PluginKey('table-cell-menu-plugin')
 export const allButtons = [
@@ -86,14 +87,10 @@ function createTooltip(item: (typeof allButtons)[number], view: EditorView) {
     command(view.state, view.dispatch)
   })
 
-  const tooltip = new BmlPopover({
+  const tooltip = new BmlTooltip({
     trigger: trigger.element,
-    popoverId: `${value}-tooltip`,
-    anchorName: `${value}-tooltip-anchor`,
-    hover: true
+    title: label
   })
-  tooltip.popover.textContent = label
-  tooltip.popover.classList.add('dark')
   return {
     trigger,
     tooltip

@@ -56,13 +56,13 @@ document.querySelector('#getJSON')?.addEventListener('click', () => {
   console.log(editor?.getJSON())
 })
 document.querySelector('#light')?.addEventListener('click', () => {
-  const root = document.getElementById('app')!
+  const root = document.documentElement!
   root.classList.remove('light', 'dark')
   root.classList.add('light')
   document.documentElement.setAttribute('data-theme', 'light')
 })
 document.querySelector('#dark')?.addEventListener('click', () => {
-  const root = document.getElementById('app')!
+  const root = document.documentElement!
   root.classList.remove('light', 'dark')
   root.classList.add('dark')
   document.documentElement.setAttribute('data-theme', 'dark')

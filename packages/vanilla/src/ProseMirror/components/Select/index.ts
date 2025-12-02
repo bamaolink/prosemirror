@@ -1,5 +1,6 @@
-import { prefix } from '../config/constants'
-import { ChevronDownIcon } from '../icons'
+import { prefix } from '../../config/constants'
+import { ChevronDownIcon } from '../../icons'
+import './select.scss'
 
 export type BmlSelectProps = {
   children: HTMLElement | string | SVGElement

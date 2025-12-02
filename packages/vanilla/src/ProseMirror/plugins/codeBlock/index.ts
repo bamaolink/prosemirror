@@ -14,6 +14,7 @@ import { python } from '@codemirror/lang-python'
 import { css } from '@codemirror/lang-css'
 import { oneDark } from './codeMirrorTheme'
 import { basicSetup } from './basicSetup'
+import './style.scss'
 
 const languages = {
   typescript: () => javascript({ typescript: true }),

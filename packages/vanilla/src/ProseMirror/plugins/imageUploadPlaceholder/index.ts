@@ -5,6 +5,7 @@ import { Node as ProseMirrorNode } from 'prosemirror-model'
 import { Trash2Icon } from '../../icons'
 import BmlButton from '../../components/Button'
 import { prefix } from '../../config/constants'
+import './style.scss'
 
 export const imageUploadPlaceholderPluginKey = new PluginKey(
   'image-upload-placeholder-plugin'
