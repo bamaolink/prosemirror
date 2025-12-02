@@ -1,15 +1,9 @@
-import BamaoLinkProseMirror from '@bamaolink/prosemirror'
-import { useRef, useEffect } from 'react'
+import BamaoLinkEditor from '@/components/ProseMirror'
+import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 
 function App() {
-  const editor = useRef<BamaoLinkProseMirror>(null)
-  const refEditor = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    if (refEditor.current && !editor.current) {
-      editor.current = new BamaoLinkProseMirror(refEditor.current)
-      editor.current.setHtmlString(`<h1>从百草园到三味书屋</h1>
+  const [value, setValue] = useState(`<h1>从百草园到三味书屋</h1>
           <p>我家的后面有一个很大的园，相传叫作百草园。现在是早已并屋子一起卖给朱文公的子孙了，连那最末次的相见也已经隔了七八年，其中似乎确凿只有一些野草;但那时却是我的乐园。</p><p>
 不必说碧绿的菜畦，光滑的石井栏，高大的皂荚树，紫红的桑葚;也不必说鸣蝉在树叶里长吟，肥胖的黄蜂伏在菜花上，轻捷的叫天子(云雀)忽然从草间直窜向云霄里去了。单是周围的短短的泥墙根一带，就有无限趣味。油蛉在这里低唱，蟋蟀们在这里弹琴。翻开断砖来，有时会遇见蜈蚣;还有斑蝥，倘若用手指按住它的脊梁，便会啪的一声，从后窍喷出一阵烟雾。何首乌藤和木莲藤缠络着，木莲有莲房一般的果实，何首乌有臃肿的根。有人说，何首乌根是有像人形的，吃了便可以成仙，我于是常常拔它起来，牵连不断地拔起来，也曾因此弄坏了泥墙，却从来没有见过有一块根像人样。如果不怕刺，还可以摘到覆盆子，像小珊瑚珠攒成的小球，又酸又甜，色味都比桑葚要好得远。</p><p>
 长的草里是不去的，因为相传这园里有一条很大的赤练蛇。</p><p>
@@ -34,19 +28,23 @@ function App() {
 “铁如意，指挥倜傥，一坐皆惊呢;金叵罗，颠倒淋漓噫，千杯未醉嗬……”</p><p>
 我疑心这是极好的文章，因为读到这里，他总是微笑起来，而且将头仰起，摇着，向后拗过去，拗过去。</p><p>
 先生读书入神的时候，于我们是很相宜的。有几个便用纸糊的盔甲套在指甲上做戏。我是画画儿，用一种叫作“荆川纸”的，蒙在小说的绣像上一个个描下来，像习字时候的影写一样。读的书多起来，画的画也多起来;书没有读成，画的成绩却不少了，最成片段的是《荡寇志》和《西游记》的绣像，都有一大本。后来，为要钱用，卖给一个有钱的同窗了。他的父亲是开锡箔店的;听说现在自己已经做了店主，而且快要升到绅士的地位了。这东西早已没有了吧。</p>`)
-    }
-  }, [])
+
+  useEffect(() => {
+    console.log('value', value)
+  }, [value])
 
   return (
     <>
       <div className="flex items-center justify-center p-2 mb-8 border-b gray-200">
         <Button>Click me</Button>
       </div>
-      <div
-        ref={refEditor}
-        className="prose lg:prose-xl"
-        style={{ margin: '0 auto' }}
-      ></div>
+      <div className="prose" style={{ maxWidth: 980, margin: '0 auto' }}>
+        <BamaoLinkEditor
+          options={{ initialValue: value }}
+          value={value}
+          onChange={setValue}
+        />
+      </div>
     </>
   )
 }

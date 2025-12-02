@@ -1,5 +1,20 @@
 import { EditorState, Plugin, PluginKey, Transaction } from 'prosemirror-state'
 import type { PluginOptions } from '../../types'
+import { schema } from '../../schema'
+import {
+  DOMSerializer as ProseMirrorDOMSerializer,
+  Node
+} from 'prosemirror-model'
+
+const getHTML = (doc: Node) => {
+  const serializer = ProseMirrorDOMSerializer.fromSchema(schema)
+  let outor: HTMLDivElement | null = document.createElement('div')
+  serializer.serializeFragment(doc.content, { document }, outor)
+  const html = outor.innerHTML
+  outor.remove()
+  outor = null
+  return html
+}
 
 export const changeEventPluginKey = new PluginKey('change-event-plugin')
 export const changeEventPlugin = (options: PluginOptions) => {
@@ -18,6 +33,7 @@ export const changeEventPlugin = (options: PluginOptions) => {
       ) {
         if (tr.docChanged) {
           emitter.emit('change', {
+            value: getHTML(newState.doc),
             newDoc: newState.doc,
             oldDoc: oldState.doc,
             tr

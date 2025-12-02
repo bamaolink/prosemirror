@@ -20,7 +20,7 @@ export interface DragHandleStateType {
 
 export type EmitterEvents = {
   initialization: ProseMirrorEditorView
-  change: { newDoc: Node; oldDoc: Node; tr: Transaction }
+  change: { value: string; newDoc: Node; oldDoc: Node; tr: Transaction }
   selected: {
     nodes: Record<string, boolean>
     marks: Record<string, boolean>
@@ -45,6 +45,7 @@ export type EditorOptions = {
 }
 
 export type EditorView = ProseMirrorEditorView
+export type EditorState = ProseMirrorEditorState
 
 export type Schema = ProseMirrorSchema
 
