@@ -1,73 +1,79 @@
-# React + TypeScript + Vite
+# @bamaolink/prosemirror-react
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![npm version](https://img.shields.io/npm/v/@bamaolink/prosemirror-react.svg)](https://www.npmjs.com/package/@bamaolink/prosemirror-react)
 
-Currently, two official plugins are available:
+A React component for the BamaoLink ProseMirror editor.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Installation
 
-## React Compiler
+Install the package using npm:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install @bamaolink/prosemirror-react
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Usage
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Here is a basic example of how to use the `BamaoLinkEditor` component in your React application.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```tsx
+import React, { useState, useRef } from 'react'
+import {
+  BamaoLinkEditor,
+  BamaoLinkEditorImperativeHandleType
+} from '@bamaolink/prosemirror-react'
+
+const App = () => {
+  const [value, setValue] = useState('<p>Hello, World!</p>')
+  const editorRef = useRef<BamaoLinkEditorImperativeHandleType>(null)
+
+  return (
+    <div>
+      <h1>BamaoLink ProseMirror React Editor</h1>
+      <BamaoLinkEditor
+        ref={editorRef}
+        value={value}
+        onChange={(newValue) => setValue(newValue)}
+        options={
+          {
+            // See @bamaolink/prosemirror for options
+          }
+        }
+      />
+    </div>
+  )
+}
+
+export default App
 ```
+
+## Props
+
+| Prop       | Description                                         | Type                                            | Default |
+| ---------- | --------------------------------------------------- | ----------------------------------------------- | ------- |
+| `value`    | The initial HTML content for the editor.            | `string`                                        |         |
+| `onChange` | Callback function when the editor content changes.  | `(value: string, doc: ChangeDocType) => void`   |         |
+| `onFocus`  | Callback function when the editor gains focus.      | `(view: EditorView, event: Event) => void`      |         |
+| `onBlur`   | Callback function when the editor loses focus.      | `(view: EditorView, event: Event) => void`      |         |
+| `options`  | Configuration options for the ProseMirror instance. | `EditorOptions` (from `@bamaolink/prosemirror`) | `{}`    |
+
+## Refs
+
+You can get access to the underlying ProseMirror instance using a ref.
+
+| Method        | Description                                  |
+| ------------- | -------------------------------------------- |
+| `getEditor()` | Returns the `BamaoLinkProseMirror` instance. |
+
+## Development
+
+1.  **Install dependencies:**
+
+    ```bash
+    npm install
+    ```
+
+2.  **Run the development server:**
+    ```bash
+    npm run dev
+    ```

@@ -1,11 +1,12 @@
 {
   "name": "@bamaolink/prosemirror",
   "private": false,
-  "version": "0.0.4",
+  "version": "0.0.6",
   "type": "module",
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "README_zh-CN.md"
   ],
   "exports": {
     ".": {
@@ -28,7 +29,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@codemirror/autocomplete": "^6.19.1",
+    "@codemirror/autocomplete": "^6.20.0",
     "@codemirror/commands": "^6.10.0",
     "@codemirror/lang-css": "^6.3.1",
     "@codemirror/lang-javascript": "^6.2.4",
@@ -39,7 +40,7 @@
     "@codemirror/state": "^6.5.2",
     "@codemirror/view": "^6.38.8",
     "@lezer/highlight": "^1.2.3",
-    "lucide": "^0.553.0",
+    "lucide": "^0.555.0",
     "mitt": "^3.0.1",
     "nanoid": "^5.1.6",
     "prosemirror-commands": "^1.7.1",
@@ -54,13 +55,13 @@
     "prosemirror-schema-list": "^1.5.1",
     "prosemirror-state": "^1.4.4",
     "prosemirror-tables": "^1.8.1",
-    "prosemirror-view": "^1.41.3"
+    "prosemirror-view": "^1.41.4"
   },
   "devDependencies": {
-    "@types/node": "^24.10.0",
+    "@types/node": "^24.10.1",
     "sass-embedded": "^1.93.3",
     "typescript": "^5.9.3",
-    "vite": "^7.2.2",
+    "vite": "^7.2.6",
     "vite-plugin-css-injected-by-js": "^3.5.2",
     "vite-plugin-dts": "^4.5.4"
   },
@@ -72,7 +73,11 @@
   "bugs": {
     "url": "https://github.com/bamaolink/prosemirror/issues"
   },
-  "keywords": ["prosemirror", "editor", "WYSIWYG"],
+  "keywords": [
+    "prosemirror",
+    "editor",
+    "WYSIWYG"
+  ],
   "author": "bamaolink",
   "license": "MIT"
 }

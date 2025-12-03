@@ -12,49 +12,21 @@ Install the package using npm:
 npm install @bamaolink/prosemirror
 ```
 
-## Usage (Development)
+## Usage
 
-To get started with the project locally, follow these steps:
+```ts
+import BamaoLinkProseMirror from '@bamaolink/prosemirror'
 
-1.  **Install dependencies:**
-    ```bash
-    npm install
-    ```
+const editor = new BamaoLinkProseMirror('#app', {
+  initialValue: ''
+})
 
-2.  **Run the development server:**
-    ```bash
-    npm run dev
-    ```
-
-    This will start a Vite development server and you can see the editor in action.
-
-## Build
-
-To build the project for production, run the following command:
-
-```bash
-npm run build
+editor.on('change', ({ value }) => {
+  console.log(value)
+})
 ```
-
-This will generate the necessary files in the `dist` directory.
-
-## Available Scripts
-
--   `dev`: Starts the Vite development server.
--   `build`: Builds the project, including TypeScript compilation and type definition generation.
--   `build:types`: Generates type definitions from the source files.
--   `preview`: Serves the production build locally for preview.
-
-## Parameters
-
-| 参数         | 说明       | 类型     | 默认值                       |
-| ------------ | ---------- | -------- | ---------------------------- |
-| initialValue | 值         | string   |                              |
-| placeholder  | 占位符     | string   | Write, type '/' for commands |
-| imageUpload  | 上传图片   | function |                              |
-| editable     | 是否可编辑 | boolean  | true                         |
 
 ## Repository
 
--   **Homepage:** [GitHub Repository](https://github.com/bamaolink/prosemirror/tree/main/packages/vanilla#readme)
--   **Bugs:** [Report an issue](https://github.com/bamaolink/prosemirror/issues)
+- **Homepage:** [GitHub Repository](https://github.com/bamaolink/prosemirror/tree/main/packages/vanilla#readme)
+- **Bugs:** [Report an issue](https://github.com/bamaolink/prosemirror/issues)

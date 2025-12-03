@@ -4,7 +4,9 @@ export type {
   EditorOptions,
   EditorState,
   EditorView,
-  Schema
+  Schema,
+  Node,
+  ChangeDocType
 } from './ProseMirror/types'
 
 export default BamaoLinkProseMirror

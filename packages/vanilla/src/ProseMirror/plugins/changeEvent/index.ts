@@ -41,6 +41,18 @@ export const changeEventPlugin = (options: PluginOptions) => {
         }
         return null
       }
+    },
+    props: {
+      handleDOMEvents: {
+        focus: (view, event) => {
+          emitter.emit('focus', { view, event })
+          return false
+        },
+        blur: (view, event) => {
+          emitter.emit('blur', { view, event })
+          return false
+        }
+      }
     }
   })
 }

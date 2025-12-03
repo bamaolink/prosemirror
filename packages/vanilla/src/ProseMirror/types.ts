@@ -5,7 +5,6 @@ import type {
   EditorState as ProseMirrorEditorState
 } from 'prosemirror-state'
 import type {
-  Node,
   Schema as ProseMirrorSchema,
   Node as ProseMirrorNode
 } from 'prosemirror-model'
@@ -18,9 +17,18 @@ export interface DragHandleStateType {
   domRect: DOMRect // The DOMRect object for the node.
 }
 
+export interface ChangeDocType {
+  value: string
+  newDoc: Node
+  oldDoc: Node
+  tr: Transaction
+}
+
 export type EmitterEvents = {
   initialization: ProseMirrorEditorView
-  change: { value: string; newDoc: Node; oldDoc: Node; tr: Transaction }
+  change: ChangeDocType
+  focus: { view: ProseMirrorEditorView; event: Event }
+  blur: { view: ProseMirrorEditorView; event: Event }
   selected: {
     nodes: Record<string, boolean>
     marks: Record<string, boolean>
@@ -46,6 +54,7 @@ export type EditorOptions = {
 
 export type EditorView = ProseMirrorEditorView
 export type EditorState = ProseMirrorEditorState
+export type Node = ProseMirrorNode
 
 export type Schema = ProseMirrorSchema
 

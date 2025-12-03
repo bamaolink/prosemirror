@@ -8,6 +8,7 @@
   "description": "prose-mirror editor",
   "main": "index.js",
   "scripts": {
+    "build-react": "npm run build --workspace=packages/react",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,6 +26,5 @@
   "dependencies": {
     "@bamaolink/prosemirror": "file:./packages/vanilla"
   },
-  "devDependencies": {
-  }
+  "devDependencies": {}
 }

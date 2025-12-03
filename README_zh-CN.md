@@ -1,19 +1,19 @@
-# BamaoLink ProseMirror Editor
+# BamaoLink ProseMirror 编辑器
 
-A modern rich text editor based on ProseMirror, supporting integration with various frameworks.
+一个基于 ProseMirror 的现代化富文本编辑器，支持多种框架集成。
 
-## Features
+## 特性
 
-- 🚀 **High Performance** - Built on ProseMirror, providing a smooth editing experience
-- 📝 **Rich Text Editing** - Supports common formats like bold, italic, and links
-- 🔧 **Plugin System** - Extensible plugin architecture
-- 🎯 **Multi-Framework Support** - Provides Vanilla, React, and Vue versions
-- 📱 **Responsive Design** - Adapts to different screen sizes
-- 🎨 **Custom Styles** - Supports theme customization
+- 🚀 **高性能** - 基于 ProseMirror 构建，提供流畅的编辑体验
+- 📝 **富文本编辑** - 支持粗体、斜体、链接等常见格式
+- 🔧 **插件系统** - 可扩展的插件架构
+- 🎯 **多框架支持** - 提供 Vanilla、React、Vue 版本
+- 📱 **响应式设计** - 适配不同屏幕尺寸
+- 🎨 **自定义样式** - 支持主题定制
 
-## Quick Start
+## 快速开始
 
-### Installation
+### 安装
 
 ```bash
 npm install @bamaolink/prosemirror
@@ -29,7 +29,7 @@ yarn add @bamaolink/prosemirror
 # yarn add @bamaolink/prosemirror-vue
 ```
 
-### Basic Usage
+### 基础用法
 
 #### Vanilla JavaScript
 
@@ -162,20 +162,20 @@ watch(
 </template>
 ```
 
-## API Reference
+## API 参考
 
-### Constructor
+### 构造函数
 
 ```typescript
 new BamaoLinkProseMirror(dom: HTMLElement | string, options?: Options)
 ```
 
-**Parameters:**
+**参数:**
 
-- `dom` - DOM element or selector string
-- `options` - Configuration options (optional)
+- `dom` - DOM 元素或选择器字符串
+- `options` - 配置选项（可选）
 
-**Options Configuration:**
+**Options 配置:**
 
 ```typescript
 interface EditorOptions {
@@ -190,29 +190,29 @@ interface EditorOptions {
 }
 ```
 
-### Instance Methods
+### 实例方法
 
-#### Content Operations
+#### 内容操作
 
 ```typescript
-// Set Markdown content
-editor.setMarkdown('# Title\nContent')
+// 设置 Markdown 内容
+editor.setMarkdown('# 标题\n内容')
 
-// Set HTML content
-editor.setHtmlString('<h1>Title</h1><p>Content</p>')
+// 设置 HTML 内容
+editor.setHtmlString('<h1>标题</h1><p>内容</p>')
 
-// Set JSON content
+// 设置 JSON 内容
 editor.setJsonString('{"type":"doc","content":[...]}')
 
-// Get content
-const text = editor.getText() // Plain text
-const markdown = editor.getMarkdown() // Markdown format
-const html = editor.getHTML() // HTML format
-const json = editor.getJSON() // JSON format
+// 获取内容
+const text = editor.getText() // 纯文本
+const markdown = editor.getMarkdown() // Markdown 格式
+const html = editor.getHTML() // HTML 格式
+const json = editor.getJSON() // JSON 格式
 const node = editor.getNode() // ProseMirror Node
 ```
 
-#### Event Listening
+#### 事件监听
 
 ```typescript
 // Listen for events
@@ -235,53 +235,53 @@ editor.on('blur', (view: EditorView, event: Event) => {
 editor.off('change', callback)
 ```
 
-## Plugin System
+## 插件系统
 
-The editor comes with a rich plugin system:
+编辑器内置了丰富的插件系统：
 
-- **Placeholder Plugin** - Displays placeholder text
-- **Change Listener Plugin** - Listens for content changes
-- **Selection State Plugin** - Tracks selection state
-- **Slash Commands Plugin** - Supports slash command menu
-- **Bubble Menu Plugin** - Floating format toolbar
+- **占位符插件** - 显示占位文本
+- **变更监听插件** - 监听内容变化
+- **选中状态插件** - 跟踪选中状态
+- **斜杠命令插件** - 支持斜杠命令菜单
+- **气泡菜单插件** - 浮动格式工具栏
 
-## Development
+## 开发
 
-### Project Structure
+### 项目结构
 
-This project is a monorepo containing several packages:
+本项目是一个 monorepo，包含以下几个包：
 
-- [`@bamaolink/prosemirror`](packages/vanilla/README.md) - The core vanilla JavaScript implementation.
-- [`@bamaolink/prosemirror-react`](packages/react/README.md) - React component wrapper for the editor.
-- [`@bamaolink/prosemirror-vue`](packages/vue/README.md) - Vue component wrapper for the editor.
-- [`demo`](packages/demo/README.md) - A simple demo application.
+- [`@bamaolink/prosemirror`](packages/vanilla/README_zh-CN.md) - 原生 JavaScript 实现的核心包。
+- [`@bamaolink/prosemirror-react`](packages/react/README_zh-CN.md) - 编辑器的 React 组件封装。
+- [`@bamaolink/prosemirror-vue`](packages/vue/README_zh-CN.md) - 编辑器的 Vue 组件封装。
+- [`demo`](packages/demo/README_zh-CN.md) - 一个简单的演示应用。
 
-## Browser Support
+## 浏览器支持
 
 - Chrome 60+
 - Firefox 55+
 - Safari 12+
 - Edge 79+
 
-## License
+## 许可证
 
 MIT License
 
-## Contributing
+## 贡献
 
-Welcome to submit Issues and Pull Requests!
+欢迎提交 Issue 和 Pull Request！
 
-## Changelog
+## 更新日志
 
 ### v0.0.1 (2024-11-04)
 
-- Initial version released
-- Supports basic rich text editing
-- Provides Vanilla, React, Vue versions
-- Built-in common plugin system
+- 初始版本发布
+- 支持基础富文本编辑
+- 提供 Vanilla、React、Vue 版本
+- 内置常用插件系统
 
-## Technical Support
+## 技术支持
 
-- Documentation: [GitHub Wiki](https://github.com/bamaolink/prose-mirror/wiki)
-- Issues: [GitHub Issues](https://github.com/bamaolink/prose-mirror/issues)
-- Email: 63401208@qq.com
+- 文档: [GitHub Wiki](https://github.com/bamaolink/prose-mirror/wiki)
+- 问题: [GitHub Issues](https://github.com/bamaolink/prose-mirror/issues)
+- 邮箱: 63401208@qq.com
